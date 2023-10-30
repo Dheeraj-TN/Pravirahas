@@ -16,11 +16,11 @@ function Header() {
       <div className="header">
         <div className="header__left">
           <img src={logo} alt="logo" />
-          <p>Earrings</p>
-          <p>Bracelets and Bangles</p>
-          <p>Solitaries</p>
-          <p>Other Jewellery</p>
-          <p>Gifting</p>
+          <a href="">Earrings</a>
+          <a href="">Bracelets and Bangles</a>
+          <a href="">Solitaries</a>
+          <a href="">Other Jewellery</a>
+          <a href="">Gifting</a>
         </div>
         <div className="header__right">
           <div className="search__bar">
@@ -57,14 +57,14 @@ function Header() {
           </div>
           <div className="hamburger__menu">
             <div className={burgerStatus ? "active__header" : "menu__items"}>
-              <p>Earrings</p>
-              <p>Bracelets and Bangles</p>
-              <p>Solitaries</p>
-              <p>Other Jewellery</p>
-              <p>Gifting</p>
-              <p>Account</p>
-              <p>WishList</p>
-              <p>View your Basket</p>
+              <a href="">Earrings</a>
+              <a href="">Bracelets and Bangles</a>
+              <a href="">Solitaries</a>
+              <a href="">Other Jewellery</a>
+              <a href="">Gifting</a>
+              <a href="">Account</a>
+              <a href="">WishList</a>
+              <a href="">View your Basket</a>
             </div>
           </div>
         </div>
