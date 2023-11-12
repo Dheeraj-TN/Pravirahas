@@ -1,0 +1,46 @@
+.input__products{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    padding: 20px;
+}
+.input__products form{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 2rem;
+}
+.input__products form input{
+    width: 80%;
+    height: 3rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    outline: none;
+    background-color:lightgray;
+    color: black;
+}
+.input__products form select{
+    width: 80%;
+    height: auto;
+    border: none;
+    border-radius: 10px;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    outline: none;
+    background-color:lightgray;
+    color: black;
+}
+.input__products form button{
+    width: 80%;
+    height: 3rem;
+    border: none;
+    border-radius: 10px;
+    padding: 0 1rem;
+    font-size: 1.2rem;
+    outline: none;
+    background-color: #BA704F;
+    color: #fff;
+    cursor: pointer;
+}

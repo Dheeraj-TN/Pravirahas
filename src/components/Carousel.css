@@ -1,8 +1,11 @@
 .images {
     width:100%;
-    height: 700px;
+    height: 800px;
     object-fit: cover;
-    
+    z-index: -1;
+    margin-bottom: -150px;
+    mask-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
 .carousel__images
 {
@@ -18,6 +21,7 @@
         height: 200px;
         object-fit: cover;
         position: relative;
+        margin-bottom: 0;
     }
     .carousel__images
     {
@@ -31,6 +35,7 @@
         z-index: -1;
         height: 300px;
         object-fit: cover;
+        margin-bottom: 0;
     }
     .carousel__images
     {
@@ -44,6 +49,7 @@
         z-index: -1;
         height: 400px;
         object-fit: cover;
+        margin-bottom: 0;
     }
     .carousel__images
     {

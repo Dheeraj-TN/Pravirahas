@@ -1,0 +1,279 @@
+.login {
+    position: relative;
+    height: 99.999vh;
+    overflow: hidden;
+    background: url("https://images6.alphacoders.com/465/465170.jpg") center no-repeat;
+    background-size: cover;
+    margin-bottom: 10px;
+}
+/* "https://cdn.leonardo.ai/users/a9d52df7-b650-430e-91b1-eae591ee83f8/generations/f6f3184f-e410-4f90-b1b0-3879e697fd96/DreamShaper_v7_generate_me_good_background_image_for_login_pag_2.jpg?w=512 */
+.login__gradient {
+    width: 100%;
+    height: 100vh;
+    z-index: 1;
+    background: rgba(0, 0, 0, 0.2);
+    background-image: linear-gradient(to bottom,
+            rgba(0, 0, 0, 0.8) 0,
+            rgba(0, 0, 0, 0) 60%,
+            rgba(0, 0, 0, 0) 100%);
+}
+
+.login__body {
+    position: absolute;
+    top: 10%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    color: #fff;
+    padding: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    max-width: 400px;
+
+}
+
+.login__body>form {
+    margin-left: auto;
+    margin-right: auto;
+    width: 70%;
+    display: grid;
+    place-items: center;
+    
+}
+
+.login__body>form>input {
+    outline: 0;
+    width: 250px;
+    height: 40px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding: 5px 15px;
+    border: none;
+}
+.login__body>form>button:hover {
+    transform: scale(1.03);
+}
+
+.login__body>form>h1 {
+    font-size: 50px;
+    text-align: left;
+    margin-bottom: 50px;
+}
+
+.login__body>form>h4 {
+    display: flex;
+    text-align: left;
+    margin-top: 20px;
+    align-items: center;
+    gap: 5px;
+}
+
+.new {
+    color: gray;
+}
+
+.login__body>form>Link {
+    color: #fff;
+    text-decoration: none;
+    margin-left: 5px;
+}
+#phone__input{
+    width: 70%;
+    outline: 0;
+}
+.register {
+    color: #f5f5f5;
+    text-decoration: none;
+}
+
+.register:hover {
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.logOut__button {
+    margin-top: 70px;
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: #fff;
+    width: 250px;
+    background-color: #344D67;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 100ms ease-in;
+}
+.login__button{
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: #fff;
+    width: 280px;
+    background-color: #BA704F;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 100ms ease-in;
+}
+.login__button:hover{
+    transform: scale(1.03);
+
+}
+.or__container {
+    display: flex;
+    align-items: center;
+  }
+  
+  .horizontal__line {
+    flex: 1;
+    height: 1px;
+    background-color: #f5f5f5;
+    margin: 0 10px;
+  }
+  
+  .or__text {
+    font-weight: bold;
+    font-size: 18px; 
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+  .otp__container{
+    position: absolute;
+    top: 15%;
+    text-align: center;
+    display: flex;
+    margin-left: auto;
+    margin-right: auto;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap:30px;
+    z-index: 1;
+    color: #fff;
+    padding: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    max-width: 400px;
+  }
+  .otp__input{
+    font-size: 20px;
+    padding: 0;
+  }
+  .signUp__text{
+    cursor: pointer;
+    color: #f5f5f5;
+  }
+    .signUp__text:hover{
+        text-decoration: underline;
+        color:#ba704f;
+    }
+  @media(min-width:200px) and (max-width:480px){
+    .login{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        height:auto;
+        overflow-y:hidden;
+        margin: 0;
+    }
+    .login__gradient {
+        width: 100%;
+        height: 100vh;
+        z-index: 1;
+        overflow-y: hidden;
+        background: rgba(0, 0, 0, 0.5);
+        background-image: linear-gradient(to bottom,
+                rgba(0, 0, 0, 0.8) 0,
+                rgba(0, 0, 0, 0.8) 60%,
+                rgba(0, 0, 0, 0.8) 100%);
+    }
+    .login__body{
+        flex-direction:column;
+        justify-content: center;
+        align-items: center;
+        top: 3%;
+        bottom: 0;
+        margin: 0;
+        height: 90vh;
+        overflow-y: hidden;
+    }
+    .login__body form{
+        width: 100%;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+    .login__body form input{
+        width: 90%;
+    }
+    .login__body form h1{
+        font-size: 25px;
+    }
+    #phone__input{
+        width: 100%;
+    }
+    .login__button{
+        width: 100%;
+        font-size: 14px;
+    }
+    .login__body form h4{
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 15px;
+    }
+    .otp__container{
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        top: 20%;
+        padding-right: 40px;
+    }
+    .otp__container h2{
+        font-size: 20px; 
+    }
+    .otp__input{
+        font-size: 15px;
+        padding: 0;
+    }
+  }
+  @media(min-width:481px) and (max-width:768px){
+    .login__body{
+        top: 10%;
+    }
+    .login__body form h1{
+        font-size: 30px;
+    }
+    .phone__input{
+        width: 100%;
+    }
+    .otp__container{
+        top: 20%;
+    }
+  }
+
+  @media(min-width:769px) and (max-width:1024px){
+    .login__body{
+        top: 10%;
+    }
+    .login__body form h1{
+        font-size: 30px;
+    }
+    .phone__input{
+        width: 100%;
+    }
+    .otp__container{
+        top: 20%;
+    }
+  }
+  @media(min-width:1200px) and (max-width:1600px){
+    .login__body{
+        top: 1%;
+    }
+  }

@@ -1,0 +1,36 @@
+.filter__section{
+    max-width: 300px;
+    padding: 20px;
+    height: auto;
+}
+.filter__heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid lightgray;
+}
+.filter__heading h2{
+    font-size: 17px;
+    font-weight: 550;
+    text-transform: uppercase;
+}
+.filter__title{
+    font-size: 17px;
+    font-weight: 550;
+}
+.dropdown__ranges{
+    color: white;
+    background-color:rgb(222, 139, 61);
+    border:none;
+    padding: 10px;
+    width: 200px;
+    font-size: 15px;
+    font-weight: 550;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor:pointer;
+    padding-inline: 20px;
+
+}

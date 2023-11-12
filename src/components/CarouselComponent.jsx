@@ -1,14 +1,14 @@
-import "./Carousel.css"
+import "./Carousel.css";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
-function Carousel1() {
+function CarouselComponent() {
   return (
     <div className="carousel__images">
       <Carousel
         autoPlay
         infinteLoop
         showStatus={false}
-        showIndicators={true}
+        showIndicators={false}
         showThumbs={false}
         interval={3000}
       >
@@ -40,4 +40,4 @@ function Carousel1() {
   );
 }
 
-export default Carousel1
+export default CarouselComponent;
