@@ -3,9 +3,17 @@ export const initialState = {
   basket: [],
   user: null,
 };
+// export const getStateFromLocalStorage = () => {
+//   const storedState = localStorage.getItem("basketItems");
+//   return storedState ? JSON.parse(storedState) : initialState;
+// };
+// export const saveStateToLocalStorage = (state) => {
+//   localStorage.setItem("basketItems", JSON.stringify(state));
+// };
 export const getBasketTotal = (basket) =>
   //adding the price and increasing the amount which is initally 0
   basket?.reduce((amount, item) => parseInt(item.price) + amount, 0);
+
 const reducer = (state, action) => {
   // console.log(action);
   switch (action.type) {
@@ -14,6 +22,7 @@ const reducer = (state, action) => {
         ...state,
         basket: [...state.basket, action.item],
       };
+    //saveStateToLocalStorage(updatedState)
     case "EMPTY_BASKET":
       return {
         ...state,

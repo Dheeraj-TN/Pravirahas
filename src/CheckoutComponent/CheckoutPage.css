@@ -6,6 +6,234 @@
     height: max-content;
     align-self: baseline;
 }
+.address{
+    width: 60%;
+}
+.edit__address{
+    display: flex;
+    flex-direction: column;
+    width: 50%;
+}
+.edit__address textarea{
+    background-color: transparent;
+    border: none;
+    border-bottom: 1px solid lightgray;
+    padding: 5px;
+    font-size: 15px;
+    border: 1px solid rgb(161, 90, 24);
+    outline: none;
+    color: rgb(161, 90, 24);
+}
+.save__cancel__buttons{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+.save__cancel__buttons button{
+    background-color: #BA704F;
+    color: white;
+    border: none;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 100%;
+    align-self: flex-end;
+
+}
+.save__cancel__buttons button:hover{
+    background-color: rgb(85, 45, 7);
+}
+.edit__address__button{
+    background-color: #BA704F;
+    color: white;
+    border: none;
+    padding: 5px;
+    font-size: 15px;
+    cursor: pointer;
+    margin-top: 10px;
+    width: 50%;
+    align-self: flex-end;
+}
+.edit__address__button:hover{
+    background-color: rgb(85, 45, 7);
+}
 .checkout__title {
     border-bottom: 1px solid lightgray;
+    margin-top: 50px;
+}
+.checkout__right{
+    flex: 0.4;
+    padding: 20px;
+}
+.subtotal{
+    margin-top: 60px;
+    border: 1px solid rgb(161, 90, 24);
+    padding: 20px;
+    border-radius: 5px;
+}
+.checkout__button__container{
+    border:none;
+    width: 100%;
+    margin-top: 20px;
+}
+.checkout__button{
+    width: 100%;
+    border: none;
+    background-color: #BA704F;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    }
+.checkout__button:hover{
+    background-color: rgb(85, 45, 7);
+}
+.terms__and__conditions__button{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 40px;
+}
+.accept__button{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #f5f5f5;
+    color: black;
+    border: 1px solid green;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 15px;
+    height: 40px;
+    width: 200px;
+    font-weight: 500;
+}
+.reject__button{
+    display: flex;
+    align-items: center;
+    justify-content:center;
+    gap: 10px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    background-color: #f5f5f5;
+    color: black;
+    border: 1px solid rgb(188, 36, 36);
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 200px;
+    height: 40px;
+    font-size: 15px;
+    font-weight: 500;
+}
+.accept__button:hover{
+    background-color: green;
+    color: #fff;  
+}
+.reject__button:hover{
+    background-color: red;
+    color: #fff;  
+}
+@media(min-width:200px) and (max-width:480px){
+    .checkout__page{
+        flex-direction: column;
+        width: 90%;
+    }
+    .address{
+        width: 100%;
+    }
+    .edit__address{
+        width: 100%;
+    }
+    .edit__address textarea{
+        width:100%;
+    }
+    .save__cancel__buttons{
+        display: flex;
+        width: 100%;
+        gap: 2px;
+    }
+    .save__cancel__buttons button{
+        width: 80%;
+    }
+    .edit__address__button{
+        width: 80%;
+    }
+    .checkout__title{
+        font-size: 20px;
+    }
+    .checkout__left h3{
+        font-size: 16px;
+    }
+    .checkout__left p strong{
+        font-size: 15px;
+    }
+    .checkout__right {
+        margin-top: 70px;
+    }
+    .checkout__tc h2{
+        font-size: 18px;
+    }
+    .checkout__tc ol li{
+        font-size: 14px;
+    }
+    .accept__button{
+        font-size: 14px;
+    }
+    .reject__button{
+        font-size: 14px;
+    }
+}
+@media(min-width:481px) and (max-width:768px){
+    .checkout__page{
+        flex-direction: column;
+        width: 90%;
+    }
+    .checkout__title{
+        font-size: 22px;
+    }
+    .checkout__left h3{
+        font-size: 18px;
+    }
+    .address{
+        width: 100%;
+    }
+    .edit__address{
+        width: 100%;
+    }
+    .edit__address textarea{
+        width:100%;
+    }
+    .save__cancel__buttons{
+        display: flex;
+        width: 100%;
+        gap: 2px;
+    }
+    .save__cancel__buttons button{
+        width: 80%;
+    }
+    .edit__address__button{
+        width: 80%;
+    }
+    .checkout__title{
+        font-size: 20px;
+    }
+    .checkout__left h3{
+        font-size: 16px;
+    }
+    .checkout__left p strong{
+        font-size: 15px;
+    }
+}
+@media(min-width:769px) and (max-width:1024px){
+    .checkout__page{
+        flex-direction: column;
+        width: 90%;
+    }
 }

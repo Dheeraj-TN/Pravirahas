@@ -7,6 +7,9 @@
     mask-image: linear-gradient(to bottom,
             rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
 }
+/* .carousel__full{
+    background: linear-gradient(to bottom, rgba(255, 255, 255, 0), #ffffff);
+} */
 .carousel__images
 {
     width: 100%;

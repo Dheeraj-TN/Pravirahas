@@ -4,7 +4,6 @@
     overflow: hidden;
     background: url("https://images6.alphacoders.com/465/465170.jpg") center no-repeat;
     background-size: cover;
-    margin-bottom: 10px;
 }
 /* "https://cdn.leonardo.ai/users/a9d52df7-b650-430e-91b1-eae591ee83f8/generations/f6f3184f-e410-4f90-b1b0-3879e697fd96/DreamShaper_v7_generate_me_good_background_image_for_login_pag_2.jpg?w=512 */
 .login__gradient {
@@ -20,7 +19,7 @@
 
 .login__body {
     position: absolute;
-    top: 10%;
+    top: 5%;
     text-align: center;
     margin-left: auto;
     margin-right: auto;
@@ -31,7 +30,41 @@
     right: 0;
     background: rgba(0, 0, 0, 0.8);
     max-width: 400px;
-
+}
+.login__body__phone{
+    position: absolute;
+    top: 20%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    color: #fff;
+    padding: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    max-width: 400px; 
+}
+.terms__and__conditions__page{
+    position: absolute;
+    top: 12%;
+    text-align: center;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 1;
+    color: #fff;
+    padding: 70px;
+    left: 0;
+    right: 0;
+    background: rgba(0, 0, 0, 0.8);
+    max-width: 400px;
+}
+.terms__and__conditions__page ol{
+    margin-top: 50px;
+}
+.terms__and__conditions__page ol li{
+    margin-bottom: 10px;
+    font-size: 17px;
 }
 
 .login__body>form {
@@ -43,7 +76,7 @@
     
 }
 
-.login__body>form>input {
+.login__body form input {
     outline: 0;
     width: 250px;
     height: 40px;
@@ -51,6 +84,24 @@
     border-radius: 5px;
     padding: 5px 15px;
     border: none;
+}
+.login__body__phone form input{
+    outline: 0;
+    width: 250px;
+    height: 40px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding: 5px 15px;
+    border: none;
+}
+.postal__address{
+    outline: 0;
+    width: 250px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    padding: 5px 15px;
+    border: none;
+
 }
 .login__body>form>button:hover {
     transform: scale(1.03);
@@ -69,7 +120,14 @@
     align-items: center;
     gap: 5px;
 }
+.login__body__phone>form>h4{
+    display: flex;
+    margin-top: 20px;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
 
+}
 .new {
     color: gray;
 }
@@ -92,7 +150,19 @@
     cursor: pointer;
     text-decoration: underline;
 }
-
+.forgot__password{
+    font-size: 16px;
+    color: lightgray;
+    font-weight: 550;
+    align-self: flex-start;
+    margin-bottom: 0;
+    margin-top: 20px;
+}
+.forgot__password:hover{
+    cursor: pointer;
+    text-decoration: underline;
+    color: #0174BE;
+}
 .logOut__button {
     margin-top: 70px;
     padding: 16px 20px;
@@ -190,20 +260,21 @@
         background: rgba(0, 0, 0, 0.5);
         background-image: linear-gradient(to bottom,
                 rgba(0, 0, 0, 0.8) 0,
-                rgba(0, 0, 0, 0.8) 60%,
-                rgba(0, 0, 0, 0.8) 100%);
+                rgba(0, 0, 0, 0) 60%,
+                rgba(0, 0, 0, 0) 100%);
     }
     .login__body{
         flex-direction:column;
         justify-content: center;
         align-items: center;
-        top: 3%;
+        top: 0;
         bottom: 0;
         margin: 0;
         height: 90vh;
         overflow-y: hidden;
     }
     .login__body form{
+        margin-top: 40px;
         width: 100%;
         flex-direction: column;
         justify-content: center;
@@ -212,8 +283,15 @@
     .login__body form input{
         width: 90%;
     }
+    .login__body__phone form input{
+        width: 90%;
+    }
     .login__body form h1{
         font-size: 25px;
+    }
+    .login__body__phone form h1{
+        font-size: 25px;
+        margin-bottom: 30px;
     }
     #phone__input{
         width: 100%;
@@ -260,7 +338,7 @@
 
   @media(min-width:769px) and (max-width:1024px){
     .login__body{
-        top: 10%;
+        top: 15%;
     }
     .login__body form h1{
         font-size: 30px;
@@ -274,6 +352,9 @@
   }
   @media(min-width:1200px) and (max-width:1600px){
     .login__body{
-        top: 1%;
+        top: 3%;
+    }
+    .login__body__phone{
+        top: 15%;
     }
   }

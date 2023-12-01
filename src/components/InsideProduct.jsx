@@ -1,4 +1,14 @@
-import { collection, doc, getDoc } from "firebase/firestore";
+/* eslint-disable no-unused-vars */
+import {
+  addDoc,
+  collection,
+  doc,
+  getDoc,
+  onSnapshot,
+  query,
+  setDoc,
+  where,
+} from "firebase/firestore";
 import { useParams } from "react-router-dom";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
@@ -7,115 +17,97 @@ import "react-responsive-carousel/lib/styles/carousel.min.css";
 import Header from "./Header";
 import "./InsideProduct.css";
 import { Fade } from "react-reveal";
+import { useStateValue } from "../StateProvider";
+import toast, { Toaster } from "react-hot-toast";
 /* eslint-disable react/prop-types */
 function InsideProduct() {
+  const [{ basket, user }, dispatch] = useStateValue();
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
+  const [userId, setUserId] = useState("");
+  const basketItems = {
+    id: id,
+    img1: productData?.image[0],
+    productName: productData?.productName,
+    price: productData?.price,
+    rating: productData?.rating,
+    desc: productData?.desc,
+    quantity: 1,
+  };
+  const addToBasket = async () => {
+    // const basketRef = collection(db, `users/${userId}/Basket`);
+    const basketRef = doc(db, "users", userId, "Basket", id);
+    await setDoc(basketRef, basketItems);
+    toast.success("Added to cart");
+  };
   useEffect(() => {
+    const q = query(
+      collection(db, "users"),
+      where("emailAddress", "==", user?.email)
+    );
+    const unsub = onSnapshot(q, (snapshot) => {
+      snapshot.forEach((doc) => {
+        setUserId(doc.id);
+      });
+    });
     const fetchProductDetails = async () => {
-      const productRef = collection(db, "Necklases");
+      const productQuery = doc(db, "Products", id);
+      const productSnap = await getDoc(productQuery);
+      const productType = productSnap.data().productType;
+      const productRef = collection(db, productType);
       const docSnap = await getDoc(doc(productRef, id));
       setProductData(docSnap.data());
       // console.log(docSnap.data());
     };
     fetchProductDetails();
-  }, [id]);
+    return () => unsub();
+  }, [id, user?.email]);
   return (
     <>
       {productData ? (
         <>
           <Header />
+          {/* <Toaster toastOptions={{ duration: "2000" }} /> */}
           <div className="inside__product">
             <Fade left>
               <div className="inside__product__images">
-                {/* <Carousel
-                autoPlay
-                infinteLoop={true}
-                showStatus={false}
-                showIndicators={false}
-                showThumbs={true}
-                interval={3000}
-              >
-                {productData.image.map((image) => {
-                  return (
-                    <div
-                      key={image}
-                      className="inside__product__images__carousel"
-                    >
-                      <img
-                        className="inside__product__images"
-                        loading="lazy"
-                        src={image}
-                        alt=""
-                      />
-                       <video
+                <Carousel
+                  autoPlay={true}
+                  infinteLoop={true}
+                  showStatus={false}
+                  showIndicators={false}
+                  showThumbs={true}
+                  interval={3000}
+                >
+                  {productData.image.map((image, index) => {
+                    return (
+                      <>
+                        <div
+                          key={index}
+                          className="inside__product__images__carousel"
+                        >
+                          <img
+                            className="inside__product__images"
+                            loading="lazy"
+                            src={image}
+                            alt=""
+                          />
+                        </div>
+                      </>
+                    );
+                  })}
+                  {productData.video && (
+                    <div className="inside__product__images__carousel">
+                      <video
                         className="inside__product__images"
                         loop
                         autoPlay
                         muted
                       >
                         <source src={productData.video} type="video/mp4" />
-                      </video> 
+                      </video>
                     </div>
-                  );
-                })}
-
-              </Carousel> */}
-
-                <Carousel
-                  autoPlay={true}
-                  infinteLoop={true}
-                  showStatus={false}
-                  showIndicators={true}
-                  showThumbs={false}
-                  interval={2000}
-                >
-                  <div className="inside__product__images__carousel">
-                    <img
-                      className="inside__product__images"
-                      loading="lazy"
-                      src={productData.image[0]}
-                    />
-                  </div>
-                  <div className="inside__product__images__carousel">
-                    <img
-                      className="inside__product__images"
-                      loading="lazy"
-                      src={productData.image[1]}
-                      alt=""
-                    />
-                  </div>
-                  <div className="inside__product__images__carousel">
-                    <img
-                      className="inside__product__images"
-                      loading="lazy"
-                      src={productData.image[2]}
-                      alt=""
-                    />
-                  </div>
-                  {/*
-                {productData.image[3] && (
-                  <div className="inside__product__images__carousel">
-                    <img
-                      className="inside__product__images"
-                      loading="lazy"
-                      src={productData.image[3]}
-                      alt=""
-                    />
-                  </div>
-                )} */}
-
-                  <div className="inside__product__images__carousel">
-                    <video
-                      className="inside__product__images"
-                      loop
-                      autoPlay
-                      muted
-                      style={{ objectFit: "cover" }}
-                    >
-                      <source src={productData.video} type="video/mp4" />
-                    </video>
-                  </div>
+                  )}
                 </Carousel>
               </div>
             </Fade>
@@ -130,7 +122,7 @@ function InsideProduct() {
                 <p className="inside__product__complete__desc">
                   {productData.completeDesc}
                 </p>
-                <button>Add to Cart</button>
+                <button onClick={addToBasket}>Add to Cart</button>
               </div>
             </Fade>
           </div>

@@ -5,7 +5,7 @@
     justify-content: center;
     margin: 10px;
     margin-right: 20px;
-    width: 400px;
+    width: 350px;
     background-color: white;
     z-index: 1;
     border-radius: 20px;
@@ -41,6 +41,7 @@
     font-weight: 600;
     margin-top: 10px;
     margin-bottom: 10px;
+    width: 80%;
    
 }
 .product__price{
@@ -91,7 +92,7 @@
         padding: 10px;
     }
     .product__details h3{
-        font-size: 14px;
+        font-size: 14px
     }
     .product__price h4{
         font-size: 13px;

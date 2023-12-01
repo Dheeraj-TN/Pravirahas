@@ -29,6 +29,7 @@
     margin-top: 10px;
     font-weight: 500;
     color: #fff;
+    cursor: pointer;
 }
 
 #checkoutButton {
@@ -37,4 +38,31 @@
     padding: 5px 6px;
     border-radius: 5px;
     font-size: 14px;
+}
+@media(min-width:200px) and (max-width:480px){
+    .subtotal{
+        width: 90%;
+    }
+    .subtotal button{
+        height: 60px;
+        font-size: 16px;
+    }
+}
+@media(min-width:481px) and (max-width:768px){
+    .subtotal{
+        width: 90%;
+    }
+    .subtotal button{
+        height: 50px;
+        font-size: 18px;
+    }
+}
+@media (min-width:769px) and (max-width:1024px){
+    .subtotal{
+        width: 100%;
+    }
+    .subtotal button{
+        height: 50px;
+        font-size: 18px;
+    }
 }

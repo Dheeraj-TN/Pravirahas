@@ -4,7 +4,7 @@ import App from "./App.jsx";
 import "./index.css";
 import { StateProvider } from "./StateProvider.jsx";
 import reducer, { initialState } from "./reducer.jsx";
-
+// import { BrowserRouter } from "react-router-dom";
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <React.StrictMode>

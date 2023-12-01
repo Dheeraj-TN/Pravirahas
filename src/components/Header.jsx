@@ -1,4 +1,5 @@
-import { useState } from "react";
+/* eslint-disable no-unused-vars */
+import { useEffect, useState } from "react";
 // import logo from "../assets/pravirasLogo.png";
 import logo2 from "../assets/praviras-removebg-preview2.png";
 import {
@@ -20,17 +21,23 @@ import ProgressBar from "@badrap/bar-of-progress";
 import { useStateValue } from "../StateProvider";
 import { auth, db } from "../firebase";
 import toast, { Toaster } from "react-hot-toast";
-import { addDoc, collection } from "firebase/firestore";
-import { getBasketTotal } from "../reducer";
+import {
+  collection,
+  doc,
+  getDocs,
+  onSnapshot,
+  query,
+  where,
+} from "firebase/firestore";
 
 function Header() {
   const navigate = useNavigate();
-  const [{ user, basket }, dispacth] = useStateValue();
+  const [{ user, basket }, dispatch] = useStateValue();
   const [burgerStatus, setBurgerStatus] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
-  const basketRef = collection(db, "BasketItems");
-
+  const [userId, setUserId] = useState("");
+  const [basketItems, setBasketItems] = useState([]);
   const progressor = new ProgressBar({
     size: 5,
     color: "rgb(113, 56, 3)",
@@ -55,21 +62,6 @@ function Header() {
       navigate("/");
     }, 1000);
   };
-  const viewBasket = async (e) => {
-    e.preventDefault();
-    progressor.start();
-    const docRef = await addDoc(basketRef, {
-      user: user?.email,
-      basketitems: basket,
-      total: getBasketTotal(basket),
-    });
-    let basketId = docRef.id;
-    setTimeout(() => {
-      progressor.finish();
-      navigate(`/checkout/${basketId}`);
-    }, 1000);
-    return docRef.id;
-  };
   const loginPage = () => {
     if (!user) {
       progressor.start();
@@ -81,15 +73,44 @@ function Header() {
       return;
     }
     toast.error("Already logged in");
+    navigate("/profile")
   };
   const signOut = () => {
     if (user) {
       auth.signOut();
-      dispacth({ type: "SET_USER", user: null });
+      dispatch({ type: "SET_USER", user: null });
       toast.error("You logged out !!");
+      navigate("/login");
+      localStorage.removeItem("basketId");
     }
   };
+  useEffect(() => {
+    const userQuery = query(collection(db, "users"));
+    const unsub = onSnapshot(userQuery, (snapshot) => {
+      snapshot.forEach((doc) => {
+        if (doc.data().emailAddress === user?.email) {
+          setUserId(doc.id);
+        }
+      });
+    });
+    const basketQuery = query(
+      collection(db, "users", "A2yoL5e5kOlGlG049nun", "Basket")
+    );
+    const unsub2 = onSnapshot(basketQuery, (snapshot) => {
+      setBasketItems(
+        snapshot.docs.map((docs) => ({
+          id: docs.id,
+          items: docs.data().items,
+        }))
+      );
+    });
 
+    return () => {
+      unsub();
+      unsub2();
+    };
+    //eslint-disable-next-line
+  }, []);
   return (
     <>
       <ConfigProvider
@@ -260,7 +281,10 @@ function Header() {
                 </Menu.SubMenu>
               </Menu>
 
-              <Tooltip placement="bottom" title={"Account"}>
+              <Tooltip
+                placement="bottom"
+                title={!user ? "Account" : user?.email}
+              >
                 <UserOutlined className="header__icons" onClick={loginPage} />
               </Tooltip>
 
@@ -270,9 +294,11 @@ function Header() {
               <Tooltip placement="bottom" title={"Basket"}>
                 <ShoppingFilled
                   className="header__icons"
-                  onClick={viewBasket}
+                  onClick={() => navigate("/checkout")}
                 />
-                <span className="basket__length">({basket?.length})</span>
+                <span className="basket__length">
+                  {user ? basketItems.length : "0"}
+                </span>
               </Tooltip>
               <Tooltip placement="bottom" title={"Logout"}>
                 {user && (
@@ -438,15 +464,20 @@ function Header() {
                       <p className="other__menu__items__a">Wishlist</p>
                     </Menu.Item>
                     <Menu.Item key="other_3">
-                      <p className="other__menu__items__a">
-                        Your Basket ({basket?.length} items)
+                      <p
+                        className="other__menu__items__a"
+                        onClick={() => navigate("/checkout")}
+                      >
+                        Your Basket ({basketItems?.length} items)
                       </p>
                     </Menu.Item>
-                    <Menu.Item key="other_4">
-                      <p className="other__menu__items__a" onClick={signOut}>
-                        Logout
-                      </p>
-                    </Menu.Item>
+                    {user && (
+                      <Menu.Item key="other_4">
+                        <p className="other__menu__items__a" onClick={signOut}>
+                          Logout
+                        </p>
+                      </Menu.Item>
+                    )}
                   </div>
                 </Menu>
               </div>
