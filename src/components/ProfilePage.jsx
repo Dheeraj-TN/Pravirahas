@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { UserOutlined } from "@ant-design/icons";
 import { collection, onSnapshot, query, where } from "firebase/firestore";
 import { auth, db } from "../firebase";

@@ -85,7 +85,13 @@ function ProductsComponent() {
 
       <div className="product__component__title">
         <h1>Necklaces</h1>
-        <ArrowRightOutlined className="more__arrow__icon" />
+        <motion.p
+          initial="hidden"
+          animate="visible"
+          variants={rightArrowVarinats}
+        >
+          <ArrowRightOutlined className="more__arrow__icon" />
+        </motion.p>
       </div>
       <Fade right>
         <div className="products">

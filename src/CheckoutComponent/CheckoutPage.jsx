@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
-import { collection, onSnapshot, query } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  onSnapshot,
+  query,
+  updateDoc,
+} from "firebase/firestore";
 import { db } from "../firebase";
 import Header from "../components/Header";
 import CheckoutPageProps from "./CheckoutPageProps";
@@ -8,6 +14,7 @@ import "./CheckoutPage.css";
 import CurrencyFormat from "react-currency-format";
 import ReactWhatsapp from "react-whatsapp";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import toast, { Toaster } from "react-hot-toast";
 function CheckoutPage() {
   const [{ basket, user }, dispatch] = useStateValue();
   const [userId, setUserId] = useState("");
@@ -18,7 +25,12 @@ function CheckoutPage() {
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [termsConditoinsAccepted, setTermsConditionsAccepted] = useState(false);
   const phone = "+919739516472";
-
+  const saveNewAddress = () => {
+    updateDoc(doc(db, "users", userId), {
+      postalAddress: updatedAddress,
+    });
+    setEditAddress(false);
+  };
   useEffect(() => {
     const userQuery = query(collection(db, "users"));
     const unsub = onSnapshot(userQuery, (snapshot) => {
@@ -31,7 +43,7 @@ function CheckoutPage() {
     });
     const getBasketItems = async () => {
       const basketQuery = query(collection(db, `users/${userId}/Basket`));
-      // const basketSnapshot = await getDocs(basketQuery);
+      // const basketSnapshot = await getDocs(basiketQuery);
       onSnapshot(basketQuery, (basketSnapshot) => {
         const basketData = basketSnapshot.docs.map((doc) => ({
           id: doc.id,
@@ -66,6 +78,7 @@ function CheckoutPage() {
   return (
     <>
       <Header />
+      <Toaster toastOptions={{ duration: 3000 }} />
       <div className="checkout__page">
         <div className="checkout__left">
           <div>
@@ -85,9 +98,7 @@ function CheckoutPage() {
                     onChange={(e) => setUpdatedAddress(e.target.value)}
                   />
                   <div className="save__cancel__buttons">
-                    <button onClick={() => setEditAddress(false)}>
-                      Save Changes
-                    </button>
+                    <button onClick={saveNewAddress}>Save Changes</button>
                     <button onClick={() => setEditAddress(false)}>
                       Cancel
                     </button>
@@ -97,10 +108,7 @@ function CheckoutPage() {
             ) : (
               <>
                 <p className="address">
-                  Address:{" "}
-                  <strong>
-                    {!updatedAddress ? userDet.postalAddress : updatedAddress}
-                  </strong>
+                  Address: <strong>{userDet.postalAddress}</strong>
                 </p>
               </>
             )}
@@ -120,6 +128,7 @@ function CheckoutPage() {
                 price={item.price}
                 rating={item.rating}
                 desc={item.desc}
+                updatedCost={item.updatedPrice}
               />
             ))}
           </div>
@@ -149,12 +158,19 @@ function CheckoutPage() {
             </ol>
             <div className="terms__and__conditions__button">
               <button
-                className="accept__button"
+                className={
+                  !termsConditoinsAccepted
+                    ? "accept__button"
+                    : "accept__button__clicked"
+                }
                 onClick={() => setTermsConditionsAccepted(true)}
               >
                 <CheckOutlined /> I accpet the T&C
               </button>
-              <button className="reject__button">
+              <button
+                className="reject__button"
+                onClick={() => toast.error("Please accept the T&C to proceed")}
+              >
                 <CloseOutlined />I reject the T&C
               </button>
             </div>
@@ -178,27 +194,36 @@ function CheckoutPage() {
                 className="checkout__button__container"
                 number={phone}
                 style={{ backgroundColor: "transparent" }}
-                message={
-                  <>
-                    <div>
-                      <p>name: {userDet?.username}</p>
-                      <p>email: {userDet?.emailAddress}</p>
-                      <p>phone: {userDet?.phoneNumber}</p>
-                      <p>Address:{userDet?.postalAddress}</p>
-                      {basketItems.map((item, index) => (
-                        <div key={index}>
-                          <p>product name: {item.productName}</p>
-                          <p>price: {item.price}</p>
-                        </div>
-                      ))}
-                    </div>
-                  </>
-                }
+                message={`
+                  name: ${userDet?.username}
+                  email: ${userDet?.emailAddress}
+                  phone: ${userDet?.phoneNumber}
+                  Address: ${userDet?.postalAddress}
+                  ${basketItems
+                    .map(
+                      (item) => `
+                    product name: ${item.productName}
+                    price: ₹${item.price}
+                    quantity: ${item.quantity}
+                  `
+                    )
+                    .join("")}
+                  Subtotal: ₹${subTotal}
+                `}
               >
                 <button
                   style={{ cursor: "pointer" }}
                   disabled={!termsConditoinsAccepted}
-                  className="checkout__button"
+                  onClick={() => {
+                    !termsConditoinsAccepted
+                      ? toast.error("Please accept the terms and conditions")
+                      : null;
+                  }}
+                  className={
+                    !termsConditoinsAccepted
+                      ? "checkout__button__disabled"
+                      : "checkout__button"
+                  }
                 >
                   Proceed to Checkout
                 </button>

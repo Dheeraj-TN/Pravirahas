@@ -20,6 +20,7 @@ function CheckoutPageProps({
   img1,
   productName,
   price,
+  updatedCost,
   rating,
   desc,
   hideButton,
@@ -28,38 +29,13 @@ function CheckoutPageProps({
   const [userId, setUserId] = useState("");
   const [basketItems, setBasketItems] = useState([]);
   const [quantity, setQuantity] = useState(1);
+  const [ItemQuantity, setItemQuantity] = useState("");
   const increment = async () => {
     setQuantity((prevquantity) => prevquantity + 1);
-    // await updateDoc(doc(db, "users", userId, "Basket", id), {
-    //   itemQuantity: quantity + 1,
-    //   updatedPrice: quantity * price,
-    // });
-    // await setDoc(doc(db, "users", userId, "Basket", id), {
-    //   id: id,
-    //   img1: img1,
-    //   productName: productName,
-    //   price: price * quantity,
-    //   rating: rating,
-    //   desc: desc,
-    //   quantity: quantity + 1,
-    // });
   };
   const decrement = async () => {
     if (quantity > 1) {
       setQuantity((prevquantity) => prevquantity - 1);
-      // await updateDoc(doc(db, "users", userId, "Basket", id), {
-      //   quantity: quantity - 1,
-      //   // price: quantity * price,
-      // });
-      // await setDoc(doc(db, "users", userId, "Basket", id), {
-      //   id: id,
-      //   img1: img1,
-      //   productName: productName,
-      //   price: price * quantity,
-      //   rating: rating,
-      //   desc: desc,
-      //   quantity: quantity - 1,
-      // });
     }
   };
   const removeFromBasket = async () => {
@@ -78,6 +54,7 @@ function CheckoutPageProps({
 
     //eslint-disable-next-line
   }, []);
+
   useEffect(() => {
     const updateQuantity = async () => {
       await updateDoc(doc(db, "users", userId, "Basket", id), {
@@ -90,6 +67,7 @@ function CheckoutPageProps({
     }
     updateQuantity();
   }, [id, price, quantity, userId]);
+
   return (
     <div className="checkoutPage__props" key={id}>
       <img src={img1} alt="" className="checkoutPage__props__img" />
@@ -99,7 +77,8 @@ function CheckoutPageProps({
         <div className="checkpout__props__priceRating">
           <p>
             <small>₹</small>
-            <strong>{price}</strong>
+            {/* <strong>{price}</strong> */}
+            <strong>{updatedCost}</strong>
           </p>
           <p>{rating} ⭐️</p>
         </div>

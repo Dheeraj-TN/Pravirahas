@@ -36,6 +36,9 @@ function InsideProduct() {
   };
   const addToBasket = async () => {
     // const basketRef = collection(db, `users/${userId}/Basket`);
+    toast.loading("Adding to cart...", {
+      duration: 1000,
+    });
     const basketRef = doc(db, "users", userId, "Basket", id);
     await setDoc(basketRef, basketItems);
     toast.success("Added to cart");
