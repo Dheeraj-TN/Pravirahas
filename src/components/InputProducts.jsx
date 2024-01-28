@@ -61,6 +61,17 @@ function InputProducts() {
         category: category,
         uniqueId: uuidv4(),
       });
+
+      setImgfiles([]);
+      setImgfileNames([]);
+      setVideoFile(null);
+      setVideoFileName("");
+      setProductName("");
+      setPrice("");
+      setRating("");
+      setDesc("");
+      setCompleteDesc("");
+      setCategory([]);
     }
   };
   return (
@@ -100,7 +111,7 @@ function InputProducts() {
           multiple
           value={category}
           onChange={handleSelectChange}
-          placeholder="Enter category"
+          placeholder="Select category"
         >
           <option value="NewArrivals">NewArrivals</option>
           <option value="Necklases">Necklase</option>
@@ -110,7 +121,7 @@ function InputProducts() {
         </select>
         <input type="file" multiple onChange={handleImageChange} />
         <input type="file" onChange={handleVideoChange} />
-        <button onClick={upload}>Upload Image</button>
+        <button onClick={upload}>Upload Files</button>
         {/* <button onClick={uploadData}>Upload</button> */}
       </form>
       <div className="image-preview">

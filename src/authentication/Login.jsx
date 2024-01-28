@@ -38,16 +38,24 @@ function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordPhone, setPasswordPhone] = useState("");
-  const [userEmail, setUser] = useState([]);
+  const [userEmail, setUserEmail] = useState([]);
   const userRef = collection(db, "users");
   const signInWithPhone = async (e) => {
     e.preventDefault();
     const q = query(userRef, where("phoneNumber", "==", phone));
-    onSnapshot(q, (snapshot) => {
+    // onSnapshot(q, (snapshot) => {
+    //   snapshot.docs.map((doc) => {
+    //     setUser(doc.data().emailAddress);
+    //   });
+    // });
+    const data = getDocs(q);
+    data.then((snapshot) => {
       snapshot.docs.map((doc) => {
-        setUser(doc.data().emailAddress);
+        setUserEmail(doc.data().emailAddress);
+        console.log("useremail:", doc.data().emailAddress);
       });
     });
+    console.log(userEmail);
     toast.loading("Hold on while verifying");
     if (!userEmail) {
       toast.error("User not found");

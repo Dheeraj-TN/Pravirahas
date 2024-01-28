@@ -1,3 +1,4 @@
+/* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
 import {
@@ -13,6 +14,7 @@ import CheckoutPageProps from "./CheckoutPageProps";
 import "./CheckoutPage.css";
 import CurrencyFormat from "react-currency-format";
 import ReactWhatsapp from "react-whatsapp";
+import emailjs from "@emailjs/browser";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import toast, { Toaster } from "react-hot-toast";
 function CheckoutPage() {
@@ -24,6 +26,10 @@ function CheckoutPage() {
   const [editAddress, setEditAddress] = useState(false);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [termsConditoinsAccepted, setTermsConditionsAccepted] = useState(false);
+  // const [shippingCharges, setShippingCharges] = useState("");
+  const shippingThreshold = 1200;
+  const shippingCharges = subTotal > shippingThreshold ? 0 : 75;
+  const total = subTotal + shippingCharges;
   const phone = "+919739516472";
   const saveNewAddress = () => {
     updateDoc(doc(db, "users", userId), {
@@ -31,6 +37,7 @@ function CheckoutPage() {
     });
     setEditAddress(false);
   };
+
   useEffect(() => {
     const userQuery = query(collection(db, "users"));
     const unsub = onSnapshot(userQuery, (snapshot) => {
@@ -42,7 +49,7 @@ function CheckoutPage() {
       });
     });
     const getBasketItems = async () => {
-      const basketQuery = query(collection(db, `users/${userId}/Basket`));
+      const basketQuery = query(collection(db, "users", userId, "Basket"));
       // const basketSnapshot = await getDocs(basiketQuery);
       onSnapshot(basketQuery, (basketSnapshot) => {
         const basketData = basketSnapshot.docs.map((doc) => ({
@@ -57,24 +64,51 @@ function CheckoutPage() {
         setBasketItems(basketData);
       });
     };
-    // const unsub2 = onSnapshot(basketQuery, (snapshot) => {
-    //   const basketData = snapshot.docs.map((doc) => ({
-    //     id: doc.id,
-    //     ...doc.data(),
-    //   }));
-    //   const total = basketData.reduce(
-    //     (acc, item) => acc + (parseInt(item.price) || 0),
-    //     0
-    //   );
-    //   setSubtotal(total);
-    //   setBasketItems(basketData);
-    // });
     getBasketItems();
     return () => {
       unsub();
-      // unsub2();
     };
   }, [user?.email, userId]);
+  const sendEmail = () => {
+    const service_id = "service_vy7rn2g";
+    const template_id = "template_vjs40cr";
+    const public_id = "Flhc1ybp5zKpLh4y0";
+
+    // Create a form element
+    const form = document.createElement("form");
+    form.id = "emailForm";
+
+    // Append input fields for each parameter
+    form.innerHTML = `
+    <input type="hidden" name="name" value="${userDet?.username}" />
+    <input type="hidden" name="email" value="${userDet?.emailAddress}" />
+    <input type="hidden" name="phone" value="${userDet?.phoneNumber}" />
+    <input type="hidden" name="address" value="${userDet?.postalAddress}" />
+    <input type="hidden" name="basketItems" value="${basketItems
+      .map(
+        (item) => `
+      product name: ${item.productName}
+      price: ₹${item.price}
+      quantity: ${item.quantity}
+    `
+      )
+      .join("")}
+    Subtotal: ₹${total}'/>
+    <input type="hidden" name="subtotal" value="${total}" />
+  `;
+
+    // Append the form to the document body
+    document.body.appendChild(form);
+    emailjs.sendForm(service_id, template_id, form, public_id).then(
+      (result) => {
+        console.log("email sent sucessfully", result);
+      },
+      (error) => {
+        console.log(error);
+      }
+    );
+  };
+  // console.log("subtotal: ", subTotal);
   return (
     <>
       <Header />
@@ -182,6 +216,8 @@ function CheckoutPage() {
                       Subtotal ({basketItems?.length} items):{" "}
                       <strong>{subTotal}</strong>
                     </h3>
+                    <p>(subtotal over ₹1200 will have free shipping )</p>
+                    <p>Shipping Charges: ₹{shippingCharges}</p>
                   </>
                 )}
                 decimalScale={2}
@@ -190,6 +226,22 @@ function CheckoutPage() {
                 thousandSeparator={true}
                 prefix={"₹"}
               />
+              <CurrencyFormat
+                renderText={(total) => (
+                  <>
+                    <h3>
+                      Total:
+                      <strong>{total}</strong>
+                    </h3>
+                  </>
+                )}
+                decimalScale={2}
+                value={total}
+                displayType={"text"}
+                thousandSeparator={true}
+                prefix={"₹"}
+              />
+
               <ReactWhatsapp
                 className="checkout__button__container"
                 number={phone}
@@ -199,6 +251,7 @@ function CheckoutPage() {
                   email: ${userDet?.emailAddress}
                   phone: ${userDet?.phoneNumber}
                   Address: ${userDet?.postalAddress}
+                  Ordered products:
                   ${basketItems
                     .map(
                       (item) => `
@@ -208,16 +261,20 @@ function CheckoutPage() {
                   `
                     )
                     .join("")}
-                  Subtotal: ₹${subTotal}
+                  Subtotal: ₹${total}
+                  
                 `}
               >
                 <button
                   style={{ cursor: "pointer" }}
                   disabled={!termsConditoinsAccepted}
                   onClick={() => {
-                    !termsConditoinsAccepted
-                      ? toast.error("Please accept the terms and conditions")
-                      : null;
+                    {
+                      !termsConditoinsAccepted
+                        ? toast.error("Please accept the terms and conditions")
+                        : null;
+                    }
+                    sendEmail();
                   }}
                   className={
                     !termsConditoinsAccepted
@@ -237,3 +294,5 @@ function CheckoutPage() {
 }
 
 export default CheckoutPage;
+// service id: service_vy7rn2g
+// template id: template_vjs40cr

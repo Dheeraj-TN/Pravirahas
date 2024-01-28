@@ -1,0 +1,58 @@
+.necklaces__page{
+    max-width: 98%;
+    display: flex;
+    flex-direction: column;
+    margin-left: 20px;
+}
+.necklaces__page h1{
+    font-size: 50px;
+    font-weight: 550;
+}
+.necklaces__container{
+    display: grid;
+    grid-template-columns: repeat(4,0fr);
+}
+.necklaces__container__mobile{
+    display: none;
+}
+@media (min-width:200px) and (max-width:480px){
+    .necklaces__container__desktop{
+        display: none;
+    }
+    .necklaces__container__mobile{
+        display: grid;
+        grid-template-columns: repeat(2,0.5fr);
+    }
+    .necklaces__page h1{
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+}
+@media (min-width:481px) and (max-width:768px){
+    .necklaces__container__desktop{
+        display: none;
+    }
+    .necklaces__container__mobile{
+        display: grid;
+        grid-template-columns: repeat(3,0.5fr);
+    }
+    .necklaces__page h1{
+        font-size: 30px;
+        margin-bottom: 30px;
+    }
+}
+@media (min-width:769px) and (max-width:1024px){
+    .necklaces__container{
+        display: grid;
+        grid-template-columns: repeat(3,1fr);
+        gap:1px;
+        
+    }
+    .necklaces__container__mobile{
+        display: none;
+    }
+    .necklaces__page h1{
+        font-size: 40px;
+        margin-bottom: 30px;
+    }
+}

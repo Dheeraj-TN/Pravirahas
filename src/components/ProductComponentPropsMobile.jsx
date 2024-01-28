@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductComponentPropsMobile.css";
 import { useStateValue } from "../StateProvider";
-function ProductComponentPropsMobile({ id, img1, img2 }) {
+function ProductComponentPropsMobile({ id, img1, img2, name, price, status }) {
   const [{ basket, user }, dispatch] = useStateValue();
   const navigate = useNavigate();
   const [isHoverd, setIsHovered] = useState(false);
@@ -23,9 +23,11 @@ function ProductComponentPropsMobile({ id, img1, img2 }) {
           progressor.finish(), navigate(`/product/${id}`);
         }, 1000));
   };
+  const productName = name.length > 15 ? name.slice(0, 20) + "..." : name;
+
   return (
     <div
-      //   className="product__component__props__mobile"
+      className="product__component__props__mobile"
       key={id}
       onClick={productClicked}
     >
@@ -36,11 +38,14 @@ function ProductComponentPropsMobile({ id, img1, img2 }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        <img
-          src={isHoverd ? img2 : img1}
-          alt="image"
-          className="deafult__image__mobile"
-        />
+        {status === "outOfStock" && (
+          <p className="status-sold-mobile">Out of Stock</p>
+        )}
+        <img src={img1} alt="" className="deafult__image__mobile" />
+      </div>
+      <div className="product__details__mobile">
+        <p>{productName}</p>
+        <p>₹{price}</p>
       </div>
     </div>
   );

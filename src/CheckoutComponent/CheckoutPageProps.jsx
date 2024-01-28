@@ -4,6 +4,8 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
+  getDocs,
   onSnapshot,
   query,
   setDoc,
@@ -29,7 +31,7 @@ function CheckoutPageProps({
   const [userId, setUserId] = useState("");
   const [basketItems, setBasketItems] = useState([]);
   const [quantity, setQuantity] = useState(1);
-  const [ItemQuantity, setItemQuantity] = useState("");
+  const [dataLoaded, setDataLoaded] = useState(false);
   const increment = async () => {
     setQuantity((prevquantity) => prevquantity + 1);
   };
@@ -41,6 +43,26 @@ function CheckoutPageProps({
   const removeFromBasket = async () => {
     await deleteDoc(doc(db, "users", userId, "Basket", id));
   };
+  useEffect(() => {
+    console.log("userId: ", userId, "id: ", id);
+    const basketData = async () => {
+      const basketQuery = query(doc(db, "users", userId, "Basket", id));
+      const data = await getDoc(basketQuery);
+      console.log(data.data());
+      if (data?.data()?.itemQuantity) {
+        setQuantity(data.data().itemQuantity);
+        setDataLoaded(true);
+      } else {
+        setDataLoaded(true);
+      }
+      console.log(data.data().itemQuantity);
+    };
+    try {
+      userId && id && basketData();
+    } catch (error) {
+      console.log(error);
+    }
+  }, [userId, id]);
   useEffect(() => {
     const q = query(
       collection(db, "users"),
@@ -62,11 +84,15 @@ function CheckoutPageProps({
         updatedPrice: quantity * price,
       });
     };
+    console.log("dataLoaded: ", dataLoaded);
+    console.log("id: ", id, "price: ", price, "quantity: ", quantity);
     if (!id || !price || !quantity || !userId) {
       return;
     }
-    updateQuantity();
-  }, [id, price, quantity, userId]);
+    if (dataLoaded) {
+      updateQuantity();
+    }
+  }, [id, price, quantity, userId, dataLoaded]);
 
   return (
     <div className="checkoutPage__props" key={id}>

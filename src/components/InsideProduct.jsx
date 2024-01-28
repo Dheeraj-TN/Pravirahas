@@ -22,6 +22,15 @@ import toast, { Toaster } from "react-hot-toast";
 /* eslint-disable react/prop-types */
 function InsideProduct() {
   const [{ basket, user }, dispatch] = useStateValue();
+  const [isHovered, setIsHovered] = useState(false);
+
+  const handleHover = () => {
+    setIsHovered(true);
+  };
+
+  const handleLeave = () => {
+    setIsHovered(false);
+  };
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
   const [userId, setUserId] = useState("");
@@ -37,13 +46,16 @@ function InsideProduct() {
   const addToBasket = async () => {
     // const basketRef = collection(db, `users/${userId}/Basket`);
     toast.loading("Adding to cart...", {
-      duration: 1000,
+      duration: 500,
     });
     const basketRef = doc(db, "users", userId, "Basket", id);
     await setDoc(basketRef, basketItems);
     toast.success("Added to cart");
   };
   useEffect(() => {
+    if (!user || !user.email) {
+      return;
+    }
     const q = query(
       collection(db, "users"),
       where("emailAddress", "==", user?.email)
@@ -64,7 +76,7 @@ function InsideProduct() {
     };
     fetchProductDetails();
     return () => unsub();
-  }, [id, user?.email]);
+  }, [id, user]);
   return (
     <>
       {productData ? (

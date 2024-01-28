@@ -12,13 +12,18 @@ import { Toaster } from "react-hot-toast";
 import CheckoutPage from "./CheckoutComponent/CheckoutPage";
 import { onAuthStateChanged } from "firebase/auth";
 import ProfilePage from "./components/ProfilePage";
+import Necklaces from "./categories/Necklaces";
+import SubNecklaces from "./subcategories/SubNecklaces";
+import Bracelets from "./categories/Bracelets";
+import Earrings from "./categories/Earrings";
+import ClipsPins from "./categories/ClipsPins";
 function App() {
-  const [{ basket, user }, dispatch] = useStateValue();
+  const [{ basket, user, selectedSubCategory }, dispatch] = useStateValue();
+
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       console.log(authUser);
       if (authUser) {
-        
         dispatch({
           type: "SET_USER",
           user: authUser,
@@ -42,6 +47,15 @@ function App() {
         <Route exact path="/profile" element={<ProfilePage />} />
         <Route exact path="/product/:id" element={<InsideProduct />} />
         <Route exact path="/checkout" element={<CheckoutPage />} />
+        <Route exact path="/necklaces" element={<Necklaces />} />
+        <Route
+          exact
+          path={`/necklaces/${selectedSubCategory}`}
+          element={<SubNecklaces />}
+        />
+        <Route exact path="/bracelets" element={<Bracelets />} />
+        <Route exact path="/earrings" element={<Earrings />} />
+        <Route exact path="/clipsPins" element={<ClipsPins />} />
       </Routes>
     </Router>
   );

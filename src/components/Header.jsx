@@ -32,7 +32,7 @@ import {
 
 function Header() {
   const navigate = useNavigate();
-  const [{ user, basket }, dispatch] = useStateValue();
+  const [{ user, basket, selectedSubCategory }, dispatch] = useStateValue();
   const [burgerStatus, setBurgerStatus] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
@@ -45,8 +45,24 @@ function Header() {
     width: 50,
   });
   const handleMenuItemClick = (item) => {
+    const clicked = item.key;
+    dispatch({ type: "SELECTED_SUBCAT_ITEM", selectedSubCategory: clicked });
     setSelectedItem(item.key);
     setBurgerStatus(false);
+    // check if the clicked item includes neckalaces or chains
+    if (clicked.includes("Necklaces") || clicked.includes("Chains")) {
+      navigate(`/necklaces/${clicked}`);
+      return;
+    }
+    // if (clicked.includes("Bracelets")) {
+    //   navigate(`/bracelets/${clicked}`);
+    //   return;
+    // }
+    // if (clicked.includes("Earrings" || "Studs" || "Hoops")) {
+    //   navigate(`/earrings/${clicked}`);
+    //   return;
+    // }
+    navigate("/");
   };
   const handleMenuMouseEnter = (menuKey) => {
     setHoveredMenuItem(menuKey);
@@ -73,7 +89,7 @@ function Header() {
       return;
     }
     toast.error("Already logged in");
-    navigate("/profile")
+    navigate("/profile");
   };
   const signOut = () => {
     if (user) {
@@ -85,6 +101,7 @@ function Header() {
     }
   };
   useEffect(() => {
+    if (!user || !user?.email) return;
     const userQuery = query(collection(db, "users"));
     const unsub = onSnapshot(userQuery, (snapshot) => {
       snapshot.forEach((doc) => {
@@ -93,22 +110,30 @@ function Header() {
         }
       });
     });
-    const basketQuery = query(
-      collection(db, "users", "A2yoL5e5kOlGlG049nun", "Basket")
-    );
-    const unsub2 = onSnapshot(basketQuery, (snapshot) => {
-      setBasketItems(
-        snapshot.docs.map((docs) => ({
-          id: docs.id,
-          items: docs.data().items,
-        }))
-      );
-    });
-
     return () => {
       unsub();
-      unsub2();
     };
+    //eslint-disable-next-line
+  }, []);
+  // console.log("user in home: ", user?.email);
+  // console.log(userId);
+  useEffect(() => {
+    if (user) {
+      const basketQuery = query(
+        collection(db, "users", "A2yoL5e5kOlGlG049nun", "Basket")
+      );
+      const unsub2 = onSnapshot(basketQuery, (snapshot) => {
+        setBasketItems(
+          snapshot.docs.map((docs) => ({
+            id: docs.id,
+            items: docs.data().items,
+          }))
+        );
+      });
+      return () => {
+        unsub2();
+      };
+    }
     //eslint-disable-next-line
   }, []);
   return (
@@ -132,8 +157,6 @@ function Header() {
         }}
       >
         <div className="header">
-          <Toaster toastOptions={{ duration: 3000 }} />
-
           <div className="header__left">
             <img
               src={logo2}
@@ -168,14 +191,16 @@ function Header() {
                     </span>
                   }
                 >
-                  <Menu.Item key="necklases_1">
+                  <Menu.Item key="Mangalasutra Necklaces">
                     Mangalasutra Necklaces
                   </Menu.Item>
-                  <Menu.Item key="necklases_2">Charm Chains</Menu.Item>
-                  <Menu.Item key="necklases_3">Cayered Chains</Menu.Item>
-                  <Menu.Item key="necklases_4">Pendent Chains</Menu.Item>
-                  <Menu.Item key="necklases_5">Layered Chains</Menu.Item>
-                  <Menu.Item key="necklases_6">18k Plated Chains</Menu.Item>
+                  <Menu.Item key="Charm Chains">Charm Chains</Menu.Item>
+                  <Menu.Item key="Cayered Chains">Cayered Chains</Menu.Item>
+                  <Menu.Item key="Pendent Chains">Pendent Chains</Menu.Item>
+                  <Menu.Item key="Layered Chains">Layered Chains</Menu.Item>
+                  <Menu.Item key="18k Plated Chains">
+                    18k Plated Chains
+                  </Menu.Item>
                 </Menu.SubMenu>
                 <Menu.SubMenu
                   onMouseEnter={() => handleMenuMouseEnter("menu2")}
@@ -194,11 +219,13 @@ function Header() {
                     </span>
                   }
                 >
-                  <Menu.Item key="bracelets_1">
+                  <Menu.Item key="Mangalasutra Bracelets">
                     Mangalasutra Bracelets
                   </Menu.Item>
-                  <Menu.Item key="bracelets_2">Stainless Steel Kada </Menu.Item>
-                  <Menu.Item key="bracelets_3">
+                  <Menu.Item key="Stainless Steel Kada ">
+                    Stainless Steel Kada{" "}
+                  </Menu.Item>
+                  <Menu.Item key="Stainless Steel Bracelets">
                     Stainless Steel Bracelets
                   </Menu.Item>
                 </Menu.SubMenu>
@@ -219,9 +246,11 @@ function Header() {
                     </span>
                   }
                 >
-                  <Menu.Item key="earings_1">Studs</Menu.Item>
-                  <Menu.Item key="earings_2">Hoops</Menu.Item>
-                  <Menu.Item key="earings_3">Statement Earrings</Menu.Item>
+                  <Menu.Item key="Studs">Studs</Menu.Item>
+                  <Menu.Item key="Hoops">Hoops</Menu.Item>
+                  <Menu.Item key=">Statement Earrings">
+                    Statement Earrings
+                  </Menu.Item>
                 </Menu.SubMenu>
                 <Menu.SubMenu
                   onMouseEnter={() => handleMenuMouseEnter("menu4")}
@@ -240,10 +269,10 @@ function Header() {
                     </span>
                   }
                 >
-                  <Menu.Item key="clipsAndPins_1">Center Clips</Menu.Item>
-                  <Menu.Item key="clipsAndPins_2">Hand made clips</Menu.Item>
-                  <Menu.Item key="clipsAndPins_3">Saree Pins</Menu.Item>
-                  <Menu.Item key="clipsAndPins_4">Hair Pins</Menu.Item>
+                  <Menu.Item key="Center Clips">Center Clips</Menu.Item>
+                  <Menu.Item key="Hand made clips">Hand made clips</Menu.Item>
+                  <Menu.Item key="Saree Pins">Saree Pins</Menu.Item>
+                  <Menu.Item key=">Hair Pins">Hair Pins</Menu.Item>
                 </Menu.SubMenu>
               </Menu>
               <div>{selectedItem && <p>Selected: {selectedItem}</p>}</div>
@@ -453,19 +482,19 @@ function Header() {
                     <Menu.Item key="filters_3">Date,Old to New</Menu.Item>
                     <Menu.Item key="filters_4">Date,New to Old</Menu.Item>
                   </Menu.SubMenu>
-
+                  <hr className="horizontal__divider" />
                   <div className="other__menu__items">
                     <Menu.Item key="other_1">
-                      <p className="other__menu__items__a" onClick={loginPage}>
+                      <p className="other__menu__items__p" onClick={loginPage}>
                         Account
                       </p>
                     </Menu.Item>
                     <Menu.Item key="other_2">
-                      <p className="other__menu__items__a">Wishlist</p>
+                      <p className="other__menu__items__p">Wishlist</p>
                     </Menu.Item>
                     <Menu.Item key="other_3">
                       <p
-                        className="other__menu__items__a"
+                        className="other__menu__items__p"
                         onClick={() => navigate("/checkout")}
                       >
                         Your Basket ({basketItems?.length} items)
@@ -473,7 +502,7 @@ function Header() {
                     </Menu.Item>
                     {user && (
                       <Menu.Item key="other_4">
-                        <p className="other__menu__items__a" onClick={signOut}>
+                        <p className="other__menu__items__p" onClick={signOut}>
                           Logout
                         </p>
                       </Menu.Item>

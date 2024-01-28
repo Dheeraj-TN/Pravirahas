@@ -12,6 +12,7 @@
     cursor: pointer;
     transition: transform 100ms ease-in;
     padding-bottom: 10px;
+    margin-bottom: 30px;
 }
 .product__component__props:hover{
     transform: scale(1.01);
@@ -19,6 +20,7 @@
 .product__image{
     width: 100%;
     flex: 5;
+    position: relative;
 }
 .product__image img{
     width: 100%;
@@ -27,21 +29,46 @@
     height: 400px;
     cursor: pointer;
     object-fit: fill;
+    
 }
-
+.status-available{
+    position: absolute;
+    top: 10;
+    right: 0;
+    background-color: green; /* Change the background color as needed */
+    color: white;
+    padding: 5px 10px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 17px;
+    font-weight: bold;
+}
+.status-sold{
+    position: absolute;
+    top: 10;
+    right: 0;
+    background-color:#f5f5f5; /* Change the background color as needed */
+    color: black;
+    padding: 5px 10px;
+    border-bottom-left-radius: 5px;
+    border-top-left-radius: 5px;
+    font-size: 17px;
+    font-weight: bold;
+}
 .product__details{
     display: flex;
     flex-direction: column;
-   flex: 5;
    padding: 10px;
+   padding-top: 0;
    width: 95%;
+   height: 170px;
 }
 .product__details h3{
-    font-size: 17px;
+    font-size: 20px;
     font-weight: 600;
     margin-top: 10px;
     margin-bottom: 10px;
-    width: 80%;
+    width: 100%;
    
 }
 .product__price{
@@ -51,13 +78,13 @@
    
 }
 .product__price h4{
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 500;
     margin-top: 10px;
     margin-bottom: 10px;
 }
 .product__details p{
-    font-size: 15px;
+    font-size: 17px;
     font-weight: 550;
     
 }
@@ -77,6 +104,20 @@
 }
 .product__component__props button:hover{
     transform: scale(1.02);
+}
+.products__desc__container{
+    height: 40px;
+    padding: 0;
+    margin: 0;
+    /* border:1px solid black; */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    align-self: flex-start;
+}
+.products__desc__container>p{
+    padding-top: -40px;
 }
 @media(min-width:200px) and (max-width:480px){
     .product__component__props{

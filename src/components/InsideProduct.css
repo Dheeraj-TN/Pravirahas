@@ -8,17 +8,28 @@
     display: flex;
     width: 600px;
     height: 500px;
+    /* position: relative; */
 }
 .inside__product__images{
     width: 600px;
     height: 500px;
+    /* transition: transform 0.3s ease; */
+    
 }
+/* .zoomed {
+    cursor: zoom-in; 
+  }
+  
+  .zoomed-image {
+    transform: scale(1.2); 
+  } */
 .inside__product__details{
     display: flex;
     flex-direction: column;
     justify-content: center;
     gap:20px;
 }
+
 .inside__product__details h2{
     font-size: 30px;
     font-weight: 500;

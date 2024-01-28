@@ -25,6 +25,7 @@ function ProductComponentProps({
   price,
   rating,
   desc,
+  status,
 }) {
   const [{ user, basket }, dispatch] = useStateValue();
   const navigate = useNavigate();
@@ -61,7 +62,11 @@ function ProductComponentProps({
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
-          <img src={isHoverd ? img2 : img1} alt="" className="deafult__image" />
+          {/* <img src={isHoverd ? img2 : img1} alt="" className="deafult__image" /> */}
+          {status === "outOfStock" && (
+            <p className="status-sold">Out of Stock</p>
+          )}
+          <img src={img1} alt="" className="deafult__image" />
         </div>
         <div className="product__details" key={id} onClick={productClicked}>
           <h3>{productName}</h3>
@@ -69,7 +74,9 @@ function ProductComponentProps({
             <h4>₹{price}</h4>
             <p>{rating} ⭐️</p>
           </div>
-          <p className="products__desc">{desc}</p>
+          <div className="products__desc__container">
+            <p className="products__desc">{desc}</p>
+          </div>
         </div>
         {/* <button onClick={addToBasket}>Add to Cart</button> */}
       </div>

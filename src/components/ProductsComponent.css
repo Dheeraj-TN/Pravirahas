@@ -9,6 +9,26 @@
     /* margin-top: -120px; */
     width: 90%;
 }
+.skeleton__style{
+    width: 350px;
+    height: 550px;
+    border: 1px solid lightgray;
+    border-radius: 10px;
+    padding: 20px;
+    display: flex;
+    /* flex-direction: column; */
+    gap: 2rem;
+    justify-content: space-between;
+    align-items: center;
+
+}
+.content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3rem;
+}
 .new__arrivals{
     display: flex;
     flex-direction: column;
@@ -34,6 +54,7 @@
     color: #BA704F;
     cursor: pointer;
     padding: 10px;
+    outline: none;
 }
 .products{
     display: flex;
@@ -45,6 +66,7 @@
     background-color: #ba704f;
     color: white;
     border-radius: 99px;
+    outline: none;
 }
 .products__mobile{
     display: none;
@@ -57,10 +79,22 @@
         align-items: center;
         width: 100%;
     }
+    .skeleton__style{
+        display: none;
+    }
+    .skeleton__style__mobile{
+        width: 150px;
+        height: 220px;
+        align-self: flex-start;
+        margin-left: 20px;
+        display: flex;
+        gap: 15px;
+    }
     .products__mobile{
-        padding:0;;
+        padding:0;
         width: 90%;
-        display:flex;
+        display: grid;
+        grid-template-columns:repeat(4,1fr);
         gap: 10px;
         overflow-x: auto;
     }
@@ -76,10 +110,6 @@
         font-size: 25px;
     }
     .products{
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        margin: 0;
         display: none;
     }
     .new__arrivals{
@@ -107,9 +137,11 @@
         font-size: 30px;
     }
     .products{
+        display: none;
+    }
+    .products__mobile{
         display: grid;
-        grid-template-columns: repeat(2, 1fr);
-        grid-gap:1rem;
+        grid-template-columns: repeat(3, 1fr);
         gap: 1rem;
     }
 }
@@ -122,11 +154,10 @@
         margin-left: auto;
         margin-right: auto;
     }
-    .more__arrow__icon{
-        display: none;
-    }
     .product__component__title h1{
-        font-size: 30px;
+        font-size: 40px;
+        margin-bottom: 30px;
+        margin-top: 30px;
     }
     .products{
         display: grid;

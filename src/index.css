@@ -24,13 +24,26 @@ h1 {
   font-size: 3.2em;
   line-height: 1.1;
 }
-/* @font-face {
+@font-face {
   font-family: "Afacad";
-  src: url("/public//Afacad-Italic-VariableFont_wght.ttf");
+  src: url("/Afacad-VariableFont_wght.ttf");
+  font-style: normal;
 }
 h1{
-  font-family: "Afacad" ,;
-} */
+  font-family: "Afacad",sans-serif;
+}
+p{
+  font-family: "Afacad",sans-serif;
+}
+h2{
+  font-family: "Afacad",sans-serif;
+}
+h3{
+  font-family: "Afacad",sans-serif;
+}
+h4{
+  font-family: "Afacad",sans-serif;
+}
 /* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;

@@ -5,8 +5,8 @@ function CarouselComponent() {
   return (
     <div className="carousel__images">
       <Carousel
-        autoPlay
-        infinteLoop
+        autoPlay={true}
+        infiniteLoop={true}
         showStatus={false}
         showIndicators={false}
         showThumbs={false}
@@ -23,7 +23,7 @@ function CarouselComponent() {
           <img
             className="images"
             loading="lazy"
-            src="https://www.voylla.com/cdn/shop/files/Artboard_1_copy_2_ed3aba70-4348-43d8-8f12-9cb1f5ca859c.jpg?v=1697885748"
+            src="https://static.malabargoldanddiamonds.com/media/wysiwyg/offer_page/2023/09_Nov/homepage/Caliesta-web.jpg"
             alt=""
           />
         </div>
