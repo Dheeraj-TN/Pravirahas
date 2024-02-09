@@ -28,7 +28,7 @@ function Earrings() {
         <h1>Earrings</h1>
         <div className="necklaces__container__desktop">
           {productData && (
-            <div className="neckalces__container">
+            <div className="necklaces__container">
               {productData.map((item) => (
                 <ProductComponentProps
                   key={item.id}
