@@ -1,29 +1,16 @@
 /* eslint-disable no-unused-vars */
 import "./Login.css";
-import PhoneInput from "react-phone-input-2";
-import OTPInput from "otp-input-react";
 import "react-phone-input-2/lib/bootstrap.css";
-import { Spinner } from "react-activity";
 import ProgressBar from "@badrap/bar-of-progress";
 import { auth, db } from "../firebase";
 import { useState } from "react";
 import {
-  RecaptchaVerifier,
   sendPasswordResetEmail,
   signInWithEmailAndPassword,
-  signInWithPhoneNumber,
 } from "firebase/auth";
 import { Toaster, toast } from "react-hot-toast";
 import { Link, useNavigate } from "react-router-dom";
-import {
-  addDoc,
-  collection,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import { progress } from "framer-motion";
+import { collection, getDocs, query, where } from "firebase/firestore";
 import { useStateValue } from "../StateProvider";
 
 function Login() {
@@ -89,6 +76,14 @@ function Login() {
         console.log(err.message);
       });
   };
+  const handleSubmit = () => {
+    if (phone) {
+      signInWithPhone();
+    }
+    if (email) {
+      signInWithEmailPassword();
+    }
+  };
   const resetPassword = async () => {
     if (email === "") {
       toast.error("Please enter a valid email address");
@@ -110,7 +105,7 @@ function Login() {
         <div id="recaptcha-container"></div>
         <div className="login__gradient" />
         <div className="login__body">
-          <form>
+          <form onSubmit={handleSubmit}>
             <h1>Sign In</h1>
             <input
               type="text"
@@ -144,7 +139,11 @@ function Login() {
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
-            <button className="login__button" onClick={signInWithEmailPassword}>
+            <button
+              className="login__button"
+              type="submit"
+              onClick={signInWithEmailPassword}
+            >
               Sign In
             </button>
             <p onClick={resetPassword} className="forgot__password">

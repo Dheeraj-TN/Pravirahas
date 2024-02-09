@@ -208,26 +208,37 @@ function ProductsComponent() {
             />
           </motion.p>
         </div>
-        <Fade right>
-          <div className="products">
-            {productDataNeckalces &&
-              productDataNeckalces.map((item) => {
-                return (
-                  <ProductComponentProps
-                    key={item.id}
-                    id={item.id}
-                    img1={item.image[0]}
-                    img2={item.image[1]}
-                    productName={item.productName}
-                    price={item.price}
-                    rating={item.rating}
-                    desc={item.desc}
-                    status={item.status}
-                  />
-                );
-              })}
+        {loading ? (
+          <div className="skeleton__style">
+            <Skeleton
+              active
+              paragraph={{ rows: 3 }}
+              avatar={{ shape: "square", size: 300 }}
+              className="content"
+            />
           </div>
-        </Fade>
+        ) : (
+          <Fade right>
+            <div className="products">
+              {productDataNeckalces &&
+                productDataNeckalces.map((item) => {
+                  return (
+                    <ProductComponentProps
+                      key={item.id}
+                      id={item.id}
+                      img1={item.image[0]}
+                      img2={item.image[1]}
+                      productName={item.productName}
+                      price={item.price}
+                      rating={item.rating}
+                      desc={item.desc}
+                      status={item.status}
+                    />
+                  );
+                })}
+            </div>
+          </Fade>
+        )}
         {loading ? (
           <div className="skeleton__style__mobile">
             <Skeleton
@@ -268,7 +279,10 @@ function ProductsComponent() {
             animate="visible"
             variants={rightArrowVarinats}
           >
-            <ArrowRightOutlined className="more__arrow__icon" onClick={goToBracelets}/>
+            <ArrowRightOutlined
+              className="more__arrow__icon"
+              onClick={goToBracelets}
+            />
           </motion.p>
         </div>
         {loading ? (
@@ -345,7 +359,10 @@ function ProductsComponent() {
             animate="visible"
             variants={rightArrowVarinats}
           >
-            <ArrowRightOutlined className="more__arrow__icon" onClick={goToEarrings}/>
+            <ArrowRightOutlined
+              className="more__arrow__icon"
+              onClick={goToEarrings}
+            />
           </motion.p>
         </div>
 
@@ -422,7 +439,10 @@ function ProductsComponent() {
             animate="visible"
             variants={rightArrowVarinats}
           >
-            <ArrowRightOutlined className="more__arrow__icon" onClick={goToClipsPins}/>
+            <ArrowRightOutlined
+              className="more__arrow__icon"
+              onClick={goToClipsPins}
+            />
           </motion.p>
         </div>
 

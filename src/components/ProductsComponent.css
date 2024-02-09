@@ -71,6 +71,9 @@
 .products__mobile{
     display: none;
 }
+.skeleton__style__mobile{
+    display: none;
+}
 @media(min-width:200px) and (max-width:480px){
     .product__component{
         margin-top: 0px;

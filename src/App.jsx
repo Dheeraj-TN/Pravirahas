@@ -17,6 +17,8 @@ import SubNecklaces from "./subcategories/SubNecklaces";
 import Bracelets from "./categories/Bracelets";
 import Earrings from "./categories/Earrings";
 import ClipsPins from "./categories/ClipsPins";
+import SubBracelets from "./subcategories/SubBracelets";
+import AboutUs from "./components/AboutUs";
 function App() {
   const [{ basket, user, selectedSubCategory }, dispatch] = useStateValue();
 
@@ -47,13 +49,19 @@ function App() {
         <Route exact path="/profile" element={<ProfilePage />} />
         <Route exact path="/product/:id" element={<InsideProduct />} />
         <Route exact path="/checkout" element={<CheckoutPage />} />
+        <Route exact path="/aboutus" element={<AboutUs />} />
         <Route exact path="/necklaces" element={<Necklaces />} />
         <Route
           exact
-          path={`/necklaces/${selectedSubCategory}`}
+          path={`/${selectedSubCategory}`}
           element={<SubNecklaces />}
         />
         <Route exact path="/bracelets" element={<Bracelets />} />
+        <Route
+          exact
+          path={`/${selectedSubCategory}`}
+          element={<SubBracelets />}
+        />
         <Route exact path="/earrings" element={<Earrings />} />
         <Route exact path="/clipsPins" element={<ClipsPins />} />
       </Routes>

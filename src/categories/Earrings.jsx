@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query } from "firebase/firestore";
 import Header from "../components/Header";
 import ProductComponentProps from "../components/ProductComponentProps";
-import "./Neckaces.css";
+import "./Necklaces.css";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
@@ -24,11 +24,11 @@ function Earrings() {
   return (
     <>
       <Header />
-      <div className="Earrings__page">
+      <div className="necklaces__page">
         <h1>Earrings</h1>
-        <div className="Earrings__container__desktop">
+        <div className="necklaces__container__desktop">
           {productData && (
-            <div className="Earrings__container">
+            <div className="neckalces__container">
               {productData.map((item) => (
                 <ProductComponentProps
                   key={item.id}
@@ -45,7 +45,7 @@ function Earrings() {
             </div>
           )}
         </div>
-        <div className="Earrings__container__mobile">
+        <div className="necklaces__container__mobile">
           {productData &&
             productData.map((item) => {
               return (

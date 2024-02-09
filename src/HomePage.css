@@ -1,0 +1,21 @@
+.loading__screen{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.loader__screen__content{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid black;
+
+}
+.loader__logo{
+    width: 250px;
+    height: 200px;
+
+}
+.loader__content{
+    margin-top: 20px;
+}

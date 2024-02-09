@@ -248,9 +248,9 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        height:auto;
         overflow-y:hidden;
         margin: 0;
+        height:auto;
     }
     .login__gradient {
         width: 100%;
@@ -274,7 +274,7 @@
         overflow-y: hidden;
     }
     .login__body form{
-        margin-top: 40px;
+        /* margin-top: 40px; */
         width: 100%;
         flex-direction: column;
         justify-content: center;

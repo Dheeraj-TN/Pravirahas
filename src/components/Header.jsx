@@ -51,14 +51,14 @@ function Header() {
     setBurgerStatus(false);
     // check if the clicked item includes neckalaces or chains
     if (clicked.includes("Necklaces") || clicked.includes("Chains")) {
-      navigate(`/necklaces/${clicked}`);
+      navigate(`/${clicked}`);
       return;
     }
-    // if (clicked.includes("Bracelets")) {
-    //   navigate(`/bracelets/${clicked}`);
-    //   return;
-    // }
-    // if (clicked.includes("Earrings" || "Studs" || "Hoops")) {
+    if (clicked.includes("Bracelets")) {
+      navigate(`/${clicked}`);
+      return;
+    }
+    // if (clicked.includes("Earrings")) {
     //   navigate(`/earrings/${clicked}`);
     //   return;
     // }

@@ -1,0 +1,30 @@
+.about__us{
+    display: flex;
+    width:950px;
+    align-items: center;
+    justify-content: center;
+    text-align: justify;
+    margin: auto;
+}
+.aboutus__info{
+    padding-left: 50px;
+}
+.aboutus__info>h1{
+    font-size: 70px;
+}
+.underline{
+    width:140px;
+    height:4px;
+    background-color: black;
+    margin: 3px;
+}
+.aboutus__img{
+    display: block;
+    align-items: center;
+    justify-content: center;
+    margin-top: 120px;
+}
+.aboutus__img>img{
+    width: 400px;
+    height: 300px;
+}

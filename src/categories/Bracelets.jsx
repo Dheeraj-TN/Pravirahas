@@ -1,7 +1,7 @@
 import { collection, onSnapshot, query } from "firebase/firestore";
 import Header from "../components/Header";
 import ProductComponentProps from "../components/ProductComponentProps";
-import "./Neckaces.css";
+import "./Necklaces.css";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";

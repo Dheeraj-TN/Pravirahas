@@ -7,7 +7,7 @@ function SubNecklaces() {
     <>
       <Header />
       <div>
-        <h1>I am the sub {`${selectedSubCategory}`}</h1>
+        <h1>I am the sub necklaces category{`${selectedSubCategory}`}</h1>
       </div>
     </>
   );
