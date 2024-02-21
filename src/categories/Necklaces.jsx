@@ -5,6 +5,7 @@ import "./Necklaces.css";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 function Necklaces() {
   const neckalceRef = collection(db, "Necklases");
   const [productData, setProductData] = useState([]);
@@ -25,6 +26,10 @@ function Necklaces() {
     <>
       <Header />
       <div className="necklaces__page">
+        <ArrowLeftOutlined
+          className="arrow__left__icon"
+          onClick={() => window.history.back()}
+        />
         <h1>Necklaces</h1>
         <div className="necklaces__container__desktop">
           {productData && (

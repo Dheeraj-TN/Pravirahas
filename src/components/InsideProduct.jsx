@@ -33,6 +33,7 @@ function InsideProduct() {
   };
   const { id } = useParams();
   const [productData, setProductData] = useState(null);
+  const [productVideo, setProductVideo] = useState("");
   const [userId, setUserId] = useState("");
   const basketItems = {
     id: id,
@@ -72,7 +73,18 @@ function InsideProduct() {
       const productRef = collection(db, productType);
       const docSnap = await getDoc(doc(productRef, id));
       setProductData(docSnap.data());
-      // console.log(docSnap.data());
+      console.log(docSnap.data().video);
+      // docSnap.data().video
+      //   ? setProductVideo(docSnap.data().video)
+      //   : setProductVideo("");
+      if (docSnap.data().video === "") {
+        setProductVideo("");
+        // console.log("No video!!!");
+        return;
+      } else {
+        setProductVideo(docSnap.data().video);
+        // console.log("video found");
+      }
     };
     fetchProductDetails();
     return () => unsub();
@@ -102,16 +114,17 @@ function InsideProduct() {
                           className="inside__product__images__carousel"
                         >
                           <img
-                            className="inside__product__images"
+                            className="product__images"
                             loading="lazy"
                             src={image}
                             alt=""
                           />
+                          {/* <div className="zoom-box"></div> */}
                         </div>
                       </>
                     );
                   })}
-                  {productData.video && (
+                  {/* {productVideo !== "" && (
                     <div className="inside__product__images__carousel">
                       <video
                         className="inside__product__images"
@@ -119,10 +132,10 @@ function InsideProduct() {
                         autoPlay
                         muted
                       >
-                        <source src={productData.video} type="video/mp4" />
+                        <source src={productVideo} type="video/mp4" />
                       </video>
                     </div>
-                  )}
+                  )} */}
                 </Carousel>
               </div>
             </Fade>

@@ -96,7 +96,9 @@ function CheckoutPageProps({
 
   return (
     <div className="checkoutPage__props" key={id}>
-      <img src={img1} alt="" className="checkoutPage__props__img" />
+      <div className="checkoutPage__props__image__container">
+        <img src={img1} alt="" className="checkoutPage__props__img" />
+      </div>
       <div className="checkoutPage__props__info">
         <h2 className="checkoutPage__props__productName">{productName}</h2>
         <p className="checkoutPage__props__desc">{desc}</p>

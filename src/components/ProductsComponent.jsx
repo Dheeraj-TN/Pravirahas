@@ -100,7 +100,7 @@ function ProductsComponent() {
       progressor.finish();
       navigate("/bracelets");
     }, 1000);
-  }; 
+  };
   const goToEarrings = () => {
     progressor.start();
     setTimeout(() => {
@@ -218,7 +218,7 @@ function ProductsComponent() {
             />
           </div>
         ) : (
-          <Fade right>
+          <Fade left>
             <div className="products">
               {productDataNeckalces &&
                 productDataNeckalces.map((item) => {
@@ -253,7 +253,7 @@ function ProductsComponent() {
             />
           </div>
         ) : (
-          <Fade right>
+          <Fade left>
             <div className="products__mobile">
               {productDataNeckalces &&
                 productDataNeckalces.map((item) => {
@@ -376,7 +376,7 @@ function ProductsComponent() {
             />
           </div>
         ) : (
-          <Fade right>
+          <Fade left>
             <div className="products">
               {productDataEarrings &&
                 productDataEarrings.map((item) => {
@@ -412,7 +412,7 @@ function ProductsComponent() {
               />
             </div>
           ) : (
-            <Fade right>
+            <Fade left>
               <div className="products__mobile">
                 {productDataEarrings &&
                   productDataEarrings.map((item) => {

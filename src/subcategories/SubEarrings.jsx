@@ -1,26 +1,30 @@
-import { collection, onSnapshot, query } from "firebase/firestore";
-import Header from "../components/Header";
-import ProductComponentProps from "../components/ProductComponentProps";
-import "./Necklaces.css";
-import { db } from "../firebase";
 import { useEffect, useState } from "react";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { useStateValue } from "../StateProvider";
+import { db } from "../firebase";
+import ProductComponentProps from "../components/ProductComponentProps";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-function ClipsPins() {
-  const clipsPinsRef = collection(db, "ClipsPins");
+import Header from "../components/Header";
+import "../categories/Necklaces.css";
+function SubEarrings() {
+  const [{ selectedSubCategory }] = useStateValue();
   const [productData, setProductData] = useState([]);
-
+  const subEarringRef = collection(db, "Earrings");
+  const subCategory = selectedSubCategory.split(" ")[0];
+  console.log("Trimmed: ", subCategory);
   useEffect(() => {
-    const q = query(clipsPinsRef);
+    const q = query(subEarringRef);
     onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map((doc) => ({
-        id: doc.id,
-        ...doc.data(),
-      }));
+      const data = snapshot.docs
+        .map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }))
+        .filter((item) => item.productName.includes(subCategory));
       setProductData(data);
-      // console.log("dataid:", data.id);
     });
-    //eslint-disable-next-line
+    // eslint-disable-next-line
   }, []);
   return (
     <>
@@ -30,7 +34,7 @@ function ClipsPins() {
           className="arrow__left__icon"
           onClick={() => window.history.back()}
         />
-        <h1>Clips and Pins</h1>
+        <h1>{`${selectedSubCategory}`}</h1>
         <div className="necklaces__container__desktop">
           {productData && (
             <div className="necklaces__container">
@@ -44,6 +48,7 @@ function ClipsPins() {
                   price={item.price}
                   rating={item.rating}
                   desc={item.desc}
+                  status={item.status}
                 />
               ))}
             </div>
@@ -60,6 +65,7 @@ function ClipsPins() {
                   img2={item.image[1]}
                   price={item.price}
                   name={item.productName}
+                  status={item.status}
                 />
               );
             })}
@@ -69,4 +75,4 @@ function ClipsPins() {
   );
 }
 
-export default ClipsPins;
+export default SubEarrings;

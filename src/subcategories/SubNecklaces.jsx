@@ -3,6 +3,7 @@ import Header from "../components/Header";
 
 function SubNecklaces() {
   const [{ selectedSubCategory }] = useStateValue();
+  console.log("The state of selectedSubCategory is: ", selectedSubCategory);
   return (
     <>
       <Header />

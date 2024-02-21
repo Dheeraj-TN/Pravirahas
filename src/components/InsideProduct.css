@@ -1,20 +1,21 @@
-.inside__product{
-    display: flex;
-    justify-content:center;
-    gap: 5rem;
-    padding: 50px;
+.inside__product {
+  display: flex;
+  justify-content: center;
+  gap: 5rem;
+  padding: 50px;
 }
-.inside__product__images__carousel{
-    display: flex;
-    width: 600px;
-    height: 500px;
-    /* position: relative; */
+.inside__product__images__carousel {
+  display: flex;
+  width: 600px;
+  height: 500px;
+  position: relative;
 }
-.inside__product__images{
-    width: 600px;
-    height: 500px;
-    /* transition: transform 0.3s ease; */
-    
+.inside__product__images {
+  width: 600px;
+  height: 500px;
+  position: relative;
+  overflow: hidden;
+  /* transition: transform 0.3s ease; */
 }
 /* .zoomed {
     cursor: zoom-in; 
@@ -23,170 +24,200 @@
   .zoomed-image {
     transform: scale(1.2); 
   } */
-.inside__product__details{
-    display: flex;
+.product__images {
+  display: block;
+  width: 100%;
+  height: auto;
+  transition: transform 0.5s ease;
+}
+.zoom-box {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100px; /* Adjust this for the size of the zoomed area */
+  height: 100px; /* Adjust this for the size of the zoomed area */
+  border: 2px solid red; /* Adjust the border style as needed */
+  pointer-events: none; /* Ensure the box doesn't interfere with mouse events */
+  opacity: 0; /* Initially hidden */
+  transition: opacity 0.5s ease;
+}
+.inside__product__images__carousel:hover .zoom-box {
+  opacity: 1; /* Show the zoom box on hover */
+}
+
+.inside__product__images__carousel:hover .product__images {
+  transform: scale(1.5);
+}
+.inside__product__details {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+}
+
+.inside__product__details h2 {
+  font-size: 32px;
+  font-weight: 500;
+}
+.inside__product__price {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.inside__product__price h3 {
+  font-size: 22px;
+  font-weight: 500;
+}
+.inside__product__price p {
+  font-size: 20px;
+  font-weight: 500;
+}
+.inside__product__desc {
+  font-size: 20px;
+  font-weight: 400;
+}
+.inside__product__complete__desc {
+  font-size: 20px;
+  font-weight: 400;
+}
+.inside__product__details button {
+  width: 200px;
+  height: 50px;
+  background-color: #ba704f;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: 600;
+  margin-top: 20px;
+  color: #fff;
+  transition: transform 100ms ease-in;
+}
+.inside__product__details button:hover {
+  transform: scale(1.03);
+}
+@media (min-width: 200px) and (max-width: 480px) {
+  .inside__product {
     flex-direction: column;
-    justify-content: center;
-    gap:20px;
-}
+    gap: 0;
+    height: 100%;
+  }
+  .inside__product__images__carousel {
+    width: 300px;
+    height: 300px;
+  }
+  .inside__product__images {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+  }
+  .inside__product__details {
+    width: 100%;
+    padding: 10px;
+    gap: 0;
+  }
 
-.inside__product__details h2{
-    font-size: 30px;
-    font-weight: 500;
-}
-.inside__product__price{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-.inside__product__price h3{
-    font-size: 22px;
-    font-weight: 500;
-}
-.inside__product__price p{
+  .inside__product__details h2 {
     font-size: 18px;
-    font-weight: 500;
-}
-.inside__product__complete__desc{
+  }
+  .inside__product__price h3 {
     font-size: 16px;
-    font-weight: 400;
+  }
+  .inside__product__price p {
+    font-size: 16px;
+  }
+  .inside__product__desc {
+    font-size: 14px;
+  }
+  .inside__product__complete__desc {
+    font-size: 14px;
+  }
+  .inside__product__details button {
+    width: 100%;
+    height: 40px;
+    font-size: 14px;
+  }
 }
-.inside__product__details button{
-    width: 200px;
+@media (min-width: 481px) and (max-width: 768px) {
+  .inside__product {
+    flex-direction: column;
+    gap: 0;
+    height: 100%;
+  }
+  .inside__product__images__carousel {
+    width: 100%;
+    height: 300px;
+  }
+  .inside__product__images {
+    width: 100%;
+    height: 300px;
+    object-fit: contain;
+  }
+  .inside__product__details {
+    width: 100%;
+    padding: 10px;
+    gap: 0;
+  }
+
+  .inside__product__details h2 {
+    font-size: 20px;
+  }
+  .inside__product__price h3 {
+    font-size: 17px;
+  }
+  .inside__product__price p {
+    font-size: 17px;
+  }
+  .inside__product__desc {
+    font-size: 15px;
+  }
+  .inside__product__complete__desc {
+    font-size: 15px;
+  }
+  .inside__product__details button {
+    width: 100%;
     height: 50px;
-    background-color: #BA704F;
-    border:none;
-    border-radius: 3px;
-    cursor: pointer;
     font-size: 16px;
-    font-weight: 600;
-    margin-top: 20px;
-    color: #fff;
-    transition: transform 100ms ease-in
+  }
 }
-.inside__product__details button:hover{
-    transform: scale(1.03);
-}
-@media(min-width:200px) and (max-width:480px){
-    .inside__product{
-        flex-direction: column;
-        gap: 0;
-    }
-    .inside__product__images__carousel{
-        width: 300px;
-        height: 300px;
-    }
-    .inside__product__images{
-        width: 100%;
-        height: 300px;
-        object-fit: contain;
-    }
-    .inside__product__details{
-        width: 100%;
-        padding: 10px;
-        gap: 0;
-    }
+@media (min-width: 769px) and (max-width: 1024px) {
+  .inside__product {
+    gap: 0.5rem;
+  }
+  .inside__product__images__carousel {
+    width: 100%;
+    height: 400px;
+  }
+  .inside__product__images {
+    width: 100%;
+    height: 400px;
+    object-fit: contain;
+  }
+  .inside__product__details {
+    width: 100%;
+    padding: 10px;
+    gap: 0;
+    margin-top: -20px;
+  }
 
-    .inside__product__details h2{
-        font-size: 18px;
-    }
-    .inside__product__price h3{
-        font-size: 16px;
-    }
-    .inside__product__price p{
-        font-size: 16px;
-    }
-    .inside__product__desc{
-        font-size: 14px;
-    }
-    .inside__product__complete__desc{
-        font-size: 14px;
-    }
-    .inside__product__details button{
-        width: 100%;
-        height: 40px;
-        font-size: 14px;
-    }
-}
-@media (min-width:481px) and (max-width:768px){
-    .inside__product{
-        flex-direction: column;
-        gap: 0;
-    }
-    .inside__product__images__carousel{
-        width:100%;
-        height: 300px;
-    }
-    .inside__product__images{
-        width: 100%;
-        height: 300px;
-        object-fit: contain;
-    }
-    .inside__product__details{
-        width: 100%;
-        padding: 10px;
-        gap: 0;
-    }
-
-    .inside__product__details h2{
-        font-size: 20px;
-    }
-    .inside__product__price h3{
-        font-size: 17px;
-    }
-    .inside__product__price p{
-        font-size: 17px;
-    }
-    .inside__product__desc{
-        font-size: 15px;
-    }
-    .inside__product__complete__desc{
-        font-size: 15px;
-    }
-    .inside__product__details button{
-        width: 100%;
-        height: 50px;
-        font-size: 16px;
-    }
-}
-@media(min-width:769px) and (max-width:1024px){
-    .inside__product{
-        gap: 0.5rem;
-    }
-    .inside__product__images__carousel{
-        width:100%;
-        height: 400px;
-    }
-    .inside__product__images{
-        width: 100%;
-        height: 400px;
-        object-fit: contain;
-    }
-    .inside__product__details{
-        width: 100%;
-        padding: 10px;
-        gap: 0;
-        margin-top: -20px;
-    }
-
-    .inside__product__details h2{
-        font-size: 22px;
-    }
-    .inside__product__price h3{
-        font-size: 18px;
-    }
-    .inside__product__price p{
-        font-size: 18px;
-    }
-    .inside__product__desc{
-        font-size: 16px;
-    }
-    .inside__product__complete__desc{
-        font-size: 16px;
-    }
-    .inside__product__details button{
-        width: 100%;
-        height: 50px;
-        font-size: 16px;
-    }
+  .inside__product__details h2 {
+    font-size: 22px;
+  }
+  .inside__product__price h3 {
+    font-size: 18px;
+  }
+  .inside__product__price p {
+    font-size: 18px;
+  }
+  .inside__product__desc {
+    font-size: 16px;
+  }
+  .inside__product__complete__desc {
+    font-size: 16px;
+  }
+  .inside__product__details button {
+    width: 100%;
+    height: 50px;
+    font-size: 16px;
+  }
 }

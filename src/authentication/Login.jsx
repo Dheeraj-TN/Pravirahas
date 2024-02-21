@@ -30,6 +30,7 @@ function Login() {
   const signInWithPhone = async (e) => {
     e.preventDefault();
     const q = query(userRef, where("phoneNumber", "==", phone));
+    console.log("Phone: ", phone);
     // onSnapshot(q, (snapshot) => {
     //   snapshot.docs.map((doc) => {
     //     setUser(doc.data().emailAddress);
@@ -76,13 +77,14 @@ function Login() {
         console.log(err.message);
       });
   };
-  const handleSubmit = () => {
-    if (phone) {
-      signInWithPhone();
-    }
-    if (email) {
-      signInWithEmailPassword();
-    }
+  const handlePhoneSubmit = (e) => {
+    e.preventDefault();
+    signInWithPhone();
+  };
+
+  const handleEmailSubmit = (e) => {
+    e.preventDefault();
+    signInWithEmailPassword();
   };
   const resetPassword = async () => {
     if (email === "") {
@@ -105,7 +107,7 @@ function Login() {
         <div id="recaptcha-container"></div>
         <div className="login__gradient" />
         <div className="login__body">
-          <form onSubmit={handleSubmit}>
+          <form onSubmit={handlePhoneSubmit}>
             <h1>Sign In</h1>
             <input
               type="text"
@@ -126,7 +128,9 @@ function Login() {
             >
               Continue with phone
             </button>
-            <p className="or__text">OR</p>
+          </form>
+          <p className="or__text">OR</p>
+          <form onSubmit={handleEmailSubmit}>
             <input
               type="email"
               placeholder="Email Address"
