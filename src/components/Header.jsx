@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 // import logo from "../assets/pravirasLogo.png";
-import logo2 from "../assets/praviras-removebg-preview2.png";
+import logo2 from "../../public/praviras-logo2.png";
 import {
   HeartFilled,
   UserOutlined,

@@ -24,6 +24,11 @@ function Footer() {
       navigate("/aboutus");
     }, 1000);
   };
+  const phoneNumber = "9535241999";
+  const whatsappLink = `https://wa.me/${phoneNumber}`;
+  const emailAddress = "praviras16@gmail.com";
+  const composeEmailLink = `mailto:${emailAddress}`;
+
   return (
     <div className="footer">
       <div className="footer__info">
@@ -38,13 +43,17 @@ function Footer() {
             <PhoneOutlined rotate={90} className="social__icons" /> +91
             9535241999
           </p>
-          <p>
-            <MailOutlined className="social__icons" />
-            praviras16@gmail.com
-          </p>
-          <p>
-            <WhatsAppOutlined className="social__icons" /> +91 9535241999
-          </p>
+          <Link to={composeEmailLink}>
+            <p>
+              <MailOutlined className="social__icons" />
+              praviras16@gmail.com
+            </p>
+          </Link>
+          <Link to={whatsappLink}>
+            <p>
+              <WhatsAppOutlined className="social__icons" /> +91 9535241999
+            </p>
+          </Link>
           <Link to="https://www.instagram.com/__praviras__?igsh=Ymx2dmVnZWM4ZTB5">
             <p>
               <InstagramOutlined className="social__icons" />
