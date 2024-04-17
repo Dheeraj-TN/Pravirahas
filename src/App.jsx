@@ -101,8 +101,43 @@ function App() {
           </div>
         </div>
       ) : (
+        // <Routes>
+        //   <Route exact path="/" element={<HomePage />} />
+        //   <Route exact path="/login" element={<Login />} />
+        //   <Route exact path="/register" element={<SignUp />} />
+        //   <Route exact path="/profile" element={<ProfilePage />} />
+        //   <Route exact path="/product/:id" element={<InsideProduct />} />
+        //   <Route exact path="/checkout" element={<CheckoutPage />} />
+        //   <Route exact path="/aboutus" element={<AboutUs />} />
+        //   <Route exact path="/necklaces" element={<Necklaces />} />
+        //   <Route
+        //     exact
+        //     path={`/${selectedSubCategory}`}
+        //     element={<SubNecklaces />}
+        //   />
+        //   <Route exact path="/bracelets" element={<Bracelets />} />
+        //   <Route
+        //     exact
+        //     path={`/${selectedSubCategory}`}
+        //     element={<SubBracelets />}
+        //   />
+        //   <Route exact path="/earrings" element={<Earrings />} />
+        //   <Route
+        //     exact
+        //     path={`/earring/${selectedSubCategory}`}
+        //     element={<SubEarrings />}
+        //   />
+        //   <Route exact path="/clipsPins" element={<ClipsPins />} />
+        //   <Route
+        //     exact
+        //     path={`/clips&Pins/${selectedSubCategory}`}
+        //     element={<SubClipsPins />}
+        //   />
+        // </Routes>
+
+        // Create a route with default route for the home page
         <Routes>
-          <Route path="/" element={<HomePage />} />
+          <Route exact path="/" element={<HomePage />} />
           <Route exact path="/login" element={<Login />} />
           <Route exact path="/register" element={<SignUp />} />
           <Route exact path="/profile" element={<ProfilePage />} />
@@ -110,28 +145,24 @@ function App() {
           <Route exact path="/checkout" element={<CheckoutPage />} />
           <Route exact path="/aboutus" element={<AboutUs />} />
           <Route exact path="/necklaces" element={<Necklaces />} />
-          <Route
-            exact
-            path={`/necklace/${selectedSubCategory}`}
-            element={<SubNecklaces />}
-          />
           <Route exact path="/bracelets" element={<Bracelets />} />
-          <Route
-            exact
-            path={`/bracelet/${selectedSubCategory}`}
-            element={<SubBracelets />}
-          />
           <Route exact path="/earrings" element={<Earrings />} />
-          <Route
-            exact
-            path={`/earring/${selectedSubCategory}`}
-            element={<SubEarrings />}
-          />
           <Route exact path="/clipsPins" element={<ClipsPins />} />
           <Route
-            exact
-            path={`/clips&Pins/${selectedSubCategory}`}
+            path="/necklace/:selectedSubCategory"
+            element={<SubNecklaces />}
+          />
+          <Route
+            path="/earring/:selectedSubCategory"
+            element={<SubEarrings />}
+          />
+          <Route
+            path="/clips&Pins/:selectedSubCategory"
             element={<SubClipsPins />}
+          />
+          <Route
+            path="/bracelet/:selectedSubCategory"
+            element={<SubBracelets />}
           />
         </Routes>
       )}

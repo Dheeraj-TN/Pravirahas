@@ -9,7 +9,8 @@ import { ArrowLeftOutlined } from "@ant-design/icons";
 function Bracelets() {
   const braceletRef = collection(db, "Bracelet");
   const [productData, setProductData] = useState([]);
-
+  const [visibleProducts, setVisibleProducts] = useState([]);
+  const [itemsToShow, setItemsToShow] = useState(4);
   useEffect(() => {
     const q = query(braceletRef);
     onSnapshot(q, (snapshot) => {
@@ -18,10 +19,15 @@ function Bracelets() {
         ...doc.data(),
       }));
       setProductData(data);
-      // console.log("dataid:", data.id);
     });
     //eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    setVisibleProducts(productData.slice(0, itemsToShow));
+  }, [productData, itemsToShow]);
+  const loadMore = () => {
+    setItemsToShow((prev) => prev + 4);
+  };
   return (
     <>
       <Header />
@@ -50,21 +56,38 @@ function Bracelets() {
             </div>
           )}
         </div>
-        <div className="necklaces__container__mobile">
-          {productData &&
-            productData.map((item) => {
-              return (
-                <ProductComponentPropsMobile
-                  key={item.id}
-                  id={item.id}
-                  img1={item.image[0]}
-                  img2={item.image[1]}
-                  price={item.price}
-                  name={item.productName}
-                  status={item.status}
-                />
-              );
-            })}
+        <div className="necklaces__container__mobile__container">
+          <div className="necklaces__container__mobile">
+            {productData &&
+              visibleProducts.map((item) => {
+                return (
+                  <ProductComponentPropsMobile
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    price={item.price}
+                    name={item.productName}
+                    status={item.status}
+                  />
+                );
+              })}
+          </div>
+          {visibleProducts.length < productData.length && (
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "50%",
+                alignSelf: "center",
+              }}
+            >
+              <button className="load__more__button" onClick={loadMore}>
+                Load More ...
+              </button>
+            </div>
+          )}
         </div>
       </div>
     </>

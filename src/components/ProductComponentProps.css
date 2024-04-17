@@ -119,6 +119,22 @@
 .products__desc__container>p{
     padding-top: -40px;
 }
+.product__modal__screen{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 40%;
+    height: 80%;
+    transform: translate(0%, 30%);
+    position: absolute;
+    margin: 0 auto;
+    background-color: #fff;
+    border: 1px solid #252525;
+    border-radius: 20px;
+    z-index: 1000;
+    
+}
 @media(min-width:200px) and (max-width:480px){
     .product__component__props{
         width: 100%;    

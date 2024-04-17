@@ -48,27 +48,30 @@ function CheckoutPage() {
         }
       });
     });
-    const getBasketItems = async () => {
-      const basketQuery = query(collection(db, "users", userId, "Basket"));
-      // const basketSnapshot = await getDocs(basiketQuery);
-      onSnapshot(basketQuery, (basketSnapshot) => {
-        const basketData = basketSnapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        const total = basketData.reduce(
-          (acc, item) => acc + (parseInt(item.updatedPrice) || 0),
-          0
-        );
-        setSubtotal(total);
-        setBasketItems(basketData);
-      });
-    };
-    getBasketItems();
     return () => {
       unsub();
     };
-  }, [user?.email, userId]);
+  }, [user?.email]);
+
+  useEffect(() => {
+    if (!userId) return () => {};
+    const basketQuery = query(collection(db, "users", userId, "Basket"));
+    const unsub = onSnapshot(basketQuery, (basketSnapshot) => {
+      const basketData = basketSnapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      const total = basketData.reduce(
+        (acc, item) => acc + (parseInt(item.updatedPrice) || 0),
+        0
+      );
+      setSubtotal(total);
+      setBasketItems(basketData);
+    });
+
+    return unsub;
+  }, [userId]);
+
   const sendEmail = () => {
     const service_id = "service_vy7rn2g";
     const template_id = "template_vjs40cr";
@@ -107,7 +110,30 @@ function CheckoutPage() {
         console.log(error);
       }
     );
-  };
+  }; // Replace with actual phone number
+  const message = `
+  name: ${userDet?.username}
+  email: ${userDet?.emailAddress}
+  phone: ${userDet?.phoneNumber}
+  Address: ${userDet?.postalAddress}
+  Ordered products:
+  ${basketItems
+    .map(
+      (item) =>
+        `product name: ${item.productName}
+    price: ₹${item.price}
+    quantity: ${item.quantity}
+  `
+    )
+    .join("")}
+  Subtotal: ₹${total}`;
+
+  const encodedMessage = encodeURIComponent(message);
+  const whatsappUrl = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
+
+  function handleSendMessageClick() {
+    window.location.href = whatsappUrl;
+  }
   // console.log("subtotal: ", subTotal);
   return (
     <>
@@ -246,23 +272,16 @@ function CheckoutPage() {
                 className="checkout__button__container"
                 number={phone}
                 style={{ backgroundColor: "transparent" }}
-                message={`
-                  name: ${userDet?.username}
-                  email: ${userDet?.emailAddress}
-                  phone: ${userDet?.phoneNumber}
-                  Address: ${userDet?.postalAddress}
-                  Ordered products:
-                  ${basketItems
-                    .map(
-                      (item) => `
-                    product name: ${item.productName}
-                    price: ₹${item.price}
-                    quantity: ${item.quantity}
-                  `
-                    )
-                    .join("")}
-                  Subtotal: ₹${total}
-                  
+                message={`*name*: ${userDet?.username}\n*email*: ${
+                  userDet?.emailAddress
+                }\n*phone*: ${userDet?.phoneNumber}\n*Address*: ${
+                  userDet?.postalAddress
+                }\n*Ordered products*:\n\n${basketItems
+                  .map(
+                    (item) =>
+                      `*product name*: ${item.productName}\n*price*: ₹${item.price}\n*quantity*: ${item.quantity}\n`
+                  )
+                  .join("")}\n*Subtotal*: ₹${total}
                 `}
               >
                 <button
@@ -285,6 +304,7 @@ function CheckoutPage() {
                   Proceed to Checkout
                 </button>
               </ReactWhatsapp>
+              <button onClick={handleSendMessageClick}>Send Message</button>
             </div>
           </div>
         </div>

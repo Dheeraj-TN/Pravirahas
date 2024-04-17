@@ -16,7 +16,7 @@ import {
 } from "@ant-design/icons";
 import "./Header.css";
 import { ConfigProvider, Menu, Tooltip } from "antd";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import ProgressBar from "@badrap/bar-of-progress";
 import { useStateValue } from "../StateProvider";
 import { auth, db } from "../firebase";
@@ -44,6 +44,38 @@ function Header() {
     delay: 100,
     width: 50,
   });
+  const location = useLocation();
+  console.log("Loaction: ", location);
+  useEffect(() => {
+    console.log("Location: ", location);
+    const params = location.pathname;
+    if (params === "/") {
+      dispatch({ type: "SELECTED_SUBCAT_ITEM", selectedSubCategory: null });
+      setSelectedItem(null);
+      return;
+    }
+    // the below condition should occur only when there is /category/anything
+    if (params.split("/").length < 3) return;
+    const title = params.split("/")[2].replace(/%20/g, " ");
+    console.log("Title: ", title);
+
+    if (
+      title.includes("Necklaces") ||
+      title.includes("Chains") ||
+      title.includes("Bracelets") ||
+      title.includes("Kada") ||
+      title.includes("Hoops") ||
+      title.includes("Studs") ||
+      title.includes("Statement") ||
+      title.includes("Center") ||
+      title.includes("Handmade") ||
+      title.includes("Saree") ||
+      title.includes("Hair")
+    ) {
+      dispatch({ type: "SELECTED_SUBCAT_ITEM", selectedSubCategory: title });
+      setSelectedItem(title);
+    }
+  }, [location, dispatch]);
 
   const handleMenuItemClick = (item) => {
     const clicked = item.key;
@@ -53,11 +85,11 @@ function Header() {
     console.log("Selected Item: ", clicked);
     // check if the clicked item includes neckalaces or chains
     if (clicked.includes("Necklaces") || clicked.includes("Chains")) {
-      navigate(`/${clicked}`);
+      navigate(`/necklace/${clicked}`);
       return;
     }
     if (clicked.includes("Bracelets") || clicked.includes("Kada")) {
-      navigate(`/${clicked}`);
+      navigate(`/bracelet/${clicked}`);
       return;
     }
     if (
@@ -65,8 +97,8 @@ function Header() {
       clicked.includes("Studs") ||
       clicked.includes("Statement")
     ) {
-      // navigate(`/earring/${clicked}`);
-      console.log("hello");
+      navigate(`/earring/${clicked}`);
+      // console.log("hello");
       return;
     }
     if (
@@ -130,22 +162,27 @@ function Header() {
         }
       });
     });
-    const getBasketItems = async () => {
-      const basketQuery = query(collection(db, "users", `${userId}`, "Basket"));
-      onSnapshot(basketQuery, (snapshot) => {
-        const basketData = snapshot.docs.map((doc) => ({
-          id: doc.id,
-          ...doc.data(),
-        }));
-        setBasketItems(basketData);
-      });
-    };
-    getBasketItems();
+
     return () => {
       unsub();
     };
     //eslint-disable-next-line
   }, []);
+
+  useEffect(() => {
+    if (!userId) return () => {};
+    const basketQuery = collection(db, "users", userId, "Basket");
+    const unsub = onSnapshot(basketQuery, (snapshot) => {
+      const basketData = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        ...doc.data(),
+      }));
+      console.log("Basket Data: ", basketData);
+      setBasketItems(basketData);
+    });
+
+    return unsub;
+  }, [userId]);
   useEffect(() => {
     const handleBackButtonClick = () => {
       console.log("Back button of browser is clicked");
@@ -300,7 +337,6 @@ function Header() {
                   <Menu.Item key="Hair Pins">Hair Pins</Menu.Item>
                 </Menu.SubMenu>
               </Menu>
-              <div>{selectedItem && <p>Selected: {selectedItem}</p>}</div>
             </div>
           </div>
           <div className="header__right">
@@ -342,9 +378,9 @@ function Header() {
                 <UserOutlined className="header__icons" onClick={loginPage} />
               </Tooltip>
 
-              <Tooltip placement="bottom" title={"Wishlist"}>
+              {/* <Tooltip placement="bottom" title={"Wishlist"}>
                 <HeartFilled className="header__icons" />
-              </Tooltip>
+              </Tooltip> */}
               <Tooltip placement="bottom" title={"Basket"}>
                 <ShoppingFilled
                   className="header__icons"
@@ -522,9 +558,9 @@ function Header() {
                         Account
                       </p>
                     </Menu.Item>
-                    <Menu.Item key="other_2">
+                    {/* <Menu.Item key="other_2">
                       <p className="other__menu__items__p">Wishlist</p>
-                    </Menu.Item>
+                    </Menu.Item> */}
                     <Menu.Item key="other_3">
                       <p
                         className="other__menu__items__p"

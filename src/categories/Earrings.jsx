@@ -1,11 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {
-  collection,
-  query,
-  onSnapshot,
-  getDocs,
-  limit,
-} from "firebase/firestore";
+import { collection, query, onSnapshot } from "firebase/firestore";
 import Header from "../components/Header";
 import ProductComponentProps from "../components/ProductComponentProps";
 import "./Necklaces.css";
@@ -13,40 +7,14 @@ import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { ConfigProvider, Pagination } from "antd";
 import { useNavigate } from "react-router-dom";
 
 function Earrings() {
+  const navigate = useNavigate();
   const earringsRef = collection(db, "Earrings");
   const [productData, setProductData] = useState([]);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalProducts, setTotalProducts] = useState(0);
-  const [showBottomFixed, setShowBottomFixed] = useState(false);
-  const productsPerPage = 10;
-  const navigate = useNavigate();
-  const onPageChange = async (page) => {
-    const startIndex = (page - 1) * productsPerPage;
-    const endIndex = startIndex + productsPerPage;
-    const q = query(earringsRef, limit(endIndex));
-    const snapshot = await getDocs(q);
-    const data = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
-    }));
-    setProductData(data.slice(startIndex, endIndex));
-    setCurrentPage(page);
-  };
-  const calculateProductsOnPage = () => {
-    return totalProducts - (currentPage - 1) * productsPerPage;
-  };
-  useEffect(() => {
-    const productsOnSecondPage = calculateProductsOnPage();
-    if (productsOnSecondPage < productsPerPage) {
-      setShowBottomFixed(true);
-    }
-    console.log("Products on current page:", productsOnSecondPage);
-  }, [totalProducts, currentPage, productsPerPage, calculateProductsOnPage]);
-
+  const [visibleProducts, setVisibleProducts] = useState([]);
+  const [itemsToShow, setItemsToShow] = useState(4);
   useEffect(() => {
     const q = query(earringsRef);
     onSnapshot(q, (snapshot) => {
@@ -54,11 +22,16 @@ function Earrings() {
         id: doc.id,
         ...doc.data(),
       }));
-      setTotalProducts(data.length);
-      setProductData(data.slice(0, productsPerPage));
+      setProductData(data);
     });
     //eslint-disable-next-line
   }, []);
+  useEffect(() => {
+    setVisibleProducts(productData.slice(0, itemsToShow));
+  }, [productData, itemsToShow]);
+  const loadMore = () => {
+    setItemsToShow((prev) => prev + 4);
+  };
   return (
     <>
       <Header />
@@ -87,46 +60,39 @@ function Earrings() {
             </div>
           )}
         </div>
-        <div className="necklaces__container__mobile">
-          {productData &&
-            productData.map((item) => (
-              <ProductComponentPropsMobile
-                key={item.id}
-                id={item.id}
-                img1={item.image[0]}
-                img2={item.image[1]}
-                price={item.price}
-                name={item.productName}
-                status={item.status}
-              />
-            ))}
-        </div>
-        <ConfigProvider
-          theme={{
-            token: {
-              colorPrimary: "rgb(219, 114, 17)",
-              colorText: "rgb(113, 56, 3);",
-              colorInfoHover: "rgb(219,114,17)",
-            },
-          }}
-        >
-          {totalProducts > productsPerPage && (
+        <div className="necklaces__container__mobile__container">
+          <div className="necklaces__container__mobile">
+            {productData &&
+              visibleProducts.map((item) => {
+                return (
+                  <ProductComponentPropsMobile
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    price={item.price}
+                    name={item.productName}
+                    status={item.status}
+                  />
+                );
+              })}
+          </div>
+          {visibleProducts.length < productData.length && (
             <div
-              className={`${
-                showBottomFixed
-                  ? "pagination__container2"
-                  : "pagination__container"
-              }`}
+              style={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                width: "50%",
+                alignSelf: "center",
+              }}
             >
-              <Pagination
-                current={currentPage}
-                total={totalProducts}
-                pageSize={productsPerPage}
-                onChange={onPageChange}
-              />
+              <button className="load__more__button" onClick={loadMore}>
+                Load More ...
+              </button>
             </div>
           )}
-        </ConfigProvider>
+        </div>
       </div>
     </>
   );

@@ -98,33 +98,33 @@ function InsideProduct() {
           <div className="inside__product">
             <Fade left>
               <div className="inside__product__images">
-                <Carousel
-                  autoPlay={true}
-                  infinteLoop={true}
-                  showStatus={false}
-                  showIndicators={false}
-                  showThumbs={true}
-                  interval={3000}
-                >
-                  {productData.image.map((image, index) => {
-                    return (
-                      <>
-                        <div
-                          key={index}
-                          className="inside__product__images__carousel"
-                        >
-                          <img
-                            className="product__images"
-                            loading="lazy"
-                            src={image}
-                            alt=""
-                          />
-                          {/* <div className="zoom-box"></div> */}
-                        </div>
-                      </>
-                    );
-                  })}
-                  {/* {productVideo !== "" && (
+                {productVideo !== "" ? (
+                  <Carousel
+                    autoPlay={true}
+                    infinteLoop={true}
+                    showStatus={false}
+                    showIndicators={false}
+                    showThumbs={true}
+                    interval={3000}
+                  >
+                    {productData.image.map((image, index) => {
+                      return (
+                        <>
+                          <div
+                            key={index}
+                            className="inside__product__images__carousel"
+                          >
+                            <img
+                              className="product__images"
+                              loading="lazy"
+                              src={image}
+                              alt=""
+                            />
+                            {/* <div className="zoom-box"></div> */}
+                          </div>
+                        </>
+                      );
+                    })}
                     <div className="inside__product__images__carousel">
                       <video
                         className="inside__product__images"
@@ -135,8 +135,36 @@ function InsideProduct() {
                         <source src={productVideo} type="video/mp4" />
                       </video>
                     </div>
-                  )} */}
-                </Carousel>
+                  </Carousel>
+                ) : (
+                  <Carousel
+                    autoPlay={true}
+                    infinteLoop={true}
+                    showStatus={false}
+                    showIndicators={false}
+                    showThumbs={true}
+                    interval={3000}
+                  >
+                    {productData.image.map((image, index) => {
+                      return (
+                        <>
+                          <div
+                            key={index}
+                            className="inside__product__images__carousel"
+                          >
+                            <img
+                              className="product__images"
+                              loading="lazy"
+                              src={image}
+                              alt=""
+                            />
+                            {/* <div className="zoom-box"></div> */}
+                          </div>
+                        </>
+                      );
+                    })}
+                  </Carousel>
+                )}
               </div>
             </Fade>
             <Fade right>
@@ -144,9 +172,9 @@ function InsideProduct() {
                 <h2>{productData.productName}</h2>
                 <div className="inside__product__price">
                   <h3>₹{productData.price}</h3>
-                  <p>{productData.rating} ⭐️</p>
+                  {/* <p>{productData.rating} ⭐️</p> */}
                 </div>
-                <p className="inside__product__desc">{productData.desc}</p>
+                {/* <p className="inside__product__desc">{productData.desc}</p> */}
                 <p className="inside__product__complete__desc">
                   {productData.completeDesc}
                 </p>

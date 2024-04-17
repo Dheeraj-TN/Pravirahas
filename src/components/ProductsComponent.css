@@ -5,7 +5,7 @@
   justify-content: center;
   margin: 0 auto;
   padding: 0 1rem;
-  position: relative;
+  /* position: relative; */
   /* margin-top: -120px; */
   width: 90%;
 }
@@ -39,8 +39,10 @@
 .product__component__title {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   gap: 3rem;
+  width: 400px;
+
 }
 .product__component__title h1 {
   font-size: 35px;

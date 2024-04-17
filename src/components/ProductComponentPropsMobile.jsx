@@ -38,8 +38,12 @@ function ProductComponentPropsMobile({ id, img1, img2, name, price, status }) {
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
       >
-        {status === "outOfStock" && (
+        {status === "outOfStock" ? (
           <p className="status-sold-mobile">Out of Stock</p>
+        ) : status === "NewArrival" ? (
+          <p className="status-sold-mobile">New Arrival</p>
+        ) : (
+          ""
         )}
         <img src={img1} alt="" className="deafult__image__mobile" />
       </div>

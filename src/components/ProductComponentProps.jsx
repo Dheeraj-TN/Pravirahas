@@ -38,6 +38,7 @@ function ProductComponentProps({
     width: 50,
   });
   const [isHoverd, setIsHovered] = useState(false);
+  const [openModal, setOpenModal] = useState(false);
   const productClicked = () => {
     !user
       ? (progressor.start(),
@@ -47,10 +48,11 @@ function ProductComponentProps({
           });
           progressor.finish(), navigate("/login");
         }, 1000))
-      : (progressor.start(),
-        setTimeout(() => {
-          progressor.finish(), navigate(`/product/${id}`);
-        }, 1000));
+      : // progressor.start(),
+        // setTimeout(() => {
+        //   progressor.finish(), navigate(`/product/${id}`);
+        // }, 1000)
+        setOpenModal(true);
   };
   return (
     <>
@@ -63,8 +65,12 @@ function ProductComponentProps({
           onMouseLeave={() => setIsHovered(false)}
         >
           {/* <img src={isHoverd ? img2 : img1} alt="" className="deafult__image" /> */}
-          {status === "outOfStock" && (
+          {status === "outOfStock" ? (
             <p className="status-sold">Out of Stock</p>
+          ) : status === "NewArrival" ? (
+            <p className="status-sold">New Arrival</p>
+          ) : (
+            ""
           )}
           <img src={img1} alt="" className="deafult__image" />
         </div>
@@ -80,6 +86,12 @@ function ProductComponentProps({
         </div>
         {/* <button onClick={addToBasket}>Add to Cart</button> */}
       </div>
+      {/* load modal */}
+      {openModal && (
+        <div className="product__modal__screen">
+          <h1>I am the modal screen</h1>
+        </div>
+      )}
     </>
   );
 }

@@ -41,6 +41,17 @@ function Login() {
       snapshot.docs.map((doc) => {
         setUserEmail(doc.data().emailAddress);
         console.log("useremail:", doc.data().emailAddress);
+        signInWithEmailAndPassword(
+          auth,
+          doc.data().emailAddress,
+          passwordPhone
+        ).then(() => {
+          setTimeout(() => {
+            toast.success("Login Successfull");
+            progressor.finish();
+            navigate("/");
+          }, 2000);
+        });
       });
     });
     console.log(userEmail);
@@ -49,13 +60,7 @@ function Login() {
       toast.error("User not found");
       return;
     }
-    signInWithEmailAndPassword(auth, userEmail, passwordPhone).then(() => {
-      setTimeout(() => {
-        toast.success("Login Successfull");
-        progressor.finish();
-        navigate("/");
-      }, 2000);
-    });
+    
   };
   const signInWithEmailPassword = async (e) => {
     e.preventDefault();

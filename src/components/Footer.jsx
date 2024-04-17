@@ -1,4 +1,4 @@
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./Footer.css";
 import {
   PhoneOutlined,
@@ -36,19 +36,21 @@ function Footer() {
           <p>
             {" "}
             <PhoneOutlined rotate={90} className="social__icons" /> +91
-            9876560934
+            9535241999
           </p>
           <p>
             <MailOutlined className="social__icons" />
-            abcd@gmail.com
+            praviras16@gmail.com
           </p>
           <p>
-            <WhatsAppOutlined className="social__icons" /> +91 9876450834
+            <WhatsAppOutlined className="social__icons" /> +91 9535241999
           </p>
-          <p>
-            <InstagramOutlined className="social__icons" />
-            Praviras
-          </p>
+          <Link to="https://www.instagram.com/__praviras__?igsh=Ymx2dmVnZWM4ZTB5">
+            <p>
+              <InstagramOutlined className="social__icons" />
+              __praviras__
+            </p>
+          </Link>
         </div>
         {/* <PhoneOutlined rotate={90} className="social__icons" />
         <MailOutlined className="social__icons" />
