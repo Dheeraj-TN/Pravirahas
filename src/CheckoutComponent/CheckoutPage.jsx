@@ -1,5 +1,5 @@
 /* eslint-disable no-unused-vars */
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useStateValue } from "../StateProvider";
 import {
   collection,
@@ -17,8 +17,10 @@ import ReactWhatsapp from "react-whatsapp";
 import emailjs from "@emailjs/browser";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import toast, { Toaster } from "react-hot-toast";
+import { useNavigate } from "react-router-dom";
 function CheckoutPage() {
   const [{ basket, user }, dispatch] = useStateValue();
+  const navigate = useNavigate();
   const [userId, setUserId] = useState("");
   const [basketItems, setBasketItems] = useState([]);
   const [userDet, setUSerDet] = useState([]);
@@ -26,10 +28,11 @@ function CheckoutPage() {
   const [editAddress, setEditAddress] = useState(false);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [termsConditoinsAccepted, setTermsConditionsAccepted] = useState(false);
+  const form = useRef();
   // const [shippingCharges, setShippingCharges] = useState("");
   const shippingThreshold = 1200;
   const shippingCharges = subTotal > shippingThreshold ? 0 : 75;
-  const total = subTotal + shippingCharges;
+  const [total, setTotal] = useState(0);
   const phone = "+919739516472";
   const saveNewAddress = () => {
     updateDoc(doc(db, "users", userId), {
@@ -53,6 +56,12 @@ function CheckoutPage() {
     };
   }, [user?.email]);
 
+  const formattedBasketItems = basketItems.map(
+    (item) =>
+      `
+    Product name: ${item.productName}\nPrice: ₹${item.price}\nQuantity: ${item.quantity}\n\n\n`
+  );
+
   useEffect(() => {
     if (!userId) return () => {};
     const basketQuery = query(collection(db, "users", userId, "Basket"));
@@ -71,77 +80,68 @@ function CheckoutPage() {
 
     return unsub;
   }, [userId]);
-
-  const sendEmail = () => {
+  useEffect(() => {
+    let newTotal = 0;
+    if (basketItems.length === 0) {
+      newTotal = 0;
+    } else {
+      newTotal = subTotal + shippingCharges;
+    }
+    setTotal(newTotal);
+  }, [basketItems, subTotal, shippingCharges]);
+  const sendEmail = (form) => {
     const service_id = "service_vy7rn2g";
     const template_id = "template_vjs40cr";
     const public_id = "Flhc1ybp5zKpLh4y0";
-
     // Create a form element
-    const form = document.createElement("form");
-    form.id = "emailForm";
+    // const form = document.createElement("form");
+    // form.id = "emailForm";
 
     // Append input fields for each parameter
-    form.innerHTML = `
-    <input type="hidden" name="name" value="${userDet?.username}" />
-    <input type="hidden" name="email" value="${userDet?.emailAddress}" />
-    <input type="hidden" name="phone" value="${userDet?.phoneNumber}" />
-    <input type="hidden" name="address" value="${userDet?.postalAddress}" />
-    <input type="hidden" name="basketItems" value="${basketItems
-      .map(
-        (item) => `
-      product name: ${item.productName}
-      price: ₹${item.price}
-      quantity: ${item.quantity}
-    `
-      )
-      .join("")}
-    Subtotal: ₹${total}'/>
-    <input type="hidden" name="subtotal" value="${total}" />
-  `;
+    // const formattedBasketItems = basketItems.map(
+    //   (item) =>
+    //     `**Product name**: ${item.productName}\n**Price**: ₹${item.price}\n**Quantity**: ${item.quantity}\n\n\n`
+    // );
+
+    // Append input fields for each parameter
+    // form.innerHTML = `
+    //   <input type="hidden" name="name" value="${userDet?.username}" />
+    //   <input type="hidden" name="email" value="${userDet?.emailAddress}" />
+    //   <input type="hidden" name="phone" value="${userDet?.phoneNumber}" />
+    //   <input type="hidden" name="address" value="${userDet?.postalAddress}" />
+    //   <input type="hidden" name="products" value="${formattedBasketItems.join(
+    //     ""
+    //   )}" />
+    //   <input type="hidden" name="subtotal" value="₹${subTotal}" />`;
+
+    // console.log("form: ", form);
 
     // Append the form to the document body
-    document.body.appendChild(form);
+    // document.body.appendChild(form);
     emailjs.sendForm(service_id, template_id, form, public_id).then(
       (result) => {
+        toast.success("Email sent successfully");
+        // navigate("/");
         console.log("email sent sucessfully", result);
+        //remove the form from document body
+        setSubtotal(0);
+        setBasketItems([]);
       },
       (error) => {
         console.log(error);
       }
     );
   }; // Replace with actual phone number
-  const message = `
-  name: ${userDet?.username}
-  email: ${userDet?.emailAddress}
-  phone: ${userDet?.phoneNumber}
-  Address: ${userDet?.postalAddress}
-  Ordered products:
-  ${basketItems
-    .map(
-      (item) =>
-        `product name: ${item.productName}
-    price: ₹${item.price}
-    quantity: ${item.quantity}
-  `
-    )
-    .join("")}
-  Subtotal: ₹${total}`;
 
-  const encodedMessage = encodeURIComponent(message);
-  const whatsappUrl = `whatsapp://send?phone=${phone}&text=${encodedMessage}`;
-
-  function handleSendMessageClick() {
-    window.location.href = whatsappUrl;
-  }
   // console.log("subtotal: ", subTotal);
+
   return (
     <>
       <Header />
       <Toaster toastOptions={{ duration: 3000 }} />
       <div className="checkout__page">
         <div className="checkout__left">
-          <div>
+          <div style={{ marginBottom: "30px" }}>
             <h3>Hello, {user?.email}</h3>
             <p>
               Phone: <strong>{userDet.phoneNumber}</strong>
@@ -178,42 +178,39 @@ function CheckoutPage() {
             >
               Change the delivery address
             </button>
-            <h2 className="checkout__title">Your Shopping Basket</h2>
-            {basketItems.map((item) => (
-              <CheckoutPageProps
-                key={item.id}
-                id={item.id}
-                img1={item.img1}
-                productName={item.productName}
-                price={item.price}
-                rating={item.rating}
-                desc={item.desc}
-                updatedCost={item.updatedPrice}
-              />
-            ))}
           </div>
-        </div>
-        <div className="checkout__right">
-          <div className="checkout__tc">
+          <div
+            className="checkout__tc"
+            style={{
+              border: "1px solid black",
+              borderRadius: "5px",
+              padding: "10px",
+            }}
+          >
             <h2>Terms and Conditions</h2>
             <ol style={{ textAlign: "left" }}>
-              <li>Lorem ipsum dolor sit amet.</li>
-              <li>Consectetur adipiscing elit.</li>
               <li>
-                Sed do eiusmod tempor incididunt ut labore et dolore magna
-                aliqua.
+                Handmade and ready made fashion jewellery will last according to
+                usage.
               </li>
               <li>
-                Ut enim ad minim veniam, quis nostrud exercitation ullamco
-                laboris nisi ut aliquip ex ea commodo consequat.
+                The stones, pearls and beads used in the jewellery are not
+                precious or semi precious ones.
               </li>
               <li>
-                Duis aute irure dolor in reprehenderit in voluptate velit esse
-                cillum dolore eu fugiat nulla pariatur.
+                Precautions: Avoid direct contact with water/sweat for longer
+                time.
               </li>
               <li>
-                Excepteur sint occaecat cupidatat non proident, sunt in culpa
-                qui officia deserunt mollit anim id est laborum.
+                Do not bring jewellery in direct contact with perfumes of any
+                kind.
+              </li>
+              <li>Unboxing video mandatory upon receiving the package.</li>
+              <li>
+                6. Return policy: once the product is delivered there in no
+                return or exchange, if the product is damaged due to shipment
+                process and it has to be shown in the mandatory unboxing video
+                upon receiving the product within that day for the exchange.
               </li>
             </ol>
             <div className="terms__and__conditions__button">
@@ -234,78 +231,98 @@ function CheckoutPage() {
                 <CloseOutlined />I reject the T&C
               </button>
             </div>
-            <div className="subtotal">
-              <CurrencyFormat
-                renderText={(subTotal) => (
-                  <>
-                    <h3>
-                      Subtotal ({basketItems?.length} items):{" "}
-                      <strong>{subTotal}</strong>
-                    </h3>
-                    <p>(subtotal over ₹1200 will have free shipping )</p>
-                    <p>Shipping Charges: ₹{shippingCharges}</p>
-                  </>
-                )}
-                decimalScale={2}
-                value={subTotal}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"₹"}
+          </div>
+          <div>
+            <h2 className="checkout__title">Your Cart Summary</h2>
+            {basketItems.map((item) => (
+              <CheckoutPageProps
+                key={item.id}
+                id={item.id}
+                img1={item.img1}
+                productName={item.productName}
+                price={item.price}
+                // rating={item.rating}
+                desc={item.desc}
+                updatedCost={item.updatedPrice}
               />
-              <CurrencyFormat
-                renderText={(total) => (
-                  <>
-                    <h3>
-                      Total:
-                      <strong>{total}</strong>
-                    </h3>
-                  </>
-                )}
-                decimalScale={2}
-                value={total}
-                displayType={"text"}
-                thousandSeparator={true}
-                prefix={"₹"}
-              />
+            ))}
+          </div>
+        </div>
 
-              <ReactWhatsapp
-                className="checkout__button__container"
-                number={phone}
-                style={{ backgroundColor: "transparent" }}
-                message={`*name*: ${userDet?.username}\n*email*: ${
-                  userDet?.emailAddress
-                }\n*phone*: ${userDet?.phoneNumber}\n*Address*: ${
-                  userDet?.postalAddress
-                }\n*Ordered products*:\n\n${basketItems
-                  .map(
-                    (item) =>
-                      `*product name*: ${item.productName}\n*price*: ₹${item.price}\n*quantity*: ${item.quantity}\n`
-                  )
-                  .join("")}\n*Subtotal*: ₹${total}
-                `}
-              >
-                <button
-                  style={{ cursor: "pointer" }}
-                  disabled={!termsConditoinsAccepted}
-                  onClick={() => {
-                    {
-                      !termsConditoinsAccepted
-                        ? toast.error("Please accept the terms and conditions")
-                        : null;
-                    }
-                    sendEmail();
-                  }}
-                  className={
-                    !termsConditoinsAccepted
-                      ? "checkout__button__disabled"
-                      : "checkout__button"
-                  }
-                >
-                  Proceed to Checkout
-                </button>
-              </ReactWhatsapp>
-              <button onClick={handleSendMessageClick}>Send Message</button>
-            </div>
+        <form id="emailForm" ref={form}>
+          <input type="hidden" name="name" value={userDet?.username} />
+          <input type="hidden" name="email" value={userDet?.emailAddress} />
+          <input type="hidden" name="phone" value={userDet?.phoneNumber} />
+          <input type="hidden" name="address" value={userDet?.postalAddress} />
+          <input
+            type="hidden"
+            name="products"
+            value={formattedBasketItems.join()}
+          />
+          <input
+            type="hidden"
+            name="shippingCharges"
+            value={basketItems.img1}
+          />
+          <input type="hidden" name="subtotal" value={`₹${subTotal}`} />
+        </form>
+
+        <div
+          className="checkout__right"
+          // style={{ position: "fixed", right: 5 }}
+        >
+          <div className="subtotal">
+            <CurrencyFormat
+              renderText={(subTotal) => (
+                <>
+                  <h3>
+                    Subtotal ({basketItems?.length} items):{" "}
+                    <strong>{subTotal}</strong>
+                  </h3>
+                  <p>(subtotal over ₹1200 will have free shipping )</p>
+                  <p>Shipping Charges: ₹{shippingCharges}</p>
+                </>
+              )}
+              decimalScale={2}
+              value={subTotal}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"₹"}
+            />
+            <CurrencyFormat
+              renderText={(total) => (
+                <>
+                  <h3>
+                    Total:
+                    <strong>{total}</strong>
+                  </h3>
+                </>
+              )}
+              decimalScale={2}
+              value={total}
+              displayType={"text"}
+              thousandSeparator={true}
+              prefix={"₹"}
+            />
+            <button
+              style={{ cursor: "pointer" }}
+              disabled={!termsConditoinsAccepted}
+              onClick={() => {
+                {
+                  !termsConditoinsAccepted
+                    ? toast.error("Please accept the terms and conditions")
+                    : null;
+                }
+                sendEmail(form.current);
+              }}
+              className={
+                !termsConditoinsAccepted
+                  ? "checkout__button__disabled"
+                  : "checkout__button"
+              }
+            >
+              Proceed to Checkout
+            </button>
           </div>
         </div>
       </div>

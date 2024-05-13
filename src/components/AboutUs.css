@@ -1,12 +1,22 @@
 .about__us {
   display: flex;
-  width: 950px;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   text-align: justify;
   margin: auto;
   gap: 2rem;
-  margin-top: -30px;
+}
+.about__us__container{
+  margin-top: 40px;
+  display: flex;
+  width: 60%;
+  align-items: center;
+  justify-content: center;
+  text-align: justify;
+  margin: auto;
+  gap: 2rem;
+
 }
 .underline {
   width: 150px;
@@ -31,20 +41,27 @@
 }
 .about__us__content {
   font-size: 18px;
+  line-height:2;
+}
+.about__us__mobile{
+  display: none;
 }
 @media (min-width: 200px) and (max-width: 480px) {
   .about__us {
+    display: none;
+  }
+  .about__us__mobile{
     display: flex;
     flex-direction: column;
-    width: 300px;
-    align-items: center;
     justify-content: center;
-    text-align: justify;
-    margin: auto;
-    gap: 2rem;
-    margin-top: -30px;
+    align-items: center;
+    padding-inline: 20px;
   }
-  .aboutus__img > img {
+  .about__us__mobile__img {
+    display: flex;
+    gap: 1rem;
+  }
+  .about__us__mobile__img > img {
     width: 200px;
     height: 150px;
   }
@@ -58,11 +75,14 @@
     margin: auto;
     margin-bottom: 100px;
   }
-  .about__us__content {
-    font-size: 14px;
+  .about__us__content__mobile {
+    margin-top: 40px;
+    font-size: 16px;
+    line-height: 2;
+    padding-inline: 20px;
   }
   .aboutus__heading > h1 {
-    font-size: 30px;
+    font-size: 35px;
   }
   .underline {
     width: 100px;
@@ -73,19 +93,22 @@
 }
 @media (min-width: 481px) and (max-width: 768px) {
   .about__us {
+    display: none;
+  }
+  .about__us__mobile{
     display: flex;
     flex-direction: column;
-    width: 500px;
-    align-items: center;
     justify-content: center;
-    text-align: justify;
-    margin: auto;
-    gap: 2rem;
-    margin-top: -30px;
+    align-items: center;
+    padding-inline: 20px;
   }
-  .aboutus__img > img {
-    width: 250px;
-    height: 200px;
+  .about__us__mobile__img {
+    display: flex;
+    gap: 1rem;
+  }
+  .about__us__mobile__img > img {
+    width: 350px;
+    height: 300px;
   }
   .aboutus__heading {
     display: flex;
@@ -97,8 +120,8 @@
     margin: auto;
     margin-bottom: 100px;
   }
-  .about__us__content {
-    font-size: 16px;
+  .about__us__content__mobile {
+    font-size: 18px;
   }
   .aboutus__heading > h1 {
     font-size: 40px;
@@ -112,17 +135,20 @@
 }
 @media (min-width: 769px) and (max-width: 900px) {
   .about__us {
+    display: none;
+  }
+  .about__us__mobile{
     display: flex;
     flex-direction: column;
-    width: 700px;
-    align-items: center;
     justify-content: center;
-    text-align: justify;
-    margin: auto;
-    gap: 2rem;
-    margin-top: -30px;
+    align-items: center;
+    padding-inline: 20px;
   }
-  .aboutus__img > img {
+  .about__us__mobile__img {
+    display: flex;
+    gap: 1rem;
+  }
+  .about__us__mobile__img > img {
     width: 300px;
     height: 250px;
   }
@@ -136,8 +162,10 @@
     margin: auto;
     margin-bottom: 100px;
   }
-  .about__us__content {
-    font-size: 18px;
+  .about__us__content__mobile {
+    font-size: 20px;
+    line-height: 1.5;
+    padding-inline: 30px;
   }
   .aboutus__heading > h1 {
     font-size: 50px;

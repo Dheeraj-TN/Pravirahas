@@ -8,6 +8,7 @@ import {
   InstagramOutlined,
   InfoCircleOutlined,
 } from "@ant-design/icons";
+import { FacebookFilled } from "@ant-design/icons";
 import ProgressBar from "@badrap/bar-of-progress";
 function Footer() {
   const progressor = new ProgressBar({
@@ -38,11 +39,11 @@ function Footer() {
             <InfoCircleOutlined className="social__icons" />
             About Us
           </p>
-          <p>
-            {" "}
-            <PhoneOutlined rotate={90} className="social__icons" /> +91
-            9535241999
-          </p>
+          <Link to="https://www.facebook.com/profile.php?id=61556169449336&mibextid=ZbWKwL">
+            <p>
+              <FacebookFilled className="social__icons" /> praviras
+            </p>
+          </Link>
           <Link to={composeEmailLink}>
             <p>
               <MailOutlined className="social__icons" />
@@ -51,7 +52,9 @@ function Footer() {
           </Link>
           <Link to={whatsappLink}>
             <p>
-              <WhatsAppOutlined className="social__icons" /> +91 9535241999
+              <WhatsAppOutlined className="social__icons" />/{" "}
+              <PhoneOutlined rotate={90} className="social__icons" /> +91
+              9535241999
             </p>
           </Link>
           <Link to="https://www.instagram.com/__praviras__?igsh=Ymx2dmVnZWM4ZTB5">

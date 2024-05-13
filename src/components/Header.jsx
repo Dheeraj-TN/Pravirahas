@@ -1,7 +1,7 @@
 /* eslint-disable no-unused-vars */
 import { useEffect, useState } from "react";
 // import logo from "../assets/pravirasLogo.png";
-import logo2 from "../../public/praviras-logo2.png";
+import logo2 from "/praviras-logo2.png";
 import {
   HeartFilled,
   UserOutlined,
@@ -29,6 +29,8 @@ import {
   query,
   where,
 } from "firebase/firestore";
+import SearchResultsPage from "./SearchResultsPage";
+import { AnimatePresence, motion } from "framer-motion";
 
 function Header() {
   const navigate = useNavigate();
@@ -37,7 +39,13 @@ function Header() {
   const [selectedItem, setSelectedItem] = useState(null);
   const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
   const [userId, setUserId] = useState("");
+  const [searchedName, setSearchedName] = useState("");
   const [basketItems, setBasketItems] = useState([]);
+  const [isAnimating, setIsAnimating] = useState(false);
+  const placeholders = ["Bracelets", "Necklaces", "Earrings", "Clips"];
+  const [currentPlaceholders, setCurrentPlaceholders] = useState(0);
+  const [isFocused, setIsFocused] = useState(false);
+
   const progressor = new ProgressBar({
     size: 5,
     color: "rgb(113, 56, 3)",
@@ -45,9 +53,19 @@ function Header() {
     width: 50,
   });
   const location = useLocation();
-  console.log("Loaction: ", location);
+  // console.log("Loaction: ", location);
+  const handleSearch = () => {
+    if (searchedName) {
+      navigate(`/search/${searchedName}`);
+    }
+  };
+  const handleKeyPress = (event) => {
+    if (event.key === "Enter") {
+      handleSearch();
+    }
+  };
   useEffect(() => {
-    console.log("Location: ", location);
+    // console.log("Location: ", location);
     const params = location.pathname;
     if (params === "/") {
       dispatch({ type: "SELECTED_SUBCAT_ITEM", selectedSubCategory: null });
@@ -57,7 +75,7 @@ function Header() {
     // the below condition should occur only when there is /category/anything
     if (params.split("/").length < 3) return;
     const title = params.split("/")[2].replace(/%20/g, " ");
-    console.log("Title: ", title);
+    // console.log("Title: ", title);
 
     if (
       title.includes("Necklaces") ||
@@ -110,7 +128,15 @@ function Header() {
       navigate(`/clips&Pins/${clicked}`);
       return;
     }
+    if (clicked.includes("price_asc")) {
+      return;
+    }
     navigate("/");
+  };
+  const handleFiltersClicked = () => {
+    setTimeout(() => {
+      toast.promise("Coming soon...");
+    }, 2000);
   };
   const handleMenuMouseEnter = (menuKey) => {
     setHoveredMenuItem(menuKey);
@@ -144,7 +170,7 @@ function Header() {
       auth.signOut();
       dispatch({ type: "SET_USER", user: null });
       toast.error("You logged out !!");
-      navigate("/login");
+      navigate("/");
       localStorage.removeItem("basketId");
     }
   };
@@ -198,6 +224,15 @@ function Header() {
   // console.log("user in home: ", user?.email);
   // console.log(userId);
   // console.log("Basket Items: ", basketItems);
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPlaceholders((prevIndex) =>
+        prevIndex === placeholders.length - 1 ? 0 : prevIndex + 1
+      );
+    }, 2000);
+
+    return () => clearInterval(interval);
+  }, []);
   return (
     <>
       <ConfigProvider
@@ -341,18 +376,29 @@ function Header() {
           </div>
           <div className="header__right">
             <div className="search__bar">
-              <input type="text" placeholder="Search by category..." />
-              <SearchOutlined className="header__icons" />
+              <motion.input
+                type="text"
+                placeholder="Search for ..."
+                value={searchedName}
+                onChange={(e) => setSearchedName(e.target.value)}
+                onKeyPress={handleKeyPress}
+              />
+              <SearchOutlined
+                className="header__icons"
+                onClick={handleSearch}
+              />
             </div>
             <div className="other__header__components">
               <Menu
-                onClick={handleMenuItemClick}
+                // onClick={handleMenuItemClick}
+                onClick={handleFiltersClicked}
                 mode="horizontal"
                 style={{ borderBottom: "none" }}
               >
                 <Menu.SubMenu
-                  onMouseEnter={() => handleMenuMouseEnter("filters")}
-                  onMouseLeave={handleMenuMouseLeave}
+                  // onMouseEnter={() => handleMenuMouseEnter("filters")}
+                  // onMouseLeave={handleMenuMouseLeave}
+
                   key="filters"
                   title={
                     <AlignLeftOutlined
@@ -360,14 +406,15 @@ function Header() {
                       style={{
                         fontSize: "22px",
                         marginTop: "15px",
+                        color: "gray",
                       }}
                     />
                   }
                 >
-                  <Menu.Item key="filters_1">Price,Low to High</Menu.Item>
-                  <Menu.Item key="filters_2">Price,High to Low</Menu.Item>
-                  <Menu.Item key="filters_3">Date,Old to New</Menu.Item>
-                  <Menu.Item key="filters_4">Date,New to Old</Menu.Item>
+                  {/* <Menu.Item key="price_asc">Price,Low to High</Menu.Item>
+                  <Menu.Item key="price_desc">Price,High to Low</Menu.Item>
+                  <Menu.Item key="old">Date,Old to New</Menu.Item>
+                  <Menu.Item key="new">Date,New to Old</Menu.Item> */}
                 </Menu.SubMenu>
               </Menu>
 
@@ -411,8 +458,17 @@ function Header() {
         </div>
         <div className="header__mobile__right">
           <div className="search__bar__mobile">
-            <input type="text" placeholder="Search by category..." />
-            <SearchOutlined style={{ cursor: "pointer" }} />
+            <input
+              type="text"
+              placeholder="Search by category..."
+              value={searchedName}
+              onChange={(e) => setSearchedName(e.target.value)}
+              onKeyPress={handleKeyPress}
+            />
+            <SearchOutlined
+              style={{ cursor: "pointer" }}
+              onClick={handleSearch}
+            />
           </div>
           <Menu
             onClick={handleMenuItemClick}

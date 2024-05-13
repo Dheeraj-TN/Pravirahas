@@ -59,6 +59,7 @@
   padding: 12px;
   border-radius: 25px;
   width: 250px;
+  position: relative;
 }
 .search__bar input {
   background-color: transparent;
@@ -67,8 +68,8 @@
   outline: none;
   color: black;
   border: none;
+  margin-left: 10px;
 }
-
 .other__header__components {
   display: flex;
   align-items: center;

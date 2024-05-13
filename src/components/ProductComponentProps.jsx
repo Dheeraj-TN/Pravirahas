@@ -26,8 +26,9 @@ function ProductComponentProps({
   rating,
   desc,
   status,
+  onClick,
 }) {
-  const [{ user, basket }, dispatch] = useStateValue();
+  const [{ user, basket, modalOpen }, dispatch] = useStateValue();
   const navigate = useNavigate();
   const [basketId, setBasketId] = useState("");
   const basketRef = collection(db, "BasketItems");
@@ -38,25 +39,32 @@ function ProductComponentProps({
     width: 50,
   });
   const [isHoverd, setIsHovered] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
+  // const [openModal, setOpenModal] = useState(false);
+  // useEffect(() => {
+  //   if (openModal) {
+  //     dispatch({
+  //       type: "OPEN_PRODUCT_MODAL",
+  //       modalOpen: true,
+  //     });
+  //   }
+  // }, [dispatch, openModal]);
   const productClicked = () => {
-    !user
-      ? (progressor.start(),
-        setTimeout(() => {
-          toast.error("Login to continue", {
-            duration: 2000,
-          });
-          progressor.finish(), navigate("/login");
-        }, 1000))
-      : // progressor.start(),
-        // setTimeout(() => {
-        //   progressor.finish(), navigate(`/product/${id}`);
-        // }, 1000)
-        setOpenModal(true);
+    if (status === "outOfStock") {
+      toast.error("Oops! Out of Stock", { duration: 2000 });
+      return;
+    }
+    progressor.start(),
+      setTimeout(() => {
+        progressor.finish(), navigate(`/product/${id}`);
+      }, 1000);
   };
   return (
     <>
-      <div className="product__component__props" key={id}>
+      <div
+        className="product__component__props"
+        key={id}
+        onClick={productClicked}
+      >
         <div
           className={`product__image ${
             isHoverd ? "product__image__hovered" : ""
@@ -74,11 +82,11 @@ function ProductComponentProps({
           )}
           <img src={img1} alt="" className="deafult__image" />
         </div>
-        <div className="product__details" key={id} onClick={productClicked}>
+        <div className="product__details" key={id}>
           <h3>{productName}</h3>
           <div className="product__price">
             <h4>₹{price}</h4>
-            <p>{rating} ⭐️</p>
+            {/* <p>{rating} ⭐️</p> */}
           </div>
           <div className="products__desc__container">
             <p className="products__desc">{desc}</p>
@@ -86,12 +94,6 @@ function ProductComponentProps({
         </div>
         {/* <button onClick={addToBasket}>Add to Cart</button> */}
       </div>
-      {/* load modal */}
-      {openModal && (
-        <div className="product__modal__screen">
-          <h1>I am the modal screen</h1>
-        </div>
-      )}
     </>
   );
 }

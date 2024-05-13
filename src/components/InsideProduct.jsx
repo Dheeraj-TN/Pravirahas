@@ -9,7 +9,7 @@ import {
   setDoc,
   where,
 } from "firebase/firestore";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { Carousel } from "react-responsive-carousel";
@@ -19,11 +19,13 @@ import "./InsideProduct.css";
 import { Fade } from "react-reveal";
 import { useStateValue } from "../StateProvider";
 import toast, { Toaster } from "react-hot-toast";
+import Login from "../authentication/Login";
 /* eslint-disable react/prop-types */
 function InsideProduct() {
   const [{ basket, user }, dispatch] = useStateValue();
   const [isHovered, setIsHovered] = useState(false);
-
+  const { id } = useParams();
+  const navigate = useNavigate();
   const handleHover = () => {
     setIsHovered(true);
   };
@@ -31,7 +33,6 @@ function InsideProduct() {
   const handleLeave = () => {
     setIsHovered(false);
   };
-  const { id } = useParams();
   const [productData, setProductData] = useState(null);
   const [productVideo, setProductVideo] = useState("");
   const [userId, setUserId] = useState("");
@@ -45,10 +46,16 @@ function InsideProduct() {
     quantity: 1,
   };
   const addToBasket = async () => {
-    // const basketRef = collection(db, `users/${userId}/Basket`);
-    toast.loading("Adding to cart...", {
-      duration: 500,
-    });
+    !user
+      ? setTimeout(() => {
+          toast.error("Login to continue", {
+            duration: 2000,
+          });
+          navigate("/login?id=" + id);
+        }, 1000)
+      : toast.loading("Adding to cart...", {
+          duration: 500,
+        });
     const basketRef = doc(db, "users", userId, "Basket", id);
     await setDoc(basketRef, basketItems);
     toast.success("Added to cart");
@@ -66,6 +73,10 @@ function InsideProduct() {
         setUserId(doc.id);
       });
     });
+
+    return () => unsub();
+  }, [id, user]);
+  useEffect(() => {
     const fetchProductDetails = async () => {
       const productQuery = doc(db, "Products", id);
       const productSnap = await getDoc(productQuery);
@@ -87,8 +98,7 @@ function InsideProduct() {
       }
     };
     fetchProductDetails();
-    return () => unsub();
-  }, [id, user]);
+  }, [id]);
   return (
     <>
       {productData ? (

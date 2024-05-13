@@ -9,6 +9,9 @@
 .address{
     width: 60%;
 }
+.checkout__left{
+    width: 70%;
+}
 .edit__address{
     display: flex;
     flex-direction: column;
@@ -144,8 +147,6 @@
     height: 40px;
     width: 200px;
     font-weight: 500;
-
-
 }
 .reject__button{
     display: flex;
@@ -173,10 +174,21 @@
     background-color: red;
     color: #fff;  
 }
+.checkout__tc{
+    width:80%;
+}
+.checkout__right{
+    position: fixed;
+    right:0;
+    width: 30%;
+}
 @media(min-width:200px) and (max-width:480px){
     .checkout__page{
         flex-direction: column;
+        justify-content: center;
+        align-items: flex-start;
         width: 90%;
+    
     }
     .address{
         width: 100%;
@@ -201,14 +213,17 @@
     .checkout__title{
         font-size: 20px;
     }
+    .checkout__left{
+        width: 90%;
+    }
     .checkout__left h3{
         font-size: 16px;
     }
     .checkout__left p strong{
         font-size: 15px;
     }
-    .checkout__right {
-        margin-top: 70px;
+    .checkout__tc{
+        width: 100%;
     }
     .checkout__tc h2{
         font-size: 18px;
@@ -221,6 +236,16 @@
     }
     .reject__button{
         font-size: 14px;
+    }
+    .checkout__right{
+        position: relative;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items:center;
+        margin-top: 20px;
+        padding: 0;
     }
 }
 @media(min-width:481px) and (max-width:768px){
@@ -263,6 +288,7 @@
     .checkout__left p strong{
         font-size: 15px;
     }
+   
 }
 @media(min-width:769px) and (max-width:1024px){
     .checkout__page{

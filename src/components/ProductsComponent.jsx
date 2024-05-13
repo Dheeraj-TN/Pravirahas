@@ -10,8 +10,13 @@ import ProductComponentPropsMobile from "./ProductComponentPropsMobile";
 import { Skeleton } from "antd";
 import { useNavigate } from "react-router-dom";
 import ProgressBar from "@badrap/bar-of-progress";
+// import { useStateValue } from "../StateProvider";
 
 function ProductsComponent() {
+  // const [{ modalOpen }] = useStateValue();
+  // const isModalOpen = modalOpen;
+  // console.log("modal state: ", isModalOpen);
+  // const [modal, setModal] = useState(false);
   const navigate = useNavigate();
   const necklaseRef = collection(db, "Necklases");
   const braceletRef = collection(db, "Bracelet");
@@ -376,26 +381,28 @@ function ProductsComponent() {
             />
           </div>
         ) : (
-          <Fade left>
-            <div className="products">
-              {productDataEarrings &&
-                productDataEarrings.map((item) => {
-                  return (
-                    <ProductComponentProps
-                      key={item.id}
-                      id={item.id}
-                      img1={item.image[0]}
-                      img2={item.image[1]}
-                      productName={item.productName}
-                      price={item.price}
-                      rating={item.rating}
-                      desc={item.desc}
-                      status={item.status}
-                    />
-                  );
-                })}
-            </div>
-          </Fade>
+          <>
+            <Fade left>
+              <div className="products">
+                {productDataEarrings &&
+                  productDataEarrings.map((item) => {
+                    return (
+                      <ProductComponentProps
+                        key={item.id}
+                        id={item.id}
+                        img1={item.image[0]}
+                        img2={item.image[1]}
+                        productName={item.productName}
+                        price={item.price}
+                        rating={item.rating}
+                        desc={item.desc}
+                        status={item.status}
+                      />
+                    );
+                  })}
+              </div>
+            </Fade>
+          </>
         )}
         <>
           {loading ? (

@@ -108,7 +108,7 @@ function CheckoutPageProps({
             {/* <strong>{price}</strong> */}
             <strong>{updatedCost}</strong>
           </p>
-          <p>{rating} ⭐️</p>
+          {/* <p>{rating} ⭐️</p> */}
         </div>
         <div className="quantity">
           <button onClick={decrement}>

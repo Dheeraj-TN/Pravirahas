@@ -5,6 +5,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./ProductComponentPropsMobile.css";
 import { useStateValue } from "../StateProvider";
+import toast from "react-hot-toast";
 function ProductComponentPropsMobile({ id, img1, img2, name, price, status }) {
   const [{ basket, user }, dispatch] = useStateValue();
   const navigate = useNavigate();
@@ -16,12 +17,14 @@ function ProductComponentPropsMobile({ id, img1, img2, name, price, status }) {
     width: 50,
   });
   const productClicked = () => {
-    !user
-      ? navigate("/login")
-      : (progressor.start(),
-        setTimeout(() => {
-          progressor.finish(), navigate(`/product/${id}`);
-        }, 1000));
+    if (status === "outOfStock") {
+      toast.error("Oops! Out of Stock", { duration: 2000 });
+      return;
+    }
+    progressor.start(),
+      setTimeout(() => {
+        progressor.finish(), navigate(`/product/${id}`);
+      }, 1000);
   };
   const productName = name.length > 15 ? name.slice(0, 20) + "..." : name;
 

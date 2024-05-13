@@ -6,20 +6,25 @@ import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useStateValue } from "../StateProvider";
 function Bracelets() {
+  const [{ selectedSubCategory }] = useStateValue();
+  console.log("Sort: ", selectedSubCategory);
   const braceletRef = collection(db, "Bracelet");
   const [productData, setProductData] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [itemsToShow, setItemsToShow] = useState(4);
+  
   useEffect(() => {
     const q = query(braceletRef);
+    
     onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
         ...doc.data(),
       }));
       setProductData(data);
-    });
+    })
     //eslint-disable-next-line
   }, []);
   useEffect(() => {

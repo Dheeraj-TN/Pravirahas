@@ -1,6 +1,8 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable no-unused-vars */
 import "./Login.css";
 import "react-phone-input-2/lib/bootstrap.css";
+import { useMemo } from "react";
 import ProgressBar from "@badrap/bar-of-progress";
 import { auth, db } from "../firebase";
 import { useState } from "react";
@@ -9,7 +11,7 @@ import {
   signInWithEmailAndPassword,
 } from "firebase/auth";
 import { Toaster, toast } from "react-hot-toast";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { useStateValue } from "../StateProvider";
 
@@ -26,6 +28,14 @@ function Login() {
   const [password, setPassword] = useState("");
   const [passwordPhone, setPasswordPhone] = useState("");
   const [userEmail, setUserEmail] = useState([]);
+  const location = useLocation();
+  const id = useMemo(() => {
+    if (location.search) {
+      return location.search.split("id=")[1];
+    }
+    return null;
+  }, [location]);
+  console.log(id);
   const userRef = collection(db, "users");
   const signInWithPhone = async (e) => {
     e.preventDefault();
@@ -36,6 +46,7 @@ function Login() {
     //     setUser(doc.data().emailAddress);
     //   });
     // });
+    console.log("id:", id);
     const data = getDocs(q);
     data.then((snapshot) => {
       snapshot.docs.map((doc) => {
@@ -49,7 +60,11 @@ function Login() {
           setTimeout(() => {
             toast.success("Login Successfull");
             progressor.finish();
-            navigate("/");
+            if (id) {
+              navigate(`/product/${id}`);
+            } else {
+              navigate("/");
+            }
           }, 2000);
         });
       });
@@ -60,7 +75,6 @@ function Login() {
       toast.error("User not found");
       return;
     }
-    
   };
   const signInWithEmailPassword = async (e) => {
     e.preventDefault();
@@ -75,7 +89,11 @@ function Login() {
         setTimeout(() => {
           toast.success("Login Successfull");
           progressor.finish();
-          navigate("/");
+          if (id) {
+            navigate(`/product/${id}`);
+          } else {
+            navigate("/");
+          }
         }, 2000);
       })
       .catch((err) => {

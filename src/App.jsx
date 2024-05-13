@@ -30,6 +30,7 @@ import logo from "./assets/praviras-removebg-preview2.png";
 import { motion } from "framer-motion";
 import SubEarrings from "./subcategories/SubEarrings";
 import SubClipsPins from "./subcategories/SubClipsPins";
+import SearchResultsPage from "./components/SearchResultsPage";
 function App() {
   const [{ basket, user, selectedSubCategory }, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
@@ -148,6 +149,11 @@ function App() {
           <Route exact path="/bracelets" element={<Bracelets />} />
           <Route exact path="/earrings" element={<Earrings />} />
           <Route exact path="/clipsPins" element={<ClipsPins />} />
+          <Route
+            exact
+            path="/search/:searchedName"
+            element={<SearchResultsPage />}
+          />
           <Route
             path="/necklace/:selectedSubCategory"
             element={<SubNecklaces />}
