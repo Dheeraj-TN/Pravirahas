@@ -54,6 +54,11 @@ const reducer = (state, action) => {
         ...state,
         modalOpen: action.modalOpen,
       };
+    case "CLEAR_BASKET":
+      return {
+        ...state,
+        basket: [],
+      };
 
     default:
       return state;

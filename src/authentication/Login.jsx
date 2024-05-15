@@ -98,6 +98,7 @@ function Login() {
       })
       .catch((err) => {
         console.log(err.message);
+        toast.error("Invalid credentials");
       });
   };
   const handlePhoneSubmit = (e) => {

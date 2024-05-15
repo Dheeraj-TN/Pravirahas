@@ -42,9 +42,16 @@ function Header() {
   const [searchedName, setSearchedName] = useState("");
   const [basketItems, setBasketItems] = useState([]);
   const [isAnimating, setIsAnimating] = useState(false);
+  //search animation
   const placeholders = ["Bracelets", "Necklaces", "Earrings", "Clips"];
-  const [currentPlaceholders, setCurrentPlaceholders] = useState(0);
-  const [isFocused, setIsFocused] = useState(false);
+  const [index, setIndex] = useState(0);
+  const [currentPlaceholder, setCurrentPlaceholder] = useState([]);
+  const [displayText, setDisplayText] = useState("");
+  const [isDeleting, setIsDeleting] = useState(false);
+  const [loopNum, setLoopNum] = useState(0);
+  const typingSpeed = 50;
+  const deletingSpeed = 50;
+  const delay = 1000;
 
   const progressor = new ProgressBar({
     size: 5,
@@ -226,13 +233,40 @@ function Header() {
   // console.log("Basket Items: ", basketItems);
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentPlaceholders((prevIndex) =>
+      setCurrentPlaceholder((prevIndex) =>
         prevIndex === placeholders.length - 1 ? 0 : prevIndex + 1
       );
     }, 2000);
 
     return () => clearInterval(interval);
+    //eslint-disable-next-line
   }, []);
+  //search animation
+  useEffect(() => {
+    const handleTyping = () => {
+      const currentText = placeholders[index];
+      const updatedText = isDeleting
+        ? currentText.substring(0, displayText.length - 1)
+        : currentText.substring(0, displayText.length + 1);
+
+      setDisplayText(updatedText);
+
+      if (!isDeleting && updatedText === currentText) {
+        setTimeout(() => setIsDeleting(true), delay);
+      } else if (isDeleting && updatedText === "") {
+        setIsDeleting(false);
+        setIndex((prevIndex) => (prevIndex + 1) % placeholders.length);
+      }
+    };
+
+    const timer = setTimeout(
+      handleTyping,
+      isDeleting ? deletingSpeed : typingSpeed
+    );
+
+    return () => clearTimeout(timer);
+  }, [displayText, isDeleting, index]);
+
   return (
     <>
       <ConfigProvider
@@ -378,11 +412,20 @@ function Header() {
             <div className="search__bar">
               <motion.input
                 type="text"
-                placeholder="Search for ..."
+                placeholder=""
                 value={searchedName}
                 onChange={(e) => setSearchedName(e.target.value)}
                 onKeyPress={handleKeyPress}
               />
+              <motion.div
+                className="typewriter-text"
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1, type: "spring" }}
+                transition={{ duration: 0.5 }}
+              >
+                {`Search for ${displayText}`}
+                <span className="cursor"></span>
+              </motion.div>
               <SearchOutlined
                 className="header__icons"
                 onClick={handleSearch}
@@ -460,11 +503,20 @@ function Header() {
           <div className="search__bar__mobile">
             <input
               type="text"
-              placeholder="Search by category..."
+              placeholder=""
               value={searchedName}
               onChange={(e) => setSearchedName(e.target.value)}
               onKeyPress={handleKeyPress}
             />
+            <motion.div
+              className="typewriter-text-mobile"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1, type: "spring" }}
+              transition={{ duration: 0.5 }}
+            >
+              {`Search for ${displayText}`}
+              <span className="cursor-mobile"></span>
+            </motion.div>
             <SearchOutlined
               style={{ cursor: "pointer" }}
               onClick={handleSearch}

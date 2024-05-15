@@ -3,7 +3,9 @@ import { useEffect, useState, useRef } from "react";
 import { useStateValue } from "../StateProvider";
 import {
   collection,
+  deleteDoc,
   doc,
+  getDocs,
   onSnapshot,
   query,
   updateDoc,
@@ -134,7 +136,18 @@ function CheckoutPage() {
   }; // Replace with actual phone number
 
   // console.log("subtotal: ", subTotal);
-
+  const clearBasket = async () => {
+    const basketRef = collection(db, "users", userId, "Basket");
+    const basketDocs = await getDocs(basketRef);
+    const deletePromises = basketDocs.docs.map((docItem) => {
+      return deleteDoc(doc(db, "users", userId, "Basket", docItem.id));
+    });
+    // Wait for all delete operations to complete
+    await Promise.all(deletePromises);
+    dispatch({
+      type: "CLEAR_BASKET",
+    });
+  };
   return (
     <>
       <Header />
@@ -259,12 +272,12 @@ function CheckoutPage() {
             name="products"
             value={formattedBasketItems.join()}
           />
-          <input
+          {/* <input
             type="hidden"
             name="shippingCharges"
             value={basketItems.img1}
-          />
-          <input type="hidden" name="subtotal" value={`₹${subTotal}`} />
+          /> */}
+          <input type="hidden" name="subTotal" value={`₹${subTotal}`} />
         </form>
 
         <div
@@ -314,6 +327,7 @@ function CheckoutPage() {
                     : null;
                 }
                 sendEmail(form.current);
+                clearBasket();
               }}
               className={
                 !termsConditoinsAccepted
