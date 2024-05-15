@@ -123,7 +123,7 @@ function CheckoutPage() {
     emailjs.sendForm(service_id, template_id, form, public_id).then(
       (result) => {
         toast.success("Email sent successfully");
-        // navigate("/");
+        navigate("/");
         console.log("email sent sucessfully", result);
         //remove the form from document body
         setSubtotal(0);
