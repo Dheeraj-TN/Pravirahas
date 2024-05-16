@@ -63,7 +63,11 @@ function Header() {
   // console.log("Loaction: ", location);
   const handleSearch = () => {
     if (searchedName) {
-      navigate(`/search/${searchedName}`);
+      progressor.start();
+      setTimeout(() => {
+        progressor.finish();
+        navigate(`/search/${searchedName}`);
+      }, 1000);
     }
   };
   const handleKeyPress = (event) => {
@@ -412,12 +416,12 @@ function Header() {
             <div className="search__bar">
               <motion.input
                 type="text"
-                placeholder=""
+                placeholder={`Search for ${displayText}`}
                 value={searchedName}
                 onChange={(e) => setSearchedName(e.target.value)}
                 onKeyPress={handleKeyPress}
               />
-              <motion.div
+              {/* <motion.div
                 className="typewriter-text"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1, type: "spring" }}
@@ -425,7 +429,7 @@ function Header() {
               >
                 {`Search for ${displayText}`}
                 <span className="cursor"></span>
-              </motion.div>
+              </motion.div> */}
               <SearchOutlined
                 className="header__icons"
                 onClick={handleSearch}
@@ -503,12 +507,12 @@ function Header() {
           <div className="search__bar__mobile">
             <input
               type="text"
-              placeholder=""
+              placeholder={`Search for ${displayText}`}
               value={searchedName}
               onChange={(e) => setSearchedName(e.target.value)}
               onKeyPress={handleKeyPress}
             />
-            <motion.div
+            {/* <motion.div
               className="typewriter-text-mobile"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1, type: "spring" }}
@@ -516,7 +520,7 @@ function Header() {
             >
               {`Search for ${displayText}`}
               <span className="cursor-mobile"></span>
-            </motion.div>
+            </motion.div> */}
             <SearchOutlined
               style={{ cursor: "pointer" }}
               onClick={handleSearch}
@@ -640,7 +644,7 @@ function Header() {
                     <Menu.Item key=">Saree Pins">Saree Pins</Menu.Item>
                     <Menu.Item key="Hair Pins">Hair Pins</Menu.Item>
                   </Menu.SubMenu>
-                  <Menu.SubMenu
+                  {/* <Menu.SubMenu
                     onMouseEnter={() => handleMenuMouseEnter("filters")}
                     onMouseLeave={handleMenuMouseLeave}
                     key="filters"
@@ -658,7 +662,7 @@ function Header() {
                     </Menu.Item>
                     <Menu.Item key="Date,Old to New">Date,Old to New</Menu.Item>
                     <Menu.Item key="Date,New to Old">Date,New to Old</Menu.Item>
-                  </Menu.SubMenu>
+                  </Menu.SubMenu> */}
                   <hr className="horizontal__divider" />
                   <div className="other__menu__items">
                     <Menu.Item key="other_1">

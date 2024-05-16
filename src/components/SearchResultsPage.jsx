@@ -20,7 +20,6 @@ function SearchResultsPage() {
   const [productData, setProductData] = useState([]);
   const [allProds, setAllProds] = useState([]);
   const seachedProductsRef = collection(db, "Products");
-
   useEffect(() => {
     const docs = async () => {
       setLoading(true); // Set loading to true
@@ -76,7 +75,6 @@ function SearchResultsPage() {
   const loadMore = () => {
     setItemsToShow((prev) => prev + 4);
   };
-
   return (
     <>
       <Header />
@@ -87,7 +85,7 @@ function SearchResultsPage() {
         />
         <h1>Results of your search: {searchedName}</h1>
         <div className="necklaces__container__desktop">
-          {allProducts ? (
+          {allProducts.length !== 0 ? (
             <div className="necklaces__container">
               {allProducts.map((item) => (
                 <ProductComponentProps

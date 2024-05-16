@@ -270,7 +270,7 @@ function CheckoutPage() {
           <input
             type="hidden"
             name="products"
-            value={formattedBasketItems.join()}
+            value={formattedBasketItems.join().replaceAll(",", "\n")}
           />
           {/* <input
             type="hidden"

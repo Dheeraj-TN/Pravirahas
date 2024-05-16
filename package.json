@@ -13,6 +13,7 @@
     "@badrap/bar-of-progress": "^0.2.2",
     "@emailjs/browser": "^3.11.0",
     "antd": "^5.10.2",
+    "dotenv": "^16.4.5",
     "firebase": "^10.5.2",
     "framer-motion": "^10.16.4",
     "otp-input-react": "^0.3.0",

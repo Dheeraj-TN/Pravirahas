@@ -70,14 +70,13 @@
   color: black;
   border: none;
   margin-left: 10px;
-
 }
 
 
-.typewriter-text {
+/* .typewriter-text {
   position: absolute;
   top: 50%;
-  left: 5%;
+  left: 10%;
   transform: translateY(-50%);
   font-size: 16px;
   pointer-events: none;
@@ -95,7 +94,7 @@
   margin-left: 2px;
   width: 1px;
   animation: blink 1s step-start infinite;
-}
+} */
 
 @keyframes blink {
   50% {
