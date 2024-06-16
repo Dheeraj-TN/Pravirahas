@@ -108,7 +108,7 @@ function SignUp() {
               const user = userCred.user;
               await addDoc(userRef, {
                 uid: user.uid,
-                phoneNumber: phone,
+                phoneNumber: "+91" + phone,
                 username: fullName,
                 emailAddress: emailAddress,
                 postalAddress: postalAddress,
@@ -157,6 +157,7 @@ function SignUp() {
             className="login__button"
             id="sign-in-button"
             onClick={verifyOTP}
+            onKeyPress={verifyOTP}
           >
             Verify OTP
           </button>

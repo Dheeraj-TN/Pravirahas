@@ -1,0 +1,191 @@
+.orderPage__props {
+    display: flex;
+    margin-bottom: 50px;
+  }
+  .orderPage__props__img {
+    width: 200px;
+    height: 200px;
+  }
+  .orderPage__props__info {
+    margin-top: -20px;
+    padding-left: 20px;
+  }
+  .orderPage__props__info h2 {
+    font-size: 25px;
+    font-weight: 500;
+  }
+  .orderPage__props__info p {
+    font-size: 17px;
+    font-weight: 500;
+  }
+  .orderPage__props__info > button {
+    padding: 16px 20px;
+    font-size: 1rem;
+    color: #fff;
+    width: 280px;
+    background-color: #ba704f;
+    border: none;
+    border-radius: 5px;
+    font-weight: 600;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: transform 100ms ease-in;
+  }
+  
+  .orderPage__props__title {
+    font-size: 17px;
+    font-weight: 800;
+  }
+  .checkpout__props__priceRating {
+    display: flex;
+    justify-content: space-between;
+  }
+  .product__rating {
+    display: flex;
+  }
+  .quantity {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-top: 20px;
+  }
+  .quantity input {
+    width: 40px;
+    height: 30px;
+    text-align: center;
+    border: 1px solid #ba704f;
+    border-radius: 5px;
+    outline: none;
+    background-color: transparent;
+    font-size: 17px;
+    font-weight: 500;
+    color: rgb(161, 90, 24);
+  }
+  .quantity button {
+    width: 30px;
+    height: 30px;
+    border: 1px solid #ba704f;
+    border-radius: 99px;
+    outline: none;
+    background-color: transparent;
+    font-size: 17px;
+    font-weight: 600;
+    color: rgb(161, 90, 24);
+    cursor: pointer;
+  }
+  @media (min-width: 200px) and (max-width: 480px) {
+    .orderPage__props {
+      gap: 10px;
+      justify-content: flex-start;
+    }
+    .orderPage__props__img {
+      width: 120px;
+      height: 120px;
+    }
+    .orderPage__props__info {
+      padding: 0;
+      margin-top: -18px;
+    }
+    .orderPage__props__info h2 {
+      font-size: 16px;
+      font-weight: bold;
+    }
+    .orderPage__props__info p {
+      font-size: 14px;
+    }
+    .orderPage__props__priceRating {
+      display: flex;
+      justify-content: space-between;
+    }
+    .orderPage__props__info button {
+      width: 90%;
+      height: 40px;
+      padding: 10px 14px;
+      font-size: 14px;
+    }
+    .quantity input {
+      width: 30px;
+      font-size: 15px;
+    }
+    .quantity button {
+      width: 25px;
+      height: 25px;
+      font-size: 15px;
+      padding: 0;
+    }
+  }
+  @media (min-width: 481px) and (max-width: 768px) {
+    .orderPage__props {
+      gap: 10px;
+      justify-content: flex-start;
+      margin-bottom: 60px;
+    }
+    .orderPage__props img {
+      width: 200px;
+      height: 200px;
+      /* object-fit: contain; */
+    }
+    .orderPage__props__info {
+      padding: 0;
+      margin-top: -10px;
+    }
+    .orderPage__props__info h2 {
+      font-size: 18px;
+      font-weight: bold;
+    }
+    .orderPage__props__info p {
+      font-size: 15px;
+    }
+    .orderPage__props__priceRating {
+      display: flex;
+      justify-content: space-between;
+    }
+    .orderPage__props__info button {
+      width: 100%;
+      height: 40px;
+      padding: 10px 14px;
+      font-size: 15px;
+    }
+    .quantity button {
+      width: 35px;
+      height: 35px;
+      font-size: 17px;
+      padding: 0;
+    }
+  }
+  @media (min-width: 769px) and (max-width: 1024px) {
+    .orderPage__props {
+      gap: 2rem;
+    }
+    .orderPage__props img {
+      width: 300px;
+      height: 300px;
+    }
+    .orderPage__props__info {
+      padding: 0;
+      margin-top: 10px;
+    }
+    .orderPage__props__info h2 {
+      font-size: 22px;
+    }
+    .orderPage__props__info p {
+      font-size: 17px;
+    }
+    .orderPage__props__priceRating {
+      display: flex;
+      justify-content: space-between;
+    }
+    .orderPage__props__info button {
+      width: 100%;
+      height: 40px;
+      padding: 10px 14px;
+      font-size: 16px;
+    }
+    .quantity button {
+      width: 35px;
+      height: 35px;
+      font-size: 17px;
+      padding: 0;
+    }
+  }
+  

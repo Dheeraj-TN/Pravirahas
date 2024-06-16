@@ -17,6 +17,7 @@ import "./CheckoutPageProps.css";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
+
 function CheckoutPageProps({
   id,
   img1,
@@ -55,7 +56,7 @@ function CheckoutPageProps({
       } else {
         setDataLoaded(true);
       }
-      console.log(data.data().itemQuantity);
+      // console.log(data.data().itemQuantity);
     };
     try {
       userId && id && basketData();

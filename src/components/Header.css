@@ -258,7 +258,7 @@
     text-transform: capitalize;
   }
   .other__menu__items {
-    width: 100%;
+    width: 100%;    
   }
   .horizontal__divider {
     width: 85%;
@@ -269,6 +269,9 @@
     font-weight: 450;
     padding-inline: 22px;
     text-transform: capitalize;
+    display: flex;
+    align-items: center;
+    gap: 12px;
   }
 }
 @media (min-width: 481px) and (max-width: 768px) {

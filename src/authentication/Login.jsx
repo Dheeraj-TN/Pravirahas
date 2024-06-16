@@ -35,7 +35,7 @@ function Login() {
     }
     return null;
   }, [location]);
-  console.log(id);
+  // console.log(id);
   const userRef = collection(db, "users");
   const signInWithPhone = async (e) => {
     e.preventDefault();
@@ -60,6 +60,9 @@ function Login() {
           setTimeout(() => {
             toast.success("Login Successfull");
             progressor.finish();
+            const currentLoginDate = new Date().toISOString();
+            localStorage.setItem("loginDate", currentLoginDate);
+
             if (id) {
               navigate(`/product/${id}`);
             } else {
@@ -70,6 +73,7 @@ function Login() {
       });
     });
     console.log(userEmail);
+
     toast.loading("Hold on while verifying");
     if (!userEmail) {
       toast.error("User not found");
@@ -78,6 +82,9 @@ function Login() {
   };
   const signInWithEmailPassword = async (e) => {
     e.preventDefault();
+    // const currentLoginDate = new Date().toISOString();
+    // setLoginTime(currentLoginDate);
+    // console.log("Login time: ", new Date().toUTCString());
     if (email === "" || password === "") {
       toast.error("Please fill all the fields");
       return;
@@ -89,6 +96,9 @@ function Login() {
         setTimeout(() => {
           toast.success("Login Successfull");
           progressor.finish();
+          const currentLoginDate = new Date().toISOString();
+          localStorage.setItem("loginDate", currentLoginDate);
+
           if (id) {
             navigate(`/product/${id}`);
           } else {
@@ -124,6 +134,7 @@ function Login() {
         console.log(err.message);
       });
   };
+  // console.log("time of user login: ", loginTime);
   return (
     <>
       <div className="login">

@@ -67,7 +67,7 @@ function SearchResultsPage() {
     getProducts();
   }, [productData]);
 
-  console.log("all products: ", allProducts);
+  // console.log("all products: ", allProducts);
 
   useEffect(() => {
     setVisibleProducts(allProducts.slice(0, itemsToShow));
@@ -83,26 +83,29 @@ function SearchResultsPage() {
           className="arrow__left__icon"
           onClick={() => window.history.back()}
         />
-        <h1>Results of your search: {searchedName}</h1>
+
         <div className="necklaces__container__desktop">
           {allProducts.length !== 0 ? (
-            <div className="necklaces__container">
-              {allProducts.map((item) => (
-                <ProductComponentProps
-                  key={item.uniqueId}
-                  id={item.uniqueId}
-                  img1={item.image[0]}
-                  img2={item.image[1]}
-                  productName={item.productName}
-                  price={item.price}
-                  rating={item.rating}
-                  desc={item.desc}
-                  status={item.status}
-                />
-              ))}
-            </div>
+            <>
+              <h1>Results of your search: {searchedName}</h1>
+              <div className="necklaces__container">
+                {allProducts.map((item) => (
+                  <ProductComponentProps
+                    key={item.uniqueId}
+                    id={item.uniqueId}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    productName={item.productName}
+                    price={item.price}
+                    rating={item.rating}
+                    desc={item.desc}
+                    status={item.status}
+                  />
+                ))}
+              </div>
+            </>
           ) : (
-            <p>Oops no such prouduct !!</p>
+            <h2>Oops matches for your search !!</h2>
           )}
         </div>
         <div className="necklaces__container__mobile__container">

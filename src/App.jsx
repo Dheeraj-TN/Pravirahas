@@ -25,15 +25,17 @@ import ClipsPins from "./categories/ClipsPins";
 import SubBracelets from "./subcategories/SubBracelets";
 import AboutUs from "./components/AboutUs";
 import { PropagateLoader } from "react-spinners";
-import { Fade } from "react-reveal";
 import logo from "./assets/praviras-removebg-preview2.png";
 import { motion } from "framer-motion";
 import SubEarrings from "./subcategories/SubEarrings";
 import SubClipsPins from "./subcategories/SubClipsPins";
 import SearchResultsPage from "./components/SearchResultsPage";
+import Orders from "./CheckoutComponent/Orders";
+import OrderPage from "./CheckoutComponent/OrderPage";
 function App() {
   const [{ basket, user, selectedSubCategory }, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
+
   useEffect(() => {
     auth.onAuthStateChanged((authUser) => {
       console.log(authUser);
@@ -76,6 +78,42 @@ function App() {
       },
     },
   };
+  useEffect(() => {
+    const loggedInDate = localStorage.getItem("loginDate");
+    if (loggedInDate) {
+      const date = new Date(loggedInDate);
+      // console.log("date: ", date);
+      const currentDate = new Date();
+      // console.log("currentDate: ", currentDate);
+      const diff = currentDate - date;
+      // console.log("diff: ", diff);
+      //clear local storage after 7 days (7*24*60*60*1000) (days*hours/day*min/hr*sec/min*milliseconds)
+      if (diff >= 604800000) {
+        localStorage.removeItem("loginDate");
+        auth.signOut();
+        dispatch({ type: "SET_USER", user: null });
+      }
+    }
+    // if (loginDate) {
+    //   const loginTime = new Date(loginDate).getTime();
+    //   const currentTime = new Date().getTime();
+    //   const daysDifference = (currentTime - loginTime) / (1000 * 3600 * 24);
+
+    //   // Check if 7 days have passed
+    //   if (daysDifference > 7) {
+    //       // Log the user out
+    //       signOut(auth)
+    //           .then(() => {
+    //               localStorage.removeItem('loginDate');
+    //               navigate('/login'); // Navigate to login page
+    //           })
+    //           .catch((err) => {
+    //               console.error('Error signing out: ', err);
+    //           });
+    //   }
+    //}
+    //eslint-disable-next-line
+  }, []);
   return (
     <Router>
       {/* <Toaster toastOptions={{ duration: 3000 }} /> */}
@@ -102,41 +140,6 @@ function App() {
           </div>
         </div>
       ) : (
-        // <Routes>
-        //   <Route exact path="/" element={<HomePage />} />
-        //   <Route exact path="/login" element={<Login />} />
-        //   <Route exact path="/register" element={<SignUp />} />
-        //   <Route exact path="/profile" element={<ProfilePage />} />
-        //   <Route exact path="/product/:id" element={<InsideProduct />} />
-        //   <Route exact path="/checkout" element={<CheckoutPage />} />
-        //   <Route exact path="/aboutus" element={<AboutUs />} />
-        //   <Route exact path="/necklaces" element={<Necklaces />} />
-        //   <Route
-        //     exact
-        //     path={`/${selectedSubCategory}`}
-        //     element={<SubNecklaces />}
-        //   />
-        //   <Route exact path="/bracelets" element={<Bracelets />} />
-        //   <Route
-        //     exact
-        //     path={`/${selectedSubCategory}`}
-        //     element={<SubBracelets />}
-        //   />
-        //   <Route exact path="/earrings" element={<Earrings />} />
-        //   <Route
-        //     exact
-        //     path={`/earring/${selectedSubCategory}`}
-        //     element={<SubEarrings />}
-        //   />
-        //   <Route exact path="/clipsPins" element={<ClipsPins />} />
-        //   <Route
-        //     exact
-        //     path={`/clips&Pins/${selectedSubCategory}`}
-        //     element={<SubClipsPins />}
-        //   />
-        // </Routes>
-
-        // Create a route with default route for the home page
         <Routes>
           <Route exact path="/" element={<HomePage />} />
           <Route exact path="/login" element={<Login />} />
@@ -149,6 +152,7 @@ function App() {
           <Route exact path="/bracelets" element={<Bracelets />} />
           <Route exact path="/earrings" element={<Earrings />} />
           <Route exact path="/clipsPins" element={<ClipsPins />} />
+          <Route exact path="/orders" element={<Orders />} />
           <Route
             exact
             path="/search/:searchedName"

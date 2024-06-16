@@ -16,6 +16,8 @@
     "dotenv": "^16.4.5",
     "firebase": "^10.5.2",
     "framer-motion": "^10.16.4",
+    "moment": "^2.30.1",
+    "moment-timezone": "^0.5.45",
     "otp-input-react": "^0.3.0",
     "react": "^18.2.0",
     "react-activity": "^2.1.3",

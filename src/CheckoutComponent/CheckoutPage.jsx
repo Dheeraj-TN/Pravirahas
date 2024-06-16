@@ -2,12 +2,14 @@
 import { useEffect, useState, useRef } from "react";
 import { useStateValue } from "../StateProvider";
 import {
+  addDoc,
   collection,
   deleteDoc,
   doc,
   getDocs,
   onSnapshot,
   query,
+  setDoc,
   updateDoc,
 } from "firebase/firestore";
 import { db } from "../firebase";
@@ -20,6 +22,7 @@ import emailjs from "@emailjs/browser";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import toast, { Toaster } from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import Orders from "./Orders";
 function CheckoutPage() {
   const [{ basket, user }, dispatch] = useStateValue();
   const navigate = useNavigate();
@@ -122,7 +125,7 @@ function CheckoutPage() {
     // document.body.appendChild(form);
     emailjs.sendForm(service_id, template_id, form, public_id).then(
       (result) => {
-        toast.success("Email sent successfully");
+        toast.success("Order placed successfully");
         navigate("/");
         console.log("email sent sucessfully", result);
         //remove the form from document body
@@ -136,6 +139,14 @@ function CheckoutPage() {
   }; // Replace with actual phone number
 
   // console.log("subtotal: ", subTotal);
+  const addToOrders = async () => {
+    const ordersRef = collection(db, "users", userId, "Orders");
+    await addDoc(ordersRef, {
+      products: basketItems,
+      totalAmount: total,
+      created: new Date(),
+    });
+  };
   const clearBasket = async () => {
     const basketRef = collection(db, "users", userId, "Basket");
     const basketDocs = await getDocs(basketRef);
@@ -192,6 +203,22 @@ function CheckoutPage() {
               Change the delivery address
             </button>
           </div>
+
+          <div>
+            <h2 className="checkout__title">Your Cart Summary</h2>
+            {basketItems.map((item) => (
+              <CheckoutPageProps
+                key={item.id}
+                id={item.id}
+                img1={item.img1}
+                productName={item.productName}
+                price={item.price}
+                // rating={item.rating}
+                desc={item.desc}
+                updatedCost={item.updatedPrice}
+              />
+            ))}
+          </div>
           <div
             className="checkout__tc"
             style={{
@@ -244,21 +271,6 @@ function CheckoutPage() {
                 <CloseOutlined />I reject the T&C
               </button>
             </div>
-          </div>
-          <div>
-            <h2 className="checkout__title">Your Cart Summary</h2>
-            {basketItems.map((item) => (
-              <CheckoutPageProps
-                key={item.id}
-                id={item.id}
-                img1={item.img1}
-                productName={item.productName}
-                price={item.price}
-                // rating={item.rating}
-                desc={item.desc}
-                updatedCost={item.updatedPrice}
-              />
-            ))}
           </div>
         </div>
 
@@ -327,7 +339,9 @@ function CheckoutPage() {
                     : null;
                 }
                 sendEmail(form.current);
+                addToOrders();
                 clearBasket();
+                navigate("/orders");
               }}
               className={
                 !termsConditoinsAccepted

@@ -13,6 +13,9 @@ import {
   UpOutlined,
   AlignLeftOutlined,
   LogoutOutlined,
+  HomeOutlined,
+  ShoppingOutlined,
+  OrderedListOutlined,
 } from "@ant-design/icons";
 import "./Header.css";
 import { ConfigProvider, Menu, Tooltip } from "antd";
@@ -48,11 +51,9 @@ function Header() {
   const [currentPlaceholder, setCurrentPlaceholder] = useState([]);
   const [displayText, setDisplayText] = useState("");
   const [isDeleting, setIsDeleting] = useState(false);
-  const [loopNum, setLoopNum] = useState(0);
   const typingSpeed = 50;
   const deletingSpeed = 50;
   const delay = 1000;
-
   const progressor = new ProgressBar({
     size: 5,
     color: "rgb(113, 56, 3)",
@@ -117,7 +118,11 @@ function Header() {
       navigate(`/necklace/${clicked}`);
       return;
     }
-    if (clicked.includes("Bracelets") || clicked.includes("Kada")) {
+    if (
+      clicked.includes("Bracelets") ||
+      clicked.includes("Kada") ||
+      clicked.includes("Stainless Steel Bracelet")
+    ) {
       navigate(`/bracelet/${clicked}`);
       return;
     }
@@ -140,6 +145,10 @@ function Header() {
       return;
     }
     if (clicked.includes("price_asc")) {
+      return;
+    }
+    if (clicked.includes("login")) {
+      loginPage();
       return;
     }
     navigate("/");
@@ -327,10 +336,10 @@ function Header() {
                   }
                 >
                   <Menu.Item key="Mangalasutra Necklaces">
-                    Mangalasutra Necklaces
+                    Mangalasutra
                   </Menu.Item>
                   <Menu.Item key="Charm Chains">Charm Chains</Menu.Item>
-                  <Menu.Item key="Cayered Chains">Cayered Chains</Menu.Item>
+                  {/* <Menu.Item key="Cayered Chains">Cayered Chains</Menu.Item> */}
                   <Menu.Item key="Pendent Chains">Pendent Chains</Menu.Item>
                   <Menu.Item key="Layered Chains">Layered Chains</Menu.Item>
                   <Menu.Item key="18k Plated Chains">
@@ -472,9 +481,9 @@ function Header() {
                 <UserOutlined className="header__icons" onClick={loginPage} />
               </Tooltip>
 
-              {/* <Tooltip placement="bottom" title={"Wishlist"}>
-                <HeartFilled className="header__icons" />
-              </Tooltip> */}
+              <Tooltip placement="bottom" title={"Your Orders"}>
+                <OrderedListOutlined className="header__icons" onClick={()=>navigate("/orders")}/>
+              </Tooltip>
               <Tooltip placement="bottom" title={"Basket"}>
                 <ShoppingFilled
                   className="header__icons"
@@ -583,10 +592,10 @@ function Header() {
                     }
                   >
                     <Menu.Item key="Mangalasutra_Necklaces_Mob">
-                      Mangalasutra Necklaces
+                      Mangalasutra
                     </Menu.Item>
                     <Menu.Item key="Charm_Chains">Charm Chains</Menu.Item>
-                    <Menu.Item key="Cayered_Chains">Cayered Chains</Menu.Item>
+                    {/* <Menu.Item key="Cayered_Chains">Cayered Chains</Menu.Item> */}
                     <Menu.Item key="Layered_Chains">Layered Chains</Menu.Item>
                     <Menu.Item key="Pendent_Chains">Pendent Chains</Menu.Item>
                     <Menu.Item key="18k_plated_Chains">
@@ -641,7 +650,7 @@ function Header() {
                   >
                     <Menu.Item key="Center Clips">Center Clips</Menu.Item>
                     <Menu.Item key="Handmade clips">Handmade clips</Menu.Item>
-                    <Menu.Item key=">Saree Pins">Saree Pins</Menu.Item>
+                    <Menu.Item key="Saree Pins">Saree Pins</Menu.Item>
                     <Menu.Item key="Hair Pins">Hair Pins</Menu.Item>
                   </Menu.SubMenu>
                   {/* <Menu.SubMenu
@@ -665,25 +674,51 @@ function Header() {
                   </Menu.SubMenu> */}
                   <hr className="horizontal__divider" />
                   <div className="other__menu__items">
-                    <Menu.Item key="other_1">
-                      <p className="other__menu__items__p" onClick={loginPage}>
-                        Account
+                    <Menu.Item>
+                      <p
+                        className="other__menu__items__p"
+                        onClick={() => navigate("/")}
+                      >
+                        <HomeOutlined style={{ fontSize: "20px" }} />
+                        Home
                       </p>
                     </Menu.Item>
-                    {/* <Menu.Item key="other_2">
-                      <p className="other__menu__items__p">Wishlist</p>
-                    </Menu.Item> */}
+                    <p
+                      className="other__menu__items__p"
+                      style={{
+                        cursor: "pointer",
+                        marginLeft: "5px",
+                      }}
+                      onClick={loginPage}
+                    >
+                      <UserOutlined style={{ fontSize: "20px" }} />
+                      Account
+                    </p>
+
+                    <Menu.Item key="other_2">
+                      <p
+                        className="other__menu__items__p"
+                        onClick={() => navigate("/orders")}
+                      >
+                        {" "}
+                        <OrderedListOutlined style={{ fontSize: "20px" }} />
+                        Your Orders
+                      </p>
+                    </Menu.Item>
                     <Menu.Item key="other_3">
                       <p
                         className="other__menu__items__p"
                         onClick={() => navigate("/checkout")}
                       >
-                        Your Basket ({basketItems?.length} items)
+                        {/* Your Basket ({basketItems?.length} items) */}
+                        <ShoppingOutlined style={{ fontSize: "20px" }} /> Your
+                        Cart ({basketItems?.length})
                       </p>
                     </Menu.Item>
                     {user && (
                       <Menu.Item key="other_4">
                         <p className="other__menu__items__p" onClick={signOut}>
+                          <LogoutOutlined style={{ fontSize: "20px" }} />
                           Logout
                         </p>
                       </Menu.Item>
