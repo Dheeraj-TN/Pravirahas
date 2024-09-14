@@ -24,28 +24,18 @@ import ProgressBar from "@badrap/bar-of-progress";
 import { useStateValue } from "../StateProvider";
 import { auth, db } from "../firebase";
 import toast, { Toaster } from "react-hot-toast";
-import {
-  collection,
-  doc,
-  getDocs,
-  onSnapshot,
-  query,
-  where,
-} from "firebase/firestore";
-import SearchResultsPage from "./SearchResultsPage";
-import { AnimatePresence, motion } from "framer-motion";
+import { collection, onSnapshot, query } from "firebase/firestore";
+import { motion } from "framer-motion";
 
 function Header() {
   const navigate = useNavigate();
-  const [{ user, basket, selectedSubCategory }, dispatch] = useStateValue();
+  const [{ user }, dispatch] = useStateValue();
   const [burgerStatus, setBurgerStatus] = useState(false);
   const [selectedItem, setSelectedItem] = useState(null);
   const [hoveredMenuItem, setHoveredMenuItem] = useState(null);
   const [userId, setUserId] = useState("");
   const [searchedName, setSearchedName] = useState("");
   const [basketItems, setBasketItems] = useState([]);
-  const [isAnimating, setIsAnimating] = useState(false);
-  //search animation
   const placeholders = ["Bracelets", "Necklaces", "Earrings", "Clips"];
   const [index, setIndex] = useState(0);
   const [currentPlaceholder, setCurrentPlaceholder] = useState([]);
@@ -129,7 +119,8 @@ function Header() {
     if (
       clicked.includes("Hoops") ||
       clicked.includes("Studs") ||
-      clicked.includes("Statement")
+      clicked.includes("Statement") ||
+      clicked.includes("Traditional")
     ) {
       navigate(`/earring/${clicked}`);
       // console.log("hello");
@@ -153,10 +144,10 @@ function Header() {
     }
     navigate("/");
   };
-  const handleFiltersClicked = () => {
-    setTimeout(() => {
-      toast.promise("Coming soon...");
-    }, 2000);
+  const handleFiltersClicked = (item) => {
+    const filter = item.key;
+    console.log(filter);
+    dispatch({ type: "SELECTED_FILTER", selectedFilter: filter });
   };
   const handleMenuMouseEnter = (menuKey) => {
     setHoveredMenuItem(menuKey);
@@ -182,7 +173,7 @@ function Header() {
       }, 1000);
       return;
     }
-    toast.error("Already logged in");
+    toast.loading("Hold on...", { duration: "2000" });
     navigate("/profile");
   };
   const signOut = () => {
@@ -194,10 +185,6 @@ function Header() {
       localStorage.removeItem("basketId");
     }
   };
-
-  // if (params.includes("Necklaces") || params.includes("Chains")) {
-  //   dispatch({ type: "SELECTED_SUBCAT_ITEM", selectedSubCategory: params });
-  // }
   useEffect(() => {
     if (!user || !user?.email) return;
     const userQuery = query(collection(db, "users"));
@@ -223,7 +210,7 @@ function Header() {
         id: doc.id,
         ...doc.data(),
       }));
-      console.log("Basket Data: ", basketData);
+      // console.log("Basket Data: ", basketData);
       setBasketItems(basketData);
     });
 
@@ -338,9 +325,9 @@ function Header() {
                   <Menu.Item key="Mangalasutra Necklaces">
                     Mangalasutra
                   </Menu.Item>
-                  <Menu.Item key="Charm Chains">Charm Chains</Menu.Item>
+                  <Menu.Item key="Charm Chains">Chains</Menu.Item>
                   {/* <Menu.Item key="Cayered Chains">Cayered Chains</Menu.Item> */}
-                  <Menu.Item key="Pendent Chains">Pendent Chains</Menu.Item>
+                  {/* <Menu.Item key="Pendent Chains">Pendent Chains</Menu.Item> */}
                   <Menu.Item key="Layered Chains">Layered Chains</Menu.Item>
                   <Menu.Item key="18k Plated Chains">
                     18k Plated Chains
@@ -392,6 +379,7 @@ function Header() {
                 >
                   <Menu.Item key="Studs">Studs</Menu.Item>
                   <Menu.Item key="Hoops">Hoops</Menu.Item>
+                  <Menu.Item key="Traditional">Traditional</Menu.Item>
                   <Menu.Item key="Statement Earrings">
                     Statement Earrings
                   </Menu.Item>
@@ -452,9 +440,8 @@ function Header() {
                 style={{ borderBottom: "none" }}
               >
                 <Menu.SubMenu
-                  // onMouseEnter={() => handleMenuMouseEnter("filters")}
-                  // onMouseLeave={handleMenuMouseLeave}
-
+                  onMouseEnter={() => handleMenuMouseEnter("filters")}
+                  onMouseLeave={handleMenuMouseLeave}
                   key="filters"
                   title={
                     <AlignLeftOutlined
@@ -462,18 +449,23 @@ function Header() {
                       style={{
                         fontSize: "22px",
                         marginTop: "15px",
-                        color: "gray",
+                        // color: "gray",
                       }}
                     />
                   }
                 >
-                  {/* <Menu.Item key="price_asc">Price,Low to High</Menu.Item>
+                  <Menu.Item key="price_asc">Price,Low to High</Menu.Item>
                   <Menu.Item key="price_desc">Price,High to Low</Menu.Item>
                   <Menu.Item key="old">Date,Old to New</Menu.Item>
-                  <Menu.Item key="new">Date,New to Old</Menu.Item> */}
+                  <Menu.Item key="new">Date,New to Old</Menu.Item>
                 </Menu.SubMenu>
               </Menu>
-
+              <Tooltip placement="bottom" title="Home">
+                <HomeOutlined
+                  className="header__icons"
+                  onClick={() => navigate("/")}
+                />
+              </Tooltip>
               <Tooltip
                 placement="bottom"
                 title={!user ? "Account" : user?.email}
@@ -482,7 +474,10 @@ function Header() {
               </Tooltip>
 
               <Tooltip placement="bottom" title={"Your Orders"}>
-                <OrderedListOutlined className="header__icons" onClick={()=>navigate("/orders")}/>
+                <OrderedListOutlined
+                  className="header__icons"
+                  onClick={() => navigate("/orders")}
+                />
               </Tooltip>
               <Tooltip placement="bottom" title={"Basket"}>
                 <ShoppingFilled
@@ -535,6 +530,7 @@ function Header() {
               onClick={handleSearch}
             />
           </div>
+
           <Menu
             onClick={handleMenuItemClick}
             mode="horizontal"
@@ -584,20 +580,20 @@ function Header() {
                       <span className="menu__items">
                         <a
                           className="menu__items__a"
-                          style={{ color: "rgb(219,114,17)" }}
+                          
                         >
                           Necklaces
                         </a>
                       </span>
                     }
                   >
-                    <Menu.Item key="Mangalasutra_Necklaces_Mob">
+                    <Menu.Item key="Mangalasutra Necklaces">
                       Mangalasutra
                     </Menu.Item>
-                    <Menu.Item key="Charm_Chains">Charm Chains</Menu.Item>
+                    <Menu.Item key="Charm_Chains">Chains</Menu.Item>
                     {/* <Menu.Item key="Cayered_Chains">Cayered Chains</Menu.Item> */}
                     <Menu.Item key="Layered_Chains">Layered Chains</Menu.Item>
-                    <Menu.Item key="Pendent_Chains">Pendent Chains</Menu.Item>
+                    {/* <Menu.Item key="Pendent_Chains">Pendent Chains</Menu.Item> */}
                     <Menu.Item key="18k_plated_Chains">
                       18k plated Chains
                     </Menu.Item>
@@ -634,6 +630,7 @@ function Header() {
                   >
                     <Menu.Item key="Studs">Studs</Menu.Item>
                     <Menu.Item key="Hoops">Hoops</Menu.Item>
+                    <Menu.Item key="Traditional">Traditional</Menu.Item>
                     <Menu.Item key="Statement Earrings">
                       Statement Earrings
                     </Menu.Item>
@@ -656,6 +653,7 @@ function Header() {
                   {/* <Menu.SubMenu
                     onMouseEnter={() => handleMenuMouseEnter("filters")}
                     onMouseLeave={handleMenuMouseLeave}
+                    onClick={handleFiltersClicked}
                     key="filters"
                     title={
                       <span className="menu__items">
@@ -663,14 +661,10 @@ function Header() {
                       </span>
                     }
                   >
-                    <Menu.Item key="Price,Low to High">
-                      Price,Low to High
-                    </Menu.Item>
-                    <Menu.Item key="Price,High to Low">
-                      Price,High to Low
-                    </Menu.Item>
-                    <Menu.Item key="Date,Old to New">Date,Old to New</Menu.Item>
-                    <Menu.Item key="Date,New to Old">Date,New to Old</Menu.Item>
+                    <Menu.Item key="price_asc">Price,Low to High</Menu.Item>
+                    <Menu.Item key="price_desc">Price,High to Low</Menu.Item>
+                    <Menu.Item key="old">Date,Old to New</Menu.Item>
+                    <Menu.Item key="new">Date,New to Old</Menu.Item>
                   </Menu.SubMenu> */}
                   <hr className="horizontal__divider" />
                   <div className="other__menu__items">

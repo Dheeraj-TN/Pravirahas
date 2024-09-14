@@ -11,7 +11,7 @@ function SubClipsPins() {
   const [{ selectedSubCategory }] = useStateValue();
   const [productData, setProductData] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
-  const [itemsToShow, setItemsToShow] = useState(4);
+  const [itemsToShow, setItemsToShow] = useState(6);
   const subClipsPinsRef = collection(db, "ClipsPins");
   const subCategory = selectedSubCategory.split(" ")[0];
   console.log("Trimmed: ", subCategory);
@@ -32,7 +32,7 @@ function SubClipsPins() {
     setVisibleProducts(productData.slice(0, itemsToShow));
   }, [productData, itemsToShow]);
   const loadMore = () => {
-    setItemsToShow((prev) => prev + 4);
+    setItemsToShow((prev) => prev + 6);
   };
 
   return (

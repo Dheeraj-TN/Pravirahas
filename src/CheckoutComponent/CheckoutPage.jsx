@@ -32,9 +32,9 @@ function CheckoutPage() {
   const [subTotal, setSubtotal] = useState(0);
   const [editAddress, setEditAddress] = useState(false);
   const [updatedAddress, setUpdatedAddress] = useState("");
+  const [checked, setChecked] = useState(false);
   const [termsConditoinsAccepted, setTermsConditionsAccepted] = useState(false);
   const form = useRef();
-  // const [shippingCharges, setShippingCharges] = useState("");
   const shippingThreshold = 1200;
   const shippingCharges = subTotal > shippingThreshold ? 0 : 75;
   const [total, setTotal] = useState(0);
@@ -44,6 +44,11 @@ function CheckoutPage() {
       postalAddress: updatedAddress,
     });
     setEditAddress(false);
+  };
+  const handleCheckboxChange = () => {
+    const newChecked = !checked;
+    setChecked(newChecked);
+    setTermsConditionsAccepted(newChecked);
   };
 
   useEffect(() => {
@@ -165,7 +170,10 @@ function CheckoutPage() {
       <Toaster toastOptions={{ duration: 3000 }} />
       <div className="checkout__page">
         <div className="checkout__left">
-          <div style={{ marginBottom: "30px" }}>
+          <div
+            style={{ marginBottom: "30px" }}
+            className="change__delivery__address"
+          >
             <h3>Hello, {user?.email}</h3>
             <p>
               Phone: <strong>{userDet.phoneNumber}</strong>
@@ -224,11 +232,15 @@ function CheckoutPage() {
             style={{
               border: "1px solid black",
               borderRadius: "5px",
-              padding: "10px",
             }}
           >
             <h2>Terms and Conditions</h2>
-            <ol style={{ textAlign: "left" }}>
+            <ol
+              className="tandc__container"
+              style={{
+                textAlign: "left",
+              }}
+            >
               <li>
                 Handmade and ready made fashion jewellery will last according to
                 usage.
@@ -247,29 +259,39 @@ function CheckoutPage() {
               </li>
               <li>Unboxing video mandatory upon receiving the package.</li>
               <li>
-                6. Return policy: once the product is delivered there in no
-                return or exchange, if the product is damaged due to shipment
-                process and it has to be shown in the mandatory unboxing video
-                upon receiving the product within that day for the exchange.
+                Return policy: once the product is delivered there in no return
+                or exchange, if the product is damaged due to shipment process
+                and it has to be shown in the mandatory unboxing video upon
+                receiving the product within that day for the exchange.
               </li>
             </ol>
-            <div className="terms__and__conditions__button">
-              <button
-                className={
-                  !termsConditoinsAccepted
-                    ? "accept__button"
-                    : "accept__button__clicked"
-                }
+            <div className="terms__checkbox">
+              {/* <button
+                // className={
+                //   !termsConditoinsAccepted
+                //     ? "accept__button"
+                //     : "accept__button__clicked"
+                // }
+
                 onClick={() => setTermsConditionsAccepted(true)}
               >
-                <CheckOutlined /> I accpet the T&C
-              </button>
-              <button
+                <input type="checkbox" /> I accpet the T&C
+              </button> */}
+
+              <label className="custom-checkbox">
+                <input
+                  type="checkbox"
+                  checked={checked}
+                  onChange={handleCheckboxChange}
+                />
+                <span className="checkmark"></span>I accept the T&C
+              </label>
+              {/* <button
                 className="reject__button"
                 onClick={() => toast.error("Please accept the T&C to proceed")}
               >
                 <CloseOutlined />I reject the T&C
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
@@ -291,11 +313,7 @@ function CheckoutPage() {
           /> */}
           <input type="hidden" name="subTotal" value={`₹${subTotal}`} />
         </form>
-
-        <div
-          className="checkout__right"
-          // style={{ position: "fixed", right: 5 }}
-        >
+        <div className="checkout__right">
           <div className="subtotal">
             <CurrencyFormat
               renderText={(subTotal) => (

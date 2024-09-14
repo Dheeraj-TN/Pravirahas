@@ -3,6 +3,7 @@ import CurrencyFormat from "react-currency-format";
 import OrdersPageProps from "./OrdersPageProps";
 import moment from "moment";
 
+
 function OrderPage({ order }) {
   return (
     <div

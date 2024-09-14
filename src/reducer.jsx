@@ -4,6 +4,7 @@ export const initialState = {
   user: null,
   selectedSubCategory: "",
   modalOpen: "",
+  selectedFilter: "",
 };
 
 export const getBasketTotal = (basket) =>
@@ -48,6 +49,11 @@ const reducer = (state, action) => {
       return {
         ...state,
         selectedSubCategory: action.selectedSubCategory,
+      };
+    case "SELECTED_FILTER":
+      return {
+        ...state,
+        selectedFilter: action.selectedFilter,
       };
     case "OPEN_PRODUCT_MODAL":
       return {

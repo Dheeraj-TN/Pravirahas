@@ -8,13 +8,15 @@ import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
+import { useStateValue } from "../StateProvider";
 
 function Earrings() {
+  const [{ selectedFilter }] = useStateValue();
   const navigate = useNavigate();
   const earringsRef = collection(db, "Earrings");
   const [productData, setProductData] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
-  const [itemsToShow, setItemsToShow] = useState(4);
+  const [itemsToShow, setItemsToShow] = useState(6);
   useEffect(() => {
     const q = query(earringsRef);
     onSnapshot(q, (snapshot) => {
@@ -27,10 +29,22 @@ function Earrings() {
     //eslint-disable-next-line
   }, []);
   useEffect(() => {
+    const sortProducts = (products, order) => {
+      return [...products].sort((a, b) => {
+        if (order === "price_desc") return b.price - a.price;
+        if (order === "price_asc") return a.price - b.price;
+        return 0; // No sorting
+      });
+    };
+    if (selectedFilter === "price_desc" || selectedFilter === "price_asc") {
+      setProductData((prev) => sortProducts(prev, selectedFilter));
+    }
+  }, [selectedFilter]);
+  useEffect(() => {
     setVisibleProducts(productData.slice(0, itemsToShow));
   }, [productData, itemsToShow]);
   const loadMore = () => {
-    setItemsToShow((prev) => prev + 4);
+    setItemsToShow((prev) => prev + 6);
   };
   return (
     <>

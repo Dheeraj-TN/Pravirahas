@@ -7,6 +7,7 @@ import {
   onSnapshot,
   query,
   setDoc,
+  updateDoc,
   where,
 } from "firebase/firestore";
 import { useNavigate, useParams } from "react-router-dom";
@@ -19,20 +20,13 @@ import "./InsideProduct.css";
 import { Fade } from "react-reveal";
 import { useStateValue } from "../StateProvider";
 import toast, { Toaster } from "react-hot-toast";
-import Login from "../authentication/Login";
+import { PlusOutlined, MinusOutlined } from "@ant-design/icons";
 /* eslint-disable react/prop-types */
 function InsideProduct() {
   const [{ basket, user }, dispatch] = useStateValue();
   const [isHovered, setIsHovered] = useState(false);
   const { id } = useParams();
   const navigate = useNavigate();
-  const handleHover = () => {
-    setIsHovered(true);
-  };
-
-  const handleLeave = () => {
-    setIsHovered(false);
-  };
   const [productData, setProductData] = useState(null);
   const [productVideo, setProductVideo] = useState("");
   const [userId, setUserId] = useState("");
@@ -99,6 +93,8 @@ function InsideProduct() {
     };
     fetchProductDetails();
   }, [id]);
+  // for increment and decrement
+
   return (
     <>
       {productData ? (
@@ -188,6 +184,7 @@ function InsideProduct() {
                 <p className="inside__product__complete__desc">
                   {productData.completeDesc}
                 </p>
+
                 <button onClick={addToBasket}>Add to Cart</button>
               </div>
             </Fade>

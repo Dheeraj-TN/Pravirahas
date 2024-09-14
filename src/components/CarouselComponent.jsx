@@ -1,4 +1,7 @@
 import "./Carousel.css";
+//import carousel from "/carousel-jewel.png";
+import carousel2 from "/carousel-jewel2.png";
+import carousel3 from "/carousel-jewel3.png";
 import { Carousel } from "react-responsive-carousel";
 import "react-responsive-carousel/lib/styles/carousel.min.css";
 function CarouselComponent() {
@@ -23,17 +26,13 @@ function CarouselComponent() {
           <img
             className="images"
             loading="lazy"
-            src="https://static.malabargoldanddiamonds.com/media/wysiwyg/offer_page/2023/09_Nov/homepage/Caliesta-web.jpg"
+            // src="https://static.malabargoldanddiamonds.com/media/wysiwyg/offer_page/2023/09_Nov/homepage/Caliesta-web.jpg"
+            src={carousel2}
             alt=""
           />
         </div>
         <div>
-          <img
-            className="images"
-            loading="lazy"
-            src="https://www.voylla.com/cdn/shop/files/Artboard_1_copy_06831018-403d-4df1-8d71-7a2aa05c9c15.jpg?v=1697885748"
-            alt=""
-          />
+          <img className="images" loading="lazy" src={carousel3} alt="" />
         </div>
       </Carousel>
     </div>

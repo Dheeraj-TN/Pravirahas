@@ -32,6 +32,7 @@ import SubClipsPins from "./subcategories/SubClipsPins";
 import SearchResultsPage from "./components/SearchResultsPage";
 import Orders from "./CheckoutComponent/Orders";
 import OrderPage from "./CheckoutComponent/OrderPage";
+import NewArrivals from "./categories/NewArrivals";
 function App() {
   const [{ basket, user, selectedSubCategory }, dispatch] = useStateValue();
   const [loading, setLoading] = useState(false);
@@ -59,7 +60,7 @@ function App() {
     setLoading(true);
     setTimeout(() => {
       setLoading(false);
-    }, 3000);
+    }, 2000);
   }, []);
   const fadeInOutVariants = {
     hidden: {
@@ -148,6 +149,7 @@ function App() {
           <Route exact path="/product/:id" element={<InsideProduct />} />
           <Route exact path="/checkout" element={<CheckoutPage />} />
           <Route exact path="/aboutus" element={<AboutUs />} />
+          <Route exact path="/newArrivals" element={<NewArrivals />} />
           <Route exact path="/necklaces" element={<Necklaces />} />
           <Route exact path="/bracelets" element={<Bracelets />} />
           <Route exact path="/earrings" element={<Earrings />} />

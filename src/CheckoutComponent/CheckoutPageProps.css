@@ -98,10 +98,13 @@
     justify-content: space-between;
   }
   .checkoutPage__props__info button {
-    width: 90%;
-    height: 40px;
+    width: 100%;
+    height: 35px;
     padding: 10px 14px;
     font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .quantity input {
     width: 30px;
@@ -145,6 +148,9 @@
     height: 40px;
     padding: 10px 14px;
     font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .quantity button {
     width: 35px;
@@ -180,6 +186,9 @@
     height: 40px;
     padding: 10px 14px;
     font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
   .quantity button {
     width: 35px;

@@ -36,7 +36,15 @@
     height: 140px;
   }
   .loading__screen__content {
-    margin-top: -100px;
+    margin-top: -10px;
+  }
+  .loading__screen{
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow-y: hidden;
+    overflow:hidden;
   }
 }
 @media (min-width: 481px) and (max-width: 768px) {

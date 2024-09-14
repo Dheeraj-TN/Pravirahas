@@ -7,14 +7,14 @@ import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useStateValue } from "../StateProvider";
-function Necklaces() {
+function NewArrivals() {
   const [{ selectedFilter }] = useStateValue();
-  const neckalceRef = collection(db, "Necklases");
+  const newArrivalsRef = collection(db, "NewArrivals");
   const [productData, setProductData] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
   const [itemsToShow, setItemsToShow] = useState(6);
   useEffect(() => {
-    const q = query(neckalceRef);
+    const q = query(newArrivalsRef);
     onSnapshot(q, (snapshot) => {
       const data = snapshot.docs.map((doc) => ({
         id: doc.id,
@@ -51,8 +51,7 @@ function Necklaces() {
           className="arrow__left__icon"
           onClick={() => window.history.back()}
         />
-        <h1>Necklaces</h1>
-        <p>{selectedFilter}</p>
+        <h1>New Arrivals</h1>
         <div className="necklaces__container__desktop">
           {productData && (
             <div className="necklaces__container">
@@ -110,4 +109,4 @@ function Necklaces() {
   );
 }
 
-export default Necklaces;
+export default NewArrivals;

@@ -3,18 +3,15 @@ import { useEffect, useState } from "react";
 import Header from "../components/Header";
 import { collection, doc, getDoc, getDocs, query } from "firebase/firestore";
 import { db } from "../firebase";
-// import ProductComponentProps from "../components/ProductComponentProps";
-// import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useLocation } from "react-router-dom";
 import ProductComponentProps from "./ProductComponentProps";
 import ProductComponentPropsMobile from "./ProductComponentPropsMobile";
-// import { useLocation } from "react-router-dom";
 function SearchResultsPage() {
   const location = useLocation();
   const [allProducts, setAllProducts] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
-  const [itemsToShow, setItemsToShow] = useState(4);
+  const [itemsToShow, setItemsToShow] = useState(6);
   const [loading, setLoading] = useState(false);
   const searchedName = location.pathname.split("/")[2];
   const [productData, setProductData] = useState([]);
@@ -73,7 +70,7 @@ function SearchResultsPage() {
     setVisibleProducts(allProducts.slice(0, itemsToShow));
   }, [allProducts, itemsToShow]);
   const loadMore = () => {
-    setItemsToShow((prev) => prev + 4);
+    setItemsToShow((prev) => prev + 6);
   };
   return (
     <>

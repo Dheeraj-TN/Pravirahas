@@ -171,6 +171,7 @@ function Login() {
               placeholder="Email Address"
               value={email}
               onChange={(e) => setEmail(e.target.value)}
+              onFocus={true}
             />
             <input
               type="password"

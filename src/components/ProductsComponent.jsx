@@ -10,14 +10,11 @@ import ProductComponentPropsMobile from "./ProductComponentPropsMobile";
 import { Skeleton } from "antd";
 import { useNavigate } from "react-router-dom";
 import ProgressBar from "@badrap/bar-of-progress";
-// import { useStateValue } from "../StateProvider";
+import { useStateValue } from "../StateProvider";
 
 function ProductsComponent() {
-  // const [{ modalOpen }] = useStateValue();
-  // const isModalOpen = modalOpen;
-  // console.log("modal state: ", isModalOpen);
-  // const [modal, setModal] = useState(false);
   const navigate = useNavigate();
+  const [{ selectedFilter }] = useStateValue();
   const necklaseRef = collection(db, "Necklases");
   const braceletRef = collection(db, "Bracelet");
   const earringRef = collection(db, "Earrings");
@@ -33,6 +30,21 @@ function ProductsComponent() {
     delay: 100,
     width: 50,
   });
+  useEffect(() => {
+    const sortProducts = (products, order) => {
+      return [...products].sort((a, b) => {
+        if (order === "price_desc") return b.price - a.price;
+        if (order === "price_asc") return a.price - b.price;
+        return 0; // No sorting
+      });
+    };
+    if (selectedFilter === "price_desc" || selectedFilter === "price_asc") {
+      setProductDataNeckalces((prev) => sortProducts(prev, selectedFilter));
+      setProductDataBracelets((prev) => sortProducts(prev, selectedFilter));
+      setProductDataEarrings((prev) => sortProducts(prev, selectedFilter));
+      setProductDataClipsPins((prev) => sortProducts(prev, selectedFilter));
+    }
+  }, [selectedFilter]);
   const rightArrowVarinats = {
     hidden: {
       opacity: 0,
@@ -92,6 +104,13 @@ function ProductsComponent() {
 
     //eslint-disable-next-line
   }, []);
+  const goToNewArrivals = () => {
+    progressor.start();
+    setTimeout(() => {
+      progressor.finish();
+      navigate("/newArrivals");
+    }, 1000);
+  };
   const goToNecklace = () => {
     progressor.start();
     setTimeout(() => {
@@ -130,7 +149,10 @@ function ProductsComponent() {
             animate="visible"
             variants={rightArrowVarinats}
           >
-            <ArrowRightOutlined className="more__arrow__icon" />
+            <ArrowRightOutlined
+              className="more__arrow__icon"
+              onClick={goToNewArrivals}
+            />
           </motion.p>
         </div>
         {loading ? (
