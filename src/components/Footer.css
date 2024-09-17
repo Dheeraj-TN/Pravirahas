@@ -63,6 +63,7 @@
     color: #fff;
     font-weight: 500;
     margin-right: 20px;
+    cursor: pointer;
   }
   .footer__copyright p {
     font-size: 15px;
@@ -91,6 +92,7 @@
     margin-right: 70px;
     color: white;
     font-size: 15px;
+    cursor: pointer;
   }
   .footer__copyright {
     display: flex;
@@ -117,6 +119,7 @@
     margin: 0;
     color: white;
     font-size: 16px;
+    cursor: pointer;
   }
   .footer__info > h2 {
     font-size: 25px;

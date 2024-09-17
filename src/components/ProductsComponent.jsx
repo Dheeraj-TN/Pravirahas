@@ -155,132 +155,30 @@ function ProductsComponent() {
             />
           </motion.p>
         </div>
-        {loading ? (
-          <div className="skeleton__style">
-            <Skeleton
-              active
-              paragraph={{ rows: 3 }}
-              avatar={{ shape: "square", size: 300 }}
-              className="content"
-            />
+
+        <Fade right>
+          <div className="products">
+            {productDataNeckalces &&
+              productDataNeckalces.map((item) => {
+                return (
+                  <ProductComponentProps
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    productName={item.productName}
+                    price={item.price}
+                    rating={item.rating}
+                    desc={item.desc}
+                    status={item.status}
+                  />
+                );
+              })}
           </div>
-        ) : (
-          <Fade right>
-            <div className="products">
-              {productDataNeckalces &&
-                productDataNeckalces.map((item) => {
-                  return (
-                    <ProductComponentProps
-                      key={item.id}
-                      id={item.id}
-                      img1={item.image[0]}
-                      img2={item.image[1]}
-                      productName={item.productName}
-                      price={item.price}
-                      rating={item.rating}
-                      desc={item.desc}
-                      status={item.status}
-                    />
-                  );
-                })}
-            </div>
-          </Fade>
-        )}
+        </Fade>
+
         <>
-          {loading ? (
-            <div className="skeleton__style__mobile">
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-            </div>
-          ) : (
-            <Fade right>
-              <div className="products__mobile">
-                {productDataNeckalces &&
-                  productDataNeckalces.map((item) => {
-                    return (
-                      <ProductComponentPropsMobile
-                        key={item.id}
-                        id={item.id}
-                        img1={item.image[0]}
-                        img2={item.image[1]}
-                        price={item.price}
-                        name={item.productName}
-                        status={item.status}
-                      />
-                    );
-                  })}
-              </div>
-            </Fade>
-          )}
-        </>
-        {/* neckalces */}
-        <div className="product__component__title">
-          <h1>Necklaces</h1>
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={rightArrowVarinats}
-          >
-            <ArrowRightOutlined
-              onClick={goToNecklace}
-              className="more__arrow__icon"
-            />
-          </motion.p>
-        </div>
-        {loading ? (
-          <div className="skeleton__style">
-            <Skeleton
-              active
-              paragraph={{ rows: 3 }}
-              avatar={{ shape: "square", size: 300 }}
-              className="content"
-            />
-          </div>
-        ) : (
-          <Fade left>
-            <div className="products">
-              {productDataNeckalces &&
-                productDataNeckalces.map((item) => {
-                  return (
-                    <ProductComponentProps
-                      key={item.id}
-                      id={item.id}
-                      img1={item.image[0]}
-                      img2={item.image[1]}
-                      productName={item.productName}
-                      price={item.price}
-                      rating={item.rating}
-                      desc={item.desc}
-                      status={item.status}
-                    />
-                  );
-                })}
-            </div>
-          </Fade>
-        )}
-        {loading ? (
-          <div className="skeleton__style__mobile">
-            <Skeleton
-              active
-              avatar={{ shape: "square", size: 150 }}
-              className="content__mobile"
-            />
-            <Skeleton
-              active
-              avatar={{ shape: "square", size: 150 }}
-              className="content__mobile"
-            />
-          </div>
-        ) : (
-          <Fade left>
+          <Fade right>
             <div className="products__mobile">
               {productDataNeckalces &&
                 productDataNeckalces.map((item) => {
@@ -298,7 +196,62 @@ function ProductsComponent() {
                 })}
             </div>
           </Fade>
-        )}
+        </>
+        {/* neckalces */}
+        <div className="product__component__title">
+          <h1>Necklaces</h1>
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={rightArrowVarinats}
+          >
+            <ArrowRightOutlined
+              onClick={goToNecklace}
+              className="more__arrow__icon"
+            />
+          </motion.p>
+        </div>
+
+        <Fade left>
+          <div className="products">
+            {productDataNeckalces &&
+              productDataNeckalces.map((item) => {
+                return (
+                  <ProductComponentProps
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    productName={item.productName}
+                    price={item.price}
+                    rating={item.rating}
+                    desc={item.desc}
+                    status={item.status}
+                  />
+                );
+              })}
+          </div>
+        </Fade>
+
+        <Fade left>
+          <div className="products__mobile">
+            {productDataNeckalces &&
+              productDataNeckalces.map((item) => {
+                return (
+                  <ProductComponentPropsMobile
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    price={item.price}
+                    name={item.productName}
+                    status={item.status}
+                  />
+                );
+              })}
+          </div>
+        </Fade>
+
         <div className="product__component__title">
           <h1>Bracelets</h1>
           <motion.p
@@ -312,71 +265,47 @@ function ProductsComponent() {
             />
           </motion.p>
         </div>
-        {loading ? (
-          <div className="skeleton__style">
-            <Skeleton
-              active
-              paragraph={{ rows: 3 }}
-              avatar={{ shape: "square", size: 300 }}
-              className="content"
-            />
+
+        <Fade right>
+          <div className="products">
+            {productDataBracelets &&
+              productDataBracelets.map((item) => {
+                return (
+                  <ProductComponentProps
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    productName={item.productName}
+                    price={item.price}
+                    rating={item.rating}
+                    desc={item.desc}
+                    status={item.status}
+                  />
+                );
+              })}
           </div>
-        ) : (
+        </Fade>
+
+        <>
           <Fade right>
-            <div className="products">
+            <div className="products__mobile">
               {productDataBracelets &&
                 productDataBracelets.map((item) => {
                   return (
-                    <ProductComponentProps
+                    <ProductComponentPropsMobile
                       key={item.id}
                       id={item.id}
                       img1={item.image[0]}
                       img2={item.image[1]}
-                      productName={item.productName}
                       price={item.price}
-                      rating={item.rating}
-                      desc={item.desc}
+                      name={item.productName}
                       status={item.status}
                     />
                   );
                 })}
             </div>
           </Fade>
-        )}
-        <>
-          {loading ? (
-            <div className="skeleton__style__mobile">
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-            </div>
-          ) : (
-            <Fade right>
-              <div className="products__mobile">
-                {productDataBracelets &&
-                  productDataBracelets.map((item) => {
-                    return (
-                      <ProductComponentPropsMobile
-                        key={item.id}
-                        id={item.id}
-                        img1={item.image[0]}
-                        img2={item.image[1]}
-                        price={item.price}
-                        name={item.productName}
-                        status={item.status}
-                      />
-                    );
-                  })}
-              </div>
-            </Fade>
-          )}
         </>
         {/* earrings */}
         <div className="product__component__title">
@@ -393,102 +322,11 @@ function ProductsComponent() {
           </motion.p>
         </div>
 
-        {loading ? (
-          <div className="skeleton__style">
-            <Skeleton
-              active
-              paragraph={{ rows: 3 }}
-              avatar={{ shape: "square", size: 300 }}
-              className="content"
-            />
-          </div>
-        ) : (
-          <>
-            <Fade left>
-              <div className="products">
-                {productDataEarrings &&
-                  productDataEarrings.map((item) => {
-                    return (
-                      <ProductComponentProps
-                        key={item.id}
-                        id={item.id}
-                        img1={item.image[0]}
-                        img2={item.image[1]}
-                        productName={item.productName}
-                        price={item.price}
-                        rating={item.rating}
-                        desc={item.desc}
-                        status={item.status}
-                      />
-                    );
-                  })}
-              </div>
-            </Fade>
-          </>
-        )}
         <>
-          {loading ? (
-            <div className="skeleton__style__mobile">
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-            </div>
-          ) : (
-            <Fade left>
-              <div className="products__mobile">
-                {productDataEarrings &&
-                  productDataEarrings.map((item) => {
-                    return (
-                      <ProductComponentPropsMobile
-                        key={item.id}
-                        id={item.id}
-                        img1={item.image[0]}
-                        img2={item.image[1]}
-                        price={item.price}
-                        name={item.productName}
-                        status={item.status}
-                      />
-                    );
-                  })}
-              </div>
-            </Fade>
-          )}
-        </>
-        <div className="product__component__title">
-          <h1>Clips and Pins</h1>
-          <motion.p
-            initial="hidden"
-            animate="visible"
-            variants={rightArrowVarinats}
-          >
-            <ArrowRightOutlined
-              className="more__arrow__icon"
-              onClick={goToClipsPins}
-            />
-          </motion.p>
-        </div>
-
-        {loading ? (
-          <div className="skeleton__style">
-            <Skeleton
-              active
-              paragraph={{ rows: 3 }}
-              avatar={{ shape: "square", size: 300 }}
-              className="content"
-            />
-          </div>
-        ) : (
-          <Fade right>
+          <Fade left>
             <div className="products">
-              {productDataClipsPins &&
-                productDataClipsPins.map((item) => {
+              {productDataEarrings &&
+                productDataEarrings.map((item) => {
                   return (
                     <ProductComponentProps
                       key={item.id}
@@ -505,41 +343,82 @@ function ProductsComponent() {
                 })}
             </div>
           </Fade>
-        )}
+        </>
+
         <>
-          {loading ? (
-            <div className="skeleton__style__mobile">
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
-              <Skeleton
-                active
-                avatar={{ shape: "square", size: 150 }}
-                className="content__mobile"
-              />
+          <Fade left>
+            <div className="products__mobile">
+              {productDataEarrings &&
+                productDataEarrings.map((item) => {
+                  return (
+                    <ProductComponentPropsMobile
+                      key={item.id}
+                      id={item.id}
+                      img1={item.image[0]}
+                      img2={item.image[1]}
+                      price={item.price}
+                      name={item.productName}
+                      status={item.status}
+                    />
+                  );
+                })}
             </div>
-          ) : (
-            <Fade right>
-              <div className="products__mobile">
-                {productDataClipsPins &&
-                  productDataClipsPins.map((item) => {
-                    return (
-                      <ProductComponentPropsMobile
-                        key={item.id}
-                        id={item.id}
-                        img1={item.image[0]}
-                        img2={item.image[1]}
-                        price={item.price}
-                        name={item.productName}
-                        status={item.status}
-                      />
-                    );
-                  })}
-              </div>
-            </Fade>
-          )}
+          </Fade>
+        </>
+        <div className="product__component__title">
+          <h1>Clips and Pins</h1>
+          <motion.p
+            initial="hidden"
+            animate="visible"
+            variants={rightArrowVarinats}
+          >
+            <ArrowRightOutlined
+              className="more__arrow__icon"
+              onClick={goToClipsPins}
+            />
+          </motion.p>
+        </div>
+
+        <Fade right>
+          <div className="products">
+            {productDataClipsPins &&
+              productDataClipsPins.map((item) => {
+                return (
+                  <ProductComponentProps
+                    key={item.id}
+                    id={item.id}
+                    img1={item.image[0]}
+                    img2={item.image[1]}
+                    productName={item.productName}
+                    price={item.price}
+                    rating={item.rating}
+                    desc={item.desc}
+                    status={item.status}
+                  />
+                );
+              })}
+          </div>
+        </Fade>
+
+        <>
+          <Fade right>
+            <div className="products__mobile">
+              {productDataClipsPins &&
+                productDataClipsPins.map((item) => {
+                  return (
+                    <ProductComponentPropsMobile
+                      key={item.id}
+                      id={item.id}
+                      img1={item.image[0]}
+                      img2={item.image[1]}
+                      price={item.price}
+                      name={item.productName}
+                      status={item.status}
+                    />
+                  );
+                })}
+            </div>
+          </Fade>
         </>
       </div>
     </>

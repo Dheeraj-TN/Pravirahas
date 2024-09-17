@@ -7,8 +7,9 @@ import { useEffect, useState } from "react";
 import ProductComponentPropsMobile from "../components/ProductComponentPropsMobile";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useStateValue } from "../StateProvider";
+import SortByMobileComponent from "../components/SortByMobileComponent";
 function ClipsPins() {
-  const [{ selectedFilter }] = useStateValue();
+  const [{ selectedFilter, selectedFilterMobile }] = useStateValue();
   const clipsPinsRef = collection(db, "ClipsPins");
   const [productData, setProductData] = useState([]);
   const [visibleProducts, setVisibleProducts] = useState([]);
@@ -37,6 +38,21 @@ function ClipsPins() {
     }
   }, [selectedFilter]);
   useEffect(() => {
+    const sortProducts = (products, order) => {
+      return [...products].sort((a, b) => {
+        if (order === "price_desc") return b.price - a.price;
+        if (order === "price_asc") return a.price - b.price;
+        return 0; // No sorting
+      });
+    };
+    if (
+      selectedFilterMobile === "price_desc" ||
+      selectedFilterMobile === "price_asc"
+    ) {
+      setProductData((prev) => sortProducts(prev, selectedFilterMobile));
+    }
+  }, [selectedFilterMobile]);
+  useEffect(() => {
     setVisibleProducts(productData.slice(0, itemsToShow));
   }, [productData, itemsToShow]);
   const loadMore = () => {
@@ -50,8 +66,8 @@ function ClipsPins() {
           className="arrow__left__icon"
           onClick={() => window.history.back()}
         />
-        <h1>Clips and Pins</h1>
         <div className="necklaces__container__desktop">
+          <h1>Clips and Pins</h1>
           {productData && (
             <div className="necklaces__container">
               {productData.map((item) => (
@@ -70,6 +86,17 @@ function ClipsPins() {
           )}
         </div>
         <div className="necklaces__container__mobile__container">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              width: "100%",
+            }}
+          >
+            <h1>Clips and Pins</h1>
+            <SortByMobileComponent />
+          </div>
           <div className="necklaces__container__mobile">
             {productData &&
               visibleProducts.map((item) => {

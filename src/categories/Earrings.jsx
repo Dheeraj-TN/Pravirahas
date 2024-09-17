@@ -9,9 +9,11 @@ import ProductComponentPropsMobile from "../components/ProductComponentPropsMobi
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { useNavigate } from "react-router-dom";
 import { useStateValue } from "../StateProvider";
+import SortByMobileComponent from "../components/SortByMobileComponent";
 
 function Earrings() {
-  const [{ selectedFilter }] = useStateValue();
+  const [{ selectedFilter, selectedFilterMobile }] = useStateValue();
+
   const navigate = useNavigate();
   const earringsRef = collection(db, "Earrings");
   const [productData, setProductData] = useState([]);
@@ -40,6 +42,23 @@ function Earrings() {
       setProductData((prev) => sortProducts(prev, selectedFilter));
     }
   }, [selectedFilter]);
+  // mobile sorting
+  useEffect(() => {
+    const sortProducts = (products, order) => {
+      return [...products].sort((a, b) => {
+        if (order === "price_desc") return b.price - a.price;
+        if (order === "price_asc") return a.price - b.price;
+        return 0; // No sorting
+      });
+    };
+    if (
+      selectedFilterMobile === "price_desc" ||
+      selectedFilterMobile === "price_asc"
+    ) {
+      setProductData((prev) => sortProducts(prev, selectedFilterMobile));
+    }
+  }, [selectedFilterMobile]);
+
   useEffect(() => {
     setVisibleProducts(productData.slice(0, itemsToShow));
   }, [productData, itemsToShow]);
@@ -54,8 +73,8 @@ function Earrings() {
           className="arrow__left__icon"
           onClick={() => navigate("/")}
         />
-        <h1>Earrings</h1>
         <div className="necklaces__container__desktop">
+          <h1>Earrings</h1>
           {productData && (
             <div className="necklaces__container">
               {productData.map((item) => (
@@ -74,7 +93,19 @@ function Earrings() {
             </div>
           )}
         </div>
+        {/* mobile */}
         <div className="necklaces__container__mobile__container">
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              width: "100%",
+            }}
+          >
+            <h1>Earrings</h1>
+            <SortByMobileComponent />
+          </div>
           <div className="necklaces__container__mobile">
             {productData &&
               visibleProducts.map((item) => {

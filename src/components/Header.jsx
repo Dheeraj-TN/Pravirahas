@@ -454,10 +454,10 @@ function Header() {
                     />
                   }
                 >
-                  <Menu.Item key="price_asc">Price,Low to High</Menu.Item>
-                  <Menu.Item key="price_desc">Price,High to Low</Menu.Item>
-                  <Menu.Item key="old">Date,Old to New</Menu.Item>
-                  <Menu.Item key="new">Date,New to Old</Menu.Item>
+                  <Menu.Item key="price_asc">Price: Low - High</Menu.Item>
+                  <Menu.Item key="price_desc">Price: High - Low</Menu.Item>
+                  <Menu.Item key="old">Date: Old - New</Menu.Item>
+                  <Menu.Item key="new">Date: New - Old</Menu.Item>
                 </Menu.SubMenu>
               </Menu>
               <Tooltip placement="bottom" title="Home">
@@ -468,7 +468,7 @@ function Header() {
               </Tooltip>
               <Tooltip
                 placement="bottom"
-                title={!user ? "Account" : user?.email}
+                title={!user ? "Profile" : user?.email}
               >
                 <UserOutlined className="header__icons" onClick={loginPage} />
               </Tooltip>
@@ -578,12 +578,7 @@ function Header() {
                     key="menu1"
                     title={
                       <span className="menu__items">
-                        <a
-                          className="menu__items__a"
-                          
-                        >
-                          Necklaces
-                        </a>
+                        <a className="menu__items__a">Necklaces</a>
                       </span>
                     }
                   >
@@ -686,7 +681,7 @@ function Header() {
                       onClick={loginPage}
                     >
                       <UserOutlined style={{ fontSize: "20px" }} />
-                      Account
+                      Profile
                     </p>
 
                     <Menu.Item key="other_2">

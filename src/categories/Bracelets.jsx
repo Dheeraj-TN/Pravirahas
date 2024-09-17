@@ -124,7 +124,7 @@ function Bracelets() {
                         fontWeight: "500",
                       }}
                     >
-                      Price, Low to High
+                      <b>Price:</b> Low - High
                     </Menu.Item>
                     <Menu.Item
                       key="price_desc"
@@ -133,7 +133,7 @@ function Bracelets() {
                         fontWeight: "500",
                       }}
                     >
-                      Price, High to Low
+                      <b>Price:</b> High - Low
                     </Menu.Item>
                     <Menu.Item
                       key="old"
@@ -142,7 +142,7 @@ function Bracelets() {
                         fontWeight: "500",
                       }}
                     >
-                      Date, Old to New
+                      <b>Date:</b> Old - New
                     </Menu.Item>
                     <Menu.Item
                       key="new"
@@ -151,7 +151,7 @@ function Bracelets() {
                         fontWeight: "500",
                       }}
                     >
-                      Date, New to Old
+                      <b>Date:</b> New - Old
                     </Menu.Item>
                   </Menu>
                 }
@@ -172,7 +172,7 @@ function Bracelets() {
                   }}
                   onClick={() => setClickedFilter(!clickedFilter)}
                 >
-                  Filter By{" "}
+                  Sort By{" "}
                   {clickedFilter ? (
                     <UpOutlined style={{ fontSize: "12px" }} />
                   ) : (
