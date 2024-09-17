@@ -241,7 +241,7 @@
   }
     .signUp__text:hover{
         text-decoration: underline;
-        color:#ba704f;
+        color:#BA704F;
     }
   @media(min-width:200px) and (max-width:480px){
     .login{
