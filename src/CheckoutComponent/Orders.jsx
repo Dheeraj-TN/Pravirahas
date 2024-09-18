@@ -1,6 +1,6 @@
 /* eslint-disable no-unused-vars */
 /* eslint-disable react/no-unescaped-entities */
-import { collection, onSnapshot, orderBy, query } from "firebase/firestore";
+import { collection, onSnapshot, orderBy, query, where } from "firebase/firestore";
 import { db } from "../firebase";
 import { useEffect, useState } from "react";
 import { useStateValue } from "../StateProvider";
@@ -61,37 +61,45 @@ function Orders() {
         }
       });
     });
+
     return () => {
       unsub();
     };
+    
   }, [user?.email]);
-  useEffect(() => {
-    if (userId) {
-      progressor.start();
-      setTimeout(() => {
-        progressor.finish();
-      }, 500);
-      const q = query(
-        collection(db, "users", userId, "Orders"),
-        orderBy("created", "desc")
-      );
-      onSnapshot(
-        q,
-        (snapshot) => {
-          setOrders(
-            snapshot.docs.map((doc) => ({
-              id: doc.id,
-              data: doc.data(),
-            }))
+  // console.log("user in orders: ",user?.email);
+
+useEffect(() => {
+    const fetchOrders = async () => {
+      if (userId) {
+        progressor.start();
+        setTimeout(() => {
+          progressor.finish();
+        }, 500);
+        try {
+          const q = query(
+            // collection(db, "users", userId, "Orders"),
+            collection(db, "Orders"),
+            // where("username", "==", user.email),
+            orderBy("created", "desc")
           );
-        },
-        (error) => {
-          console.log(error.message);
+          onSnapshot(q, (snapshot) => {
+            const orderData = snapshot.docs
+              .map((doc) => ({
+                id: doc.id,
+                data: doc.data(),
+              }))
+              .filter((item) => item.data.username === user.email);
+            setOrders(orderData);
+          });
+        } catch (err) {
+          console.log(err.message);
         }
-      );
-    } else {
-      setOrders([]);
-    }
+      } else {
+        setOrders([]);
+      }
+    };
+    fetchOrders();
     //eslint-disable-next-line
   }, [userId]);
 

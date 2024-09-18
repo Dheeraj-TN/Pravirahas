@@ -34,6 +34,7 @@ function OrderPage({ order }) {
             "ddd, DD MMM YYYY h:mm A"
           )}
         </p>
+        <p>Status: {order.status}</p>
       </div>
       {order.data.products?.map((item) => (
         <OrdersPageProps
@@ -44,6 +45,7 @@ function OrderPage({ order }) {
           price={item.price}
           desc={item.desc}
           updatedCost={item.updatedPrice}
+          
         />
       ))}
     </div>

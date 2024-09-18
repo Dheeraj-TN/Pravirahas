@@ -145,11 +145,13 @@ function CheckoutPage() {
 
   // console.log("subtotal: ", subTotal);
   const addToOrders = async () => {
-    const ordersRef = collection(db, "users", userId, "Orders");
+    const ordersRef = collection(db,"Orders");
     await addDoc(ordersRef, {
       products: basketItems,
       totalAmount: total,
       created: new Date(),
+      username: user.email,
+      status:"In Progress",
     });
   };
   const clearBasket = async () => {
